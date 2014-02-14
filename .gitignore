@@ -29,3 +29,7 @@ local.properties
 
 # PDT-specific
 .buildpath
+
+# ADT TOOLS specific
+*.xml
+*.txt
