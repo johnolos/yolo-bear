@@ -19,6 +19,7 @@ public class Server implements Runnable {
 	ArrayList<Connection> clients;
 	
 	public Server() {
+		
 		try {
 			this.clients = new ArrayList<Connection>();
 			this.serverSocket = new ServerSocket(this.PORT, 0, InetAddress.getByName(this.SERVERIP));
@@ -26,6 +27,7 @@ public class Server implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Accepting connections on: "+ this.SERVERIP + ":" + String.valueOf(this.PORT));
 	}
 
 	@Override
@@ -53,6 +55,11 @@ public class Server implements Runnable {
 	
 	private void removeConnection(Connection client) {
 		this.clients.remove(client);
+	}
+	
+	public static void main(String args[]) {
+		Server server = new Server();
+		server.run();
 	}
 	
 }
