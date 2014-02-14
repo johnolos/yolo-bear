@@ -40,14 +40,13 @@ public class Server implements Runnable {
 				clientSocket = this.serverSocket.accept();
 				clientConnection = new Connection(clientSocket);
 				clientConnection.run();
-				
+				System.out.println("Connection from: " + clientSocket.getInetAddress() + ":" + String.valueOf(clientSocket.getPort()));
 				addConnection(new Connection(clientSocket));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
 	
 	private void addConnection(Connection client) {
 		this.clients.add(client);
