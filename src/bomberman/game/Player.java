@@ -24,6 +24,7 @@ public class Player {
 		this.magnitudeOfBombs = 2;
 	}
 	
+	
 	/**
 	 * @param powerUp Power-up the player archived.
 	 */
