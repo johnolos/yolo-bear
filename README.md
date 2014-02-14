@@ -1,7 +1,7 @@
 ProgArk V2014 - Group no.13
 =========
 # Setting up ADT project
-´´´
+```
 File > New > Android Application Project
 Application Name: BomberMan
 Project Name:     BomberMan
@@ -11,7 +11,7 @@ Finish project creation without editing anything standard.
 Delete MainActivity.java in bomberman.game.
 
 Install git bash. Go to BomberMan-folder and do commands written below.
-´´´
+```
 
 # Initial git commands.
 ```
