@@ -66,7 +66,7 @@ public class Client {
 		}
 		
 		public void run() {
-			System.out.println("Connected to client on " + this.connection.getRemoteSocketAddress());
+			System.out.println("Connected to server on " + this.connection.getRemoteSocketAddress());
 			try {
 				// Fetches InputStream from connection
 				InputStream serverInputStream = this.connection.getInputStream();
@@ -80,13 +80,12 @@ public class Client {
 				//Create InputObjectStream
 				this.ois = new ObjectInputStream(serverInputStream);
 
-				System.out.println("Waiting for message from server");
+				System.out.println("ServerConnection: Ready");
 				// While-loop to ensure continuation of reading in-coming messages
 				while (this.connection.isConnected()) {
 					try {
 						//Receive object from client
 						Object obj = this.ois.readObject();
-						gotSomething();
 						if(obj instanceof String) {
 							System.out.println((String)obj);
 						}
@@ -103,14 +102,11 @@ public class Client {
 		private void send(Object obj) {
 			try {
 				oos.writeObject(obj);
+				oos.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	public void gotSomething() {
-		System.out.println("Got something");
 	}
 	
 	public static void main(String args[]) {

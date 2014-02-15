@@ -9,15 +9,18 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server2 {
 
 	private final static String SERVERIP = "78.91.15.30";
 
 	private final static int SERVERPORT = 4078;
+	
+	ArrayList<ClientConnection> clients;
 
 	public Server2() {
-
+		clients = new ArrayList<ClientConnection>();
 	}
 
 	public void startServer() {
@@ -40,17 +43,32 @@ public class Server2 {
 //				thread.start();
 				ClientConnection client = new ClientConnection(newConnectionSocket);
 				client.start();
+				this.clients.add(client);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendAll(Object obj) {
+		for(ClientConnection client : this.clients)
+			client.send(obj);
+	}
+	
+	public void send(Object obj, int index) {
+		this.clients.get(index).send(obj);
+		
+	}
+	
+	public void send(Object obj, ClientConnection client) {
+		client.send(obj);
+	}
 
 	// Thread class for handling further connection with client when connection is established
 	class ClientConnection extends Thread {
 		private Socket connection;
-		private ObjectOutputStream objectOut;
-		private ObjectInputStream objectIn;
+		public ObjectOutputStream oos;
+		private ObjectInputStream ois;
 		
 		ClientConnection(Socket connection) {
 			this.connection = connection;
@@ -58,7 +76,8 @@ public class Server2 {
 		
 		private void send(Object obj) {
 			try {
-				this.objectOut.writeObject(obj);
+				oos.writeObject(obj);
+				oos.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -76,18 +95,15 @@ public class Server2 {
 				InputStreamReader inFromClient = new InputStreamReader(clientInputStream);
 
 				// Create ObjectOutputStream
-				objectOut = new ObjectOutputStream(clientOutputStream);
+				oos = new ObjectOutputStream(clientOutputStream);
 				//Create InputObjectStream
-				objectIn = new ObjectInputStream(clientInputStream);
-
-				System.out.println("Waiting for message from client");
-
+				ois = new ObjectInputStream(clientInputStream);
 				// While-loop to ensure continuation of reading in-coming messages
 				while (this.connection.isConnected()) {
 					try {
-						System.out.println("Waiting for message from client");
+						System.out.println("ClientConnection: Ready");
 						//Receive object from client
-						Object obj = this.objectIn.readObject();
+						Object obj = this.ois.readObject();
 						if(obj instanceof String) {
 							System.out.println((String)obj);
 						}
