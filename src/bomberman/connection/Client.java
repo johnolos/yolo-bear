@@ -9,36 +9,42 @@ public class Client implements Runnable {
 	String SERVERIP = "78.91.15.30";
 	
 	// Config file too
-	int PORT = 6374;
+	int PORT = 4078;
 	
 	Connection server;
 	ArrayList<Connection> clients;
 	
 	
 	public Client() {
-		// Make a connection to game server
-		this.server = new Connection(this.SERVERIP, this.PORT);
 		clients = new ArrayList<Connection>();
-		this.server.run();
-		String helloWorld = "Hello World!";
-		this.send(helloWorld);
-	}
-	
-	
-	public static void main(String args[]) {
-		Client client = new Client();
+		// Make a connection to game server
 	}
 	
 	private void send(Object obj) {
 		this.server.send(obj);
 	}
 	
+	protected void printMsg(String message) {
+		System.out.println(message);
+	}
+
 
 	@Override
 	public void run() {
-		while(this.server != null) {
-			
-		}
+//		Thread thread = new Thread(this.server = new Connection(this.SERVERIP, this.PORT));
+//		thread.start();
+		System.out.println("Trying to connect!");
+		this.server = new Connection(this.SERVERIP, this.PORT);
+		this.server.setClient(this);
+		this.server.run();
+		String helloWorld = "Hello World!";
+		this.send(helloWorld);
+		
+	}
+	
+	public static void main(String args[]) {
+		Thread clientThread = new Thread(new Client());
+		clientThread.start();
 	}
 	
 }

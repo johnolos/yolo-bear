@@ -14,15 +14,15 @@ public class Connection implements Runnable {
 	Socket socket;
 	private ObjectInputStream objectInput;
 	private ObjectOutputStream objectOutput;
+	private Client client;
+	private Server server;
 	
+	// This constructor will be used by client
 	Connection(String ip, int port) {
 		try {
 			socket = new Socket(InetAddress.getByName(ip),port);
-			
 			this.objectOutput = new ObjectOutputStream(socket.getOutputStream());
-			
 			this.objectInput = new ObjectInputStream(socket.getInputStream());
-			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -31,15 +31,12 @@ public class Connection implements Runnable {
 		
 	}
 	
+	// This constructor will be used by server
 	Connection(Socket connection) {
 		this.socket = connection;
-		
 		try {
-			
 			this.objectOutput = new ObjectOutputStream(socket.getOutputStream());
-			
 			this.objectInput = new ObjectInputStream(socket.getInputStream());
-		
 		} catch (StreamCorruptedException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -47,14 +44,19 @@ public class Connection implements Runnable {
 		}
 	}
 	
-	
 	@Override
 	public void run() {
 		while(this.socket.isConnected()) {
 			try {
-				Object obj = this.objectInput.readObject();
-				String message = (String)obj;
-				System.out.println(message);
+				Object obj;
+				if((obj = this.objectInput.readObject()) != null) {
+					if(obj instanceof String) {
+						String message = (String)obj;
+						if(this.client != null) {
+							this.client.printMsg(message);
+						}
+					}
+				}
 			} catch (OptionalDataException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -65,13 +67,24 @@ public class Connection implements Runnable {
 		}
 	}
 	
-	
 	protected void send(Object obj) {
 		try {
-			System.out.println("Sendt!");
 			this.objectOutput.writeObject(obj);
+			this.objectOutput.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void setClient(Client client) {
+		if(this.client == null) {
+			this.client = client;
+		}
+	}
+	
+	public void setServer(Server server) {
+		if(this.server == null) {
+			this.server = server;
 		}
 	}
 }
