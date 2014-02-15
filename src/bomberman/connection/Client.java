@@ -1,8 +1,15 @@
 package bomberman.connection;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class Client implements Runnable {
+public class Client {
 	/** Peer-to-peer client **/
 	
 	// This shall be deleted and replaced with config file later on
@@ -11,7 +18,7 @@ public class Client implements Runnable {
 	// Config file too
 	int PORT = 4078;
 	
-	Connection server;
+	ServerConnection server;
 	ArrayList<Connection> clients;
 	
 	
@@ -20,6 +27,25 @@ public class Client implements Runnable {
 		// Make a connection to game server
 	}
 	
+	public void startClient() {
+		System.out.println("Trying to connect to server!");
+		Socket serverConnection;
+		try {
+			serverConnection = new Socket(this.SERVERIP, this.PORT);
+//			Thread thread = new Thread(this.server = new ServerConnection(serverConnection));
+//			thread.run();
+			this.server = new ServerConnection(serverConnection);
+			this.server.start();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private void send(Object obj) {
 		this.server.send(obj);
 	}
@@ -27,24 +53,68 @@ public class Client implements Runnable {
 	protected void printMsg(String message) {
 		System.out.println(message);
 	}
-
-
-	@Override
-	public void run() {
-//		Thread thread = new Thread(this.server = new Connection(this.SERVERIP, this.PORT));
-//		thread.start();
-		System.out.println("Trying to connect!");
-		this.server = new Connection(this.SERVERIP, this.PORT);
-		this.server.setClient(this);
-		this.server.run();
-		String helloWorld = "Hello World!";
-		this.send(helloWorld);
+	
+	
+	// Class to continue connection with server.
+	class ServerConnection extends Thread {
+		private Socket connection;
+		private ObjectOutputStream oos;
+		private ObjectInputStream ois;
 		
+		ServerConnection(Socket connection) {
+			this.connection = connection;
+		}
+		
+		public void run() {
+			System.out.println("Connected to client on " + this.connection.getRemoteSocketAddress());
+			try {
+				// Fetches InputStream from connection
+				InputStream serverInputStream = this.connection.getInputStream();
+				// Fetches OutputStream from connect
+				OutputStream serverOutputStream = this.connection.getOutputStream();
+				// Create InputStreamReader for InputStream
+				// InputStreamReader inFromClient = new InputStreamReader(serverInputStream);
+
+				// Create ObjectOutputStream
+				this.oos = new ObjectOutputStream(serverOutputStream);
+				//Create InputObjectStream
+				this.ois = new ObjectInputStream(serverInputStream);
+
+				System.out.println("Waiting for message from server");
+				// While-loop to ensure continuation of reading in-coming messages
+				while (this.connection.isConnected()) {
+					try {
+						//Receive object from client
+						Object obj = this.ois.readObject();
+						gotSomething();
+						if(obj instanceof String) {
+							System.out.println((String)obj);
+						}
+						
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		private void send(Object obj) {
+			try {
+				oos.writeObject(obj);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void gotSomething() {
+		System.out.println("Got something");
 	}
 	
 	public static void main(String args[]) {
-		Thread clientThread = new Thread(new Client());
-		clientThread.start();
+		new Client().startClient();
 	}
 	
 }

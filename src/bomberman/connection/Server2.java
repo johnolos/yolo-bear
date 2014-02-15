@@ -34,19 +34,19 @@ public class Server2 {
 			while (true) {
 				// Accepts a in-coming connection
 				newConnectionSocket = serverSocket.accept();
-				// System message
-				System.out.println("New connection.");
+				// System message 
 				// Delegating the further connection with the client to a thread class
-				Thread thread = new Thread(new ClientConnection(newConnectionSocket));
-				thread.start();
-//				new ClientConnection(newConnectionSocket).start();
+//				Thread thread = new Thread(new ClientConnection(newConnectionSocket));
+//				thread.start();
+				ClientConnection client = new ClientConnection(newConnectionSocket);
+				client.start();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// Thread class for handling further connection with server when connection is established
+	// Thread class for handling further connection with client when connection is established
 	class ClientConnection extends Thread {
 		private Socket connection;
 		private ObjectOutputStream objectOut;
@@ -60,7 +60,6 @@ public class Server2 {
 			try {
 				this.objectOut.writeObject(obj);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -86,6 +85,7 @@ public class Server2 {
 				// While-loop to ensure continuation of reading in-coming messages
 				while (this.connection.isConnected()) {
 					try {
+						System.out.println("Waiting for message from client");
 						//Receive object from client
 						Object obj = this.objectIn.readObject();
 						if(obj instanceof String) {
