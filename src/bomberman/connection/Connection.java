@@ -15,7 +15,7 @@ public class Connection implements Runnable {
 	private ObjectInputStream objectInput;
 	private ObjectOutputStream objectOutput;
 	private Client client;
-	private Server server;
+	//private Server server;
 	
 	// This constructor will be used by client
 	Connection(String ip, int port) {
@@ -82,9 +82,11 @@ public class Connection implements Runnable {
 		}
 	}
 	
+	/*
 	public void setServer(Server server) {
 		if(this.server == null) {
 			this.server = server;
 		}
 	}
+	*/
 }
