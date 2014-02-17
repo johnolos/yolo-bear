@@ -41,7 +41,7 @@ public class Server {
 				// Delegating the further connection with the client to a thread class
 //				Thread thread = new Thread(new ClientConnection(newConnectionSocket));
 //				thread.start();
-				ClientConnection client = new ClientConnection(newConnectionSocket);
+				ClientConnection client = new ClientConnection(newConnectionSocket, this);
 				client.start();
 				this.clients.add(client);
 			}
@@ -63,15 +63,27 @@ public class Server {
 	public void send(Object obj, ClientConnection client) {
 		client.send(obj);
 	}
+	
+	protected void receive(Object obj) {
+		if(obj instanceof String) {
+			System.out.println((String)obj);
+			sendAll(obj);
+		} else if (obj instanceof PeerInfo) {
+			PeerInfo peer = (PeerInfo)obj;
+			System.out.println("Client at: " + peer.getInetAddress().getHostAddress());
+		}
+	}
 
 	// Thread class for handling further connection with client when connection is established
 	class ClientConnection extends Thread {
 		private Socket connection;
+		private Server server;
 		public ObjectOutputStream oos;
 		private ObjectInputStream ois;
 		
-		ClientConnection(Socket connection) {
+		ClientConnection(Socket connection, Server server) {
 			this.connection = connection;
+			this.server = server;
 		}
 		
 		private void send(Object obj) {
@@ -104,10 +116,7 @@ public class Server {
 					try {
 						//Receive object from client
 						Object obj = this.ois.readObject();
-						if(obj instanceof String) {
-							System.out.println((String)obj);
-						}
-						
+						this.server.receive(obj);
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}

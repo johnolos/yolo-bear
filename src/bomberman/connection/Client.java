@@ -36,7 +36,7 @@ public class Client {
 			serverConnection = new Socket(this.SERVERIP, this.PORT);
 //			Thread thread = new Thread(this.server = new ServerConnection(serverConnection));
 //			thread.run();
-			this.server = new ServerConnection(serverConnection);
+			this.server = new ServerConnection(serverConnection, this);
 			this.server.start();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -69,15 +69,26 @@ public class Client {
 		System.out.println(message);
 	}
 	
+	protected void receive(Object obj) {
+		if(obj instanceof String) {
+			System.out.println((String)obj);
+		} else if (obj instanceof PeerInfo) {
+			PeerInfo peer = (PeerInfo)obj;
+			System.out.println("Client at: " + peer.getInetAddress().getHostAddress());
+		}
+	}
+	
 	
 	// Class to continue connection with server.
 	class ServerConnection extends Thread {
 		private Socket connection;
+		private Client client;
 		private ObjectOutputStream oos;
 		private ObjectInputStream ois;
 		
-		ServerConnection(Socket connection) {
+		ServerConnection(Socket connection, Client client) {
 			this.connection = connection;
+			this.client = client;
 		}
 		
 		public void run() {
@@ -101,10 +112,7 @@ public class Client {
 					try {
 						//Receive object from client
 						Object obj = this.ois.readObject();
-						if(obj instanceof String) {
-							System.out.println((String)obj);
-						}
-						
+						this.client.receive(obj);
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
