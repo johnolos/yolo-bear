@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -19,9 +21,11 @@ public class Client {
 	
 	// Config file too
 	int PORT = 4078;
+	int PEERPORT = 4093;
 	
 	ServerConnection server;
 	ArrayList<Connection> clients;
+	ClientPeer peerConnection;
 	
 	
 	public Client() {
@@ -34,8 +38,9 @@ public class Client {
 		Socket serverConnection;
 		try {
 			serverConnection = new Socket(this.SERVERIP, this.PORT);
-//			Thread thread = new Thread(this.server = new ServerConnection(serverConnection));
-//			thread.run();
+			ServerSocket peerSocket = new ServerSocket(this.PORT + 5, 50, InetAddress.getByName(this.SERVERIP));
+			this.peerConnection = new ClientPeer(peerSocket, this);
+			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
 			this.server.start();
 		} catch (UnknownHostException e) {
@@ -45,14 +50,20 @@ public class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		PeerInfo info = new PeerInfo(this.peerConnection.getInetAddress(),
+				this.peerConnection.getPort());
+		this.send(info);
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
 		while(true) {
 			String line;
 			try {
 				if((line = br.readLine()) != null) {
-					this.send(line);
+					if(line.equals("peerinfo")) {
+						this.send(info);
+					} else {
+						this.send(line);
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

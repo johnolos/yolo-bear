@@ -1,6 +1,7 @@
 package bomberman.connection;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -28,6 +29,14 @@ public class ClientPeer extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public InetAddress getInetAddress() {
+		return this.peerSocket.getInetAddress();
+	}
+	
+	public int getPort() {
+		return this.peerSocket.getLocalPort();
 	}
 
 }

@@ -70,7 +70,8 @@ public class Server {
 			sendAll(obj);
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo)obj;
-			System.out.println("Client at: " + peer.getInetAddress().getHostAddress());
+			System.out.println("Client at: " + peer.getInetAddress().getHostAddress() 
+					+ ":" + String.valueOf(peer.getPort()));
 		}
 	}
 
