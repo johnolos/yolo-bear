@@ -53,7 +53,6 @@ public class Client {
 			try {
 				if((line = br.readLine()) != null) {
 					this.send(line);
-					
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
