@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Server2 {
 
-	private final static String SERVERIP = "78.91.15.30";
+	private final static String SERVERIP = "78.91.12.177";
 
 	private final static int SERVERPORT = 4078;
 	
@@ -99,9 +99,9 @@ public class Server2 {
 				//Create InputObjectStream
 				ois = new ObjectInputStream(clientInputStream);
 				// While-loop to ensure continuation of reading in-coming messages
+				System.out.println("ClientConnection: Ready");
 				while (this.connection.isConnected()) {
 					try {
-						System.out.println("ClientConnection: Ready");
 						//Receive object from client
 						Object obj = this.ois.readObject();
 						if(obj instanceof String) {

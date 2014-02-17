@@ -1,7 +1,9 @@
 package bomberman.connection;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -13,7 +15,7 @@ public class Client {
 	/** Peer-to-peer client **/
 	
 	// This shall be deleted and replaced with config file later on
-	String SERVERIP = "78.91.15.30";
+	String SERVERIP = "78.91.12.177";
 	
 	// Config file too
 	int PORT = 4078;
@@ -42,6 +44,20 @@ public class Client {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(isr);
+		while(true) {
+			String line;
+			try {
+				if((line = br.readLine()) != null) {
+					this.send(line);
+					
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
