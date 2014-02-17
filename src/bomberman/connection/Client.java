@@ -78,6 +78,10 @@ public class Client {
 		}
 	}
 	
+	protected void addConnection(Connection client) {
+		this.clients.add(client);
+	}
+	
 	
 	// Class to continue connection with server.
 	class ServerConnection extends Thread {

@@ -18,13 +18,14 @@ public class Connection extends Thread {
 	private ObjectOutputStream oos;
 	private Client client;
 	
-	Connection(Socket connection) {
+	Connection(Socket connection, Client client) {
 		this.socket = connection;
+		this.client = client;
 	}
 	
 	@Override
 	public void run() {
-		System.out.println("Connected to server on " + this.socket.getRemoteSocketAddress());
+		System.out.println("Connected to client on " + this.socket.getRemoteSocketAddress());
 		try {
 			// Fetches InputStream from connection
 			InputStream serverInputStream = this.socket.getInputStream();
@@ -38,16 +39,13 @@ public class Connection extends Thread {
 			//Create InputObjectStream
 			this.ois = new ObjectInputStream(serverInputStream);
 
-			System.out.println("ServerConnection: Ready");
+			System.out.println("Client-Client Connection: Ready");
 			// While-loop to ensure continuation of reading in-coming messages
 			while (this.socket.isConnected()) {
 				try {
 					//Receive object from client
 					Object obj = this.ois.readObject();
-					if(obj instanceof String) {
-						System.out.println((String)obj);
-					}
-					
+					this.client.receive(obj);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -63,12 +61,6 @@ public class Connection extends Thread {
 			this.oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public void setClient(Client client) {
-		if(this.client == null) {
-			this.client = client;
 		}
 	}
 }
