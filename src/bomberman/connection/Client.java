@@ -38,9 +38,9 @@ public class Client extends Thread {
 		Socket serverConnection;
 		try {
 			serverConnection = new Socket(this.SERVERIP, this.PORT);
-			ServerSocket peerSocket = new ServerSocket(this.PORT + 5, 50, InetAddress.getByName(this.SERVERIP));
-			this.peerConnection = new ClientPeer(peerSocket, this);
-			this.peerConnection.start();
+//			ServerSocket peerSocket = new ServerSocket(this.PORT + 5, 50, InetAddress.getByName(this.SERVERIP));
+//			this.peerConnection = new ClientPeer(peerSocket, this);
+//			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
 			this.server.start();
 		} catch (UnknownHostException e) {
@@ -50,8 +50,8 @@ public class Client extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		PeerInfo info = new PeerInfo(this.peerConnection.getInetAddress(),
-				this.peerConnection.getPort());
+//		PeerInfo info = new PeerInfo(this.peerConnection.getInetAddress(),
+//				this.peerConnection.getPort());
 //		this.send(info);
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
@@ -59,11 +59,7 @@ public class Client extends Thread {
 			String line;
 			try {
 				if((line = br.readLine()) != null) {
-					if(line.equals("peerinfo")) {
-						this.send(info);
-					} else {
-						this.send(line);
-					}
+					this.send(line);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -71,7 +67,7 @@ public class Client extends Thread {
 		}
 	}
 	
-	private void send(Object obj) {
+	public void send(Object obj) {
 		this.server.send(obj);
 	}
 	
