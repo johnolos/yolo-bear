@@ -13,11 +13,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class Client {
+public class Client extends Thread {
 	/** Peer-to-peer client **/
 	
 	// This shall be deleted and replaced with config file later on
-	String SERVERIP = "78.91.12.177";
+	String SERVERIP = "78.91.12.198";
 	
 	// Config file too
 	int PORT = 4078;
@@ -33,7 +33,7 @@ public class Client {
 		// Make a connection to game server
 	}
 	
-	public void startClient() {
+	public void run() {
 		System.out.println("Trying to connect to server!");
 		Socket serverConnection;
 		try {
@@ -52,7 +52,7 @@ public class Client {
 		}
 		PeerInfo info = new PeerInfo(this.peerConnection.getInetAddress(),
 				this.peerConnection.getPort());
-		this.send(info);
+//		this.send(info);
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
 		while(true) {
@@ -148,7 +148,7 @@ public class Client {
 	}
 	
 	public static void main(String args[]) {
-		new Client().startClient();
+		new Client().run();
 	}
 	
 }
