@@ -1,12 +1,13 @@
 package bomberman.states;
 
 import android.graphics.Canvas;
+import sheep.game.Game;
 import sheep.game.State;
 import sheep.gui.TextButton;
 import sheep.gui.WidgetAction;
 import sheep.gui.WidgetListener;
 
-public class MainMenu extends State {
+public class MainMenu extends State implements WidgetListener{
 	
 	
 	
@@ -14,14 +15,13 @@ public class MainMenu extends State {
 	private TextButton connect = new TextButton(600, 600, "Connect");
 	
 	public MainMenu(){
-		connect.addWidgetListener(new WidgetListener() {
-			
-			@Override
-			public void actionPerformed(WidgetAction action) {
-				
-				
-			}
-		});
+		
+		addTouchListener(singlePlayer);
+		addTouchListener(connect);
+		
+		singlePlayer.addWidgetListener(this);
+		connect.addWidgetListener(this);
+		
 	}
 	
 	public void update(float dt){
@@ -29,5 +29,13 @@ public class MainMenu extends State {
 	}
 	public void draw(Canvas canvas){
 		singlePlayer.draw(canvas);
+	}
+
+	@Override
+	public void actionPerformed(WidgetAction action) {
+		if(action.getSource() == singlePlayer){
+			getGame().pushState(new SinglePlayerState());
+		}
+		
 	}
 }
