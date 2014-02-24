@@ -1,25 +1,33 @@
 package bomberman.states;
 
+import android.graphics.Canvas;
 import sheep.game.Game;
 import sheep.game.State;
 import sheep.gui.TextButton;
 import sheep.gui.WidgetAction;
 import sheep.gui.WidgetListener;
 
-public class SinglePlayerState extends State {
+public class SinglePlayerState extends State implements WidgetListener {
 	
-	private TextButton back = new TextButton(600, 600, "Back");
+	private TextButton back = new TextButton(300, 600, "Back");
 	
 	public SinglePlayerState(){
+		addTouchListener(back);
+		back.addWidgetListener(this);
 		
-		back.addWidgetListener(new WidgetListener() {
-			
-			@Override
-			public void actionPerformed(WidgetAction action) {
-				Game.getInstance().popState();
-				
-			}
-		});
+	}
+	public void update(float dt){
+		
+	}
+	public void draw(Canvas canvas){
+		back.draw(canvas);
+	}
+
+	@Override
+	public void actionPerformed(WidgetAction action) {
+		if(action.getSource() == back){
+			getGame().popState();
+		}
 		
 	}
 
