@@ -71,7 +71,6 @@ public class Client extends Thread {
 		}
 	}
 	
-	
 	private void send(Object obj) {
 		this.server.send(obj);
 	}
