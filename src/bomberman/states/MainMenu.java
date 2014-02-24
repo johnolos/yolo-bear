@@ -13,44 +13,31 @@ public class MainMenu extends State implements WidgetListener{
 	Client client;
 	
 	private TextButton singlePlayer = new TextButton(100, 100,"Single Player");
-	private TextButton connect = new TextButton(600, 600, "Connect");
-	private TextButton send = new TextButton(700,600, "Send");
+	private TextButton multiplayer = new TextButton(300,100,"Multiplayer");
 	
 	public MainMenu(){
 		addTouchListener(singlePlayer);
-		addTouchListener(connect);
-		addTouchListener(send);
+		addTouchListener(multiplayer);
 		
 		singlePlayer.addWidgetListener(this);
-		connect.addWidgetListener(this);
-		send.addWidgetListener(this);
+		multiplayer.addWidgetListener(this);
 	}
 	
 	public void update(float dt){
 		
 	}
+	
 	public void draw(Canvas canvas){
 		singlePlayer.draw(canvas);
-		connect.draw(canvas);
-		send.draw(canvas);
+		multiplayer.draw(canvas);
 	}
 
 	@Override
 	public void actionPerformed(WidgetAction action) {
 		if(action.getSource() == singlePlayer){
 			getGame().pushState(new SinglePlayerState());
-		} else if(action.getSource() == connect) {
-			if(this.client == null) {
-				this.client = new Client();
-				Thread clientThread = new Thread(this.client);
-				clientThread.start();
-			}
-		} else if(action.getSource() == send) {
-			if(this.client != null) {
-				String message = "'Hello Server!' -Android.";
-				this.client.send(message);
-			}
+		} else if(action.getSource() == multiplayer) {
+			getGame().pushState(new MultiplayerState());
 		}
-		
 	}
 }
