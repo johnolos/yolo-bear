@@ -14,13 +14,16 @@ public class MainMenu extends State implements WidgetListener{
 	
 	private TextButton singlePlayer = new TextButton(100, 100,"Single Player");
 	private TextButton multiplayer = new TextButton(300,100,"Multiplayer");
+	private TextButton game = new TextButton(600, 100, "Game");
 	
 	public MainMenu(){
 		addTouchListener(singlePlayer);
 		addTouchListener(multiplayer);
+		addTouchListener(game);
 		
 		singlePlayer.addWidgetListener(this);
 		multiplayer.addWidgetListener(this);
+		game.addWidgetListener(this);
 	}
 	
 	public void update(float dt){
@@ -30,6 +33,7 @@ public class MainMenu extends State implements WidgetListener{
 	public void draw(Canvas canvas){
 		singlePlayer.draw(canvas);
 		multiplayer.draw(canvas);
+		game.draw(canvas);
 	}
 
 	@Override
@@ -38,6 +42,8 @@ public class MainMenu extends State implements WidgetListener{
 			getGame().pushState(new SinglePlayerState());
 		} else if(action.getSource() == multiplayer) {
 			getGame().pushState(new MultiplayerState());
+		} else if(action.getSource() == game) {
+			getGame().pushState(new GameState());
 		}
 	}
 }

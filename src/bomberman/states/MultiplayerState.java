@@ -13,18 +13,22 @@ public class MultiplayerState extends State implements WidgetListener {
 	
 	private TextButton back = new TextButton(100, 100, "Back");
 	
-	private TextButton connect = new TextButton(600, 600, "Connect");
-	private TextButton send = new TextButton(700,600, "Send");
+	private TextButton connect = new TextButton(500, 600, "Connect");
+	private TextButton send = new TextButton(600,600, "Send");
+	private TextButton peer = new TextButton(700,600, "Peer");
+	
 	
 	public MultiplayerState(){
 		
 		addTouchListener(back);
 		addTouchListener(connect);
 		addTouchListener(send);
+		addTouchListener(peer);
 		
 		back.addWidgetListener(this);
 		connect.addWidgetListener(this);
 		send.addWidgetListener(this);
+		peer.addWidgetListener(this);
 	}
 	
 	
@@ -36,6 +40,7 @@ public class MultiplayerState extends State implements WidgetListener {
 		back.draw(canvas);
 		connect.draw(canvas);
 		send.draw(canvas);
+		peer.draw(canvas);
 	}
 
 	@Override
@@ -50,6 +55,10 @@ public class MultiplayerState extends State implements WidgetListener {
 		if(this.client != null) {
 			String message = "'Hello Server!' -Android.";
 			this.client.send(message);
+		}
+	} else if(action.getSource() == peer) {
+		if(this.client != null) {
+			this.client.send(client.getPeerInfo());
 		}
 	}
 		

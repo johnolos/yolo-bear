@@ -19,6 +19,8 @@ public class Client extends Thread {
 	// This shall be deleted and replaced with config file later on
 	String SERVERIP = "78.91.12.198";
 	
+	String ANDROIDIP = "78.91.81.110";
+	
 	// Config file too
 	int PORT = 4078;
 	int PEERPORT = 4093;
@@ -38,9 +40,10 @@ public class Client extends Thread {
 		Socket serverConnection;
 		try {
 			serverConnection = new Socket(this.SERVERIP, this.PORT);
-//			ServerSocket peerSocket = new ServerSocket(this.PORT + 5, 50, InetAddress.getByName(this.SERVERIP));
-//			this.peerConnection = new ClientPeer(peerSocket, this);
-//			this.peerConnection.start();
+//			ServerSocket peerSocket = new ServerSocket(this.PORT + 5);
+			ServerSocket peerSocket = new ServerSocket(this.PORT, 50, InetAddress.getByName(this.ANDROIDIP));
+			this.peerConnection = new ClientPeer(peerSocket, this);
+			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
 			this.server.start();
 		} catch (UnknownHostException e) {
@@ -88,6 +91,10 @@ public class Client extends Thread {
 		this.clients.add(client);
 	}
 	
+	public PeerInfo getPeerInfo() {
+		return new PeerInfo(peerConnection.getInetAddress(), peerConnection.getPort());
+	}
+	
 	
 	// Class to continue connection with server.
 	class ServerConnection extends Thread {
@@ -108,9 +115,6 @@ public class Client extends Thread {
 				InputStream serverInputStream = this.connection.getInputStream();
 				// Fetches OutputStream from connect
 				OutputStream serverOutputStream = this.connection.getOutputStream();
-				// Create InputStreamReader for InputStream
-				// InputStreamReader inFromClient = new InputStreamReader(serverInputStream);
-
 				// Create ObjectOutputStream
 				this.oos = new ObjectOutputStream(serverOutputStream);
 				//Create InputObjectStream

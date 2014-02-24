@@ -67,6 +67,8 @@ public class Server {
 	protected void receive(Object obj) {
 		if(obj instanceof String) {
 			System.out.println((String)obj);
+			String returnValue = (String)obj;
+			returnValue += " : -Server";
 			sendAll(obj);
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo)obj;

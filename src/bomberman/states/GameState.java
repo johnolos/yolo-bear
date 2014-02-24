@@ -24,7 +24,7 @@ public class GameState extends State{
 		this.player = new Player("Player1");
 		this.board = new Board();
 		//Finding the upper-left coordinates of the game-view
-		this.startingX =Constants.screenWidth/2 - Constants.getHeight()*6.5;
+		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = Constants.screenHeight/2-Constants.getHeight()*6.5;
 		addSprites();
 		

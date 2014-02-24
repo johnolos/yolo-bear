@@ -19,6 +19,7 @@ public class ClientPeer extends Thread {
 	
 	@Override
 	public void run() {
+		System.out.println("I am running!");
 		try {
 			Socket clientPeer;
 			while (true) {
