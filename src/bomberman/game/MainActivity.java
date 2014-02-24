@@ -1,9 +1,12 @@
 package bomberman.game;
 
+
+
 import bomberman.states.MainMenu;
 import sheep.game.Game;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 
 
@@ -12,9 +15,17 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+
 		Game game = new Game(this, null);
 		game.pushState(new MainMenu());
+		
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+        
+        Constants.screenHeight = dm.heightPixels;
+        Constants.screenWidth  = dm.widthPixels;
+		
+		setContentView(game);
 	}
 	
 
