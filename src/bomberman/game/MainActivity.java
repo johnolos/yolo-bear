@@ -24,6 +24,8 @@ public class MainActivity extends Activity {
         
         Constants.screenHeight = dm.heightPixels;
         Constants.screenWidth  = dm.widthPixels;
+        System.out.println(dm.heightPixels);
+        System.out.println(dm.widthPixels);
 		
 		setContentView(game);
 	}

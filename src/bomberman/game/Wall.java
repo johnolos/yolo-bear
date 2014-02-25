@@ -17,6 +17,11 @@ public class Wall extends Sprite {
 			this.setView(wall);
 			this.setShape(120,120);
 		}
+		else if(Constants.screenHeight == 752) {
+			this.wall = new Image(R.drawable.walllarge);
+			this.setView(wall);
+			this.setShape(70,70);
+		}
 		else{
 			this.wall = new Image(R.drawable.wall);
 			this.setView(wall);

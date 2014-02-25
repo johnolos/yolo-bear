@@ -14,6 +14,12 @@ public class Empty extends Sprite{
 			this.setView(empty);
 			this.setShape(120,120);
 		}
+		else if(Constants.screenHeight == 752) {
+			this.empty = new Image(R.drawable.emptylarge);
+			this.setView(empty);
+			this.setShape(70,70);
+			
+		}
 		else{
 			this.empty = new Image(R.drawable.empty);
 			this.setView(empty);
