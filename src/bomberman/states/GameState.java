@@ -20,6 +20,7 @@ public class GameState extends State{
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
+	private boolean walls = false;
 	
 	public GameState (){
 		this.player = new Player("Player1");
@@ -69,13 +70,9 @@ public class GameState extends State{
 		canvas.drawColor(Color.BLACK);
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
-				if(!(sprite instanceof Wall)){
-					sprite.draw(canvas);
-				}
+				sprite.draw(canvas);
 			}
 		}
-	}
-	
-	
+	}	
 
 }

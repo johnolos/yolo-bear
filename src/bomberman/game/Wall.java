@@ -1,8 +1,6 @@
 package bomberman.game;
 
 import android.graphics.Canvas;
-
-import sheep.collision.CollisionListener;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 

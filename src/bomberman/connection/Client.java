@@ -17,9 +17,9 @@ public class Client extends Thread {
 	/** Peer-to-peer client **/
 	
 	// This shall be deleted and replaced with config file later on
-	String SERVERIP = "78.91.12.198";
+	String SERVERIP = "78.91.12.244";
 	
-	String ANDROIDIP = "78.91.81.110";
+	String ANDROIDIP = "78.91.1.195";
 	
 	// Config file too
 	int PORT = 4078;

@@ -42,6 +42,14 @@ public class Player extends Sprite {
 		this.magnitudeOfBombs = 2;
 	}
 	
+	public void update(float dt){
+		super.update(dt);
+	}
+	
+	public void draw(Canvas canvas){
+		super.draw(canvas);
+	}
+	
 	
 	/**
 	 * @param powerUp Power-up the player archived.
@@ -68,4 +76,41 @@ public class Player extends Sprite {
 		}
 		return;
 	}
+	
+//	public void checkPosition(){
+//		if(Math.abs(prevPosX - Math.round(this.getPosition().getX()))>13.5 && Math.abs(prevPosX - Math.round(this.getPosition().getX()))<116.5){
+//			this.betweenCol = true;
+//		}
+//		if(Math.abs(prevPosY - Math.round(this.getPosition().getY()))>13.5 && Math.abs(prevPosY - Math.round(this.getPosition().getY()))<116.5){
+//			this.betweenRow = true;
+//		}
+//		if(prevPosX-Math.round(this.getPosition().getX()) >116.5){
+//			this.gridPosX -= 1;
+//			System.out.println(this.gridPosX);
+//			this.setPosition(prevPosX-120, prevPosY);
+//			this.prevPosX = prevPosX-120;
+//			this.betweenCol = false;
+//		}
+//		else if(prevPosX-Math.round(this.getPosition().getX())<-116.5){
+//			this.gridPosX += 1;
+//			System.out.println(this.gridPosX);
+//			this.setPosition(prevPosX+120, prevPosY);
+//			this.prevPosX = prevPosX+120;
+//			this.betweenCol = false;
+//		}
+//		if(prevPosY-Math.round(this.getPosition().getY()) >116.5){
+//			this.gridPosY -= 1;
+//			System.out.println(this.gridPosY);
+//			this.setPosition(prevPosX, prevPosY-120);
+//			this.prevPosY = prevPosY-120;
+//			this.betweenRow = false;
+//		}
+//		else if(prevPosY-Math.round(this.getPosition().getY())<-116.5){
+//			this.gridPosY += 1;
+//			System.out.println(this.gridPosY);
+//			this.setPosition(prevPosX, prevPosY+120);
+//			this.prevPosY = prevPosY+120;
+//			this.betweenRow = false;
+//		}
+//	}
 }
