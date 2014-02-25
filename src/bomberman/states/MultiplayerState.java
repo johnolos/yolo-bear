@@ -58,7 +58,8 @@ public class MultiplayerState extends State implements WidgetListener {
 		}
 	} else if(action.getSource() == peer) {
 		if(this.client != null) {
-			this.client.send(client.getPeerInfo());
+			this.client.sendAll("This button just sucks!");
+			this.client.send("This button just sucks!");
 		}
 	}
 		
