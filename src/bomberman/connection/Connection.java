@@ -40,17 +40,11 @@ public class Connection extends Thread {
 			InputStream serverInputStream = this.socket.getInputStream();
 			// Fetches OutputStream from connect
 			OutputStream serverOutputStream = this.socket.getOutputStream();
-			// Create InputStreamReader for InputStream
-			// InputStreamReader inFromClient = new InputStreamReader(serverInputStream);
-
 			// Create ObjectOutputStream
 			this.oos = new ObjectOutputStream(serverOutputStream);
 			// Create InputObjectStream
 			this.ois = new ObjectInputStream(serverInputStream);
-
-			System.out.println("Client-Client Connection: Ready");
-			// Adding this newly established conncetion to client peer list.
-			this.client.addConnection(this);
+			System.out.println("Peer-Peer Connection: Ready");
 			// While-loop to ensure continuation of reading in-coming messages
 			while (this.socket.isConnected()) {
 				try {

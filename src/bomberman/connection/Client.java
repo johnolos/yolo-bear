@@ -49,18 +49,6 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		InputStreamReader isr = new InputStreamReader(System.in);
-		BufferedReader br = new BufferedReader(isr);
-		while(true) {
-			String line;
-			try {
-				if((line = br.readLine()) != null) {
-					this.send(line);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	/**
@@ -77,6 +65,7 @@ public class Client extends Thread {
 	 * @param obj Object to be sent.
 	 */
 	public void sendAll(Object obj) {
+		System.out.println(this.clients.size());
 		for(Connection connection : this.clients) {
 			connection.send(obj);
 		}
