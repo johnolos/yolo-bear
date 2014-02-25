@@ -13,6 +13,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import bomberman.game.PeerObject;
+import bomberman.states.GameState;
+
 public class Client extends Thread {
 //	/** Peer-to-peer client **/
 //	
@@ -27,6 +30,7 @@ public class Client extends Thread {
 	ServerConnection server;
 	ArrayList<Connection> clients;
 	ClientPeer peerConnection;
+	private GameState game;
 	
 	
 	public Client() {
@@ -83,6 +87,9 @@ public class Client extends Thread {
 			Connection peerClient = new Connection(peer.getInetAddress(), this);
 			peerClient.start();
 			addConnection(peerClient);
+		}
+		else if(obj instanceof PeerObject){
+			this.game.updateGame(obj);
 		}
 	}
 	
@@ -143,6 +150,11 @@ public class Client extends Thread {
 	
 	public static void main(String args[]) {
 		new Client().run();
+	}
+
+	public void setGameState(GameState gameState) {
+		this.game = gameState;
+		
 	}
 	
 }

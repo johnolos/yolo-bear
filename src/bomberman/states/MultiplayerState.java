@@ -50,6 +50,9 @@ public class MultiplayerState extends State implements WidgetListener {
 			this.client = new Client();
 			Thread clientThread = new Thread(this.client);
 			clientThread.start();
+			GameState gameState = new GameState(this.client);
+			getGame().pushState(gameState);
+			this.client.setGameState(gameState);
 		}
 	} else if(action.getSource() == send) {
 		if(this.client != null) {

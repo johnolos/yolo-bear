@@ -2,14 +2,25 @@ package bomberman.states;
 
 import java.util.ArrayList;
 
+
+
+
+
+
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
+import bomberman.connection.Client;
 import bomberman.game.Board;
 import bomberman.game.Constants;
 import bomberman.game.Crate;
 import bomberman.game.Empty;
+import bomberman.game.GameObject;
+import bomberman.game.Opponent;
+import bomberman.game.PeerObject;
 import bomberman.game.Player;
+import bomberman.game.ColorObject;
 import bomberman.game.Wall;
 import bomberman.graphics.DirectionKey;
 import sheep.game.Sprite;
@@ -25,8 +36,11 @@ public class GameState extends State{
 	private double startingX;
 	private double startingY;
 	private TouchListener touch;
+	private ArrayList<Opponent> opponents;
+	private Client client;
 	
-	public GameState (){
+	public GameState (Client client){
+		this.client = client;
 		this.player = new Player("Player1");
 		this.board = new Board();
 		//Finding the upper-left coordinates of the game-view
@@ -37,6 +51,7 @@ public class GameState extends State{
 		this.right = new DirectionKey("up", 2500, 600);
 		this.left = new DirectionKey("up", 2100, 600);
 		addSprites();
+		addOpponent();
 		
 		touch = new TouchListener() {
 			
@@ -76,6 +91,12 @@ public class GameState extends State{
 		addTouchListener(touch);
 		
 	}
+	public void addOpponent(){
+		opponents = new ArrayList<Opponent>();
+		opponents.add(new Opponent(ColorObject.BLUE));
+		opponents.add(new Opponent(ColorObject.GREEN));
+		opponents.add(new Opponent(ColorObject.YELLOW));
+	}
 	
 	
 	
@@ -105,11 +126,17 @@ public class GameState extends State{
 	}
 	
 	public void update(float dt){
+		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX(),this.player.getY()));
+		
 		up.update(dt);
 		down.update(dt);
 		left.update(dt);
 		right.update(dt);
 		player.update(dt);
+		for (Opponent opp : this.opponents) {
+			opp.update(dt);
+		}
+		
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
 				sprite.update(dt);
@@ -118,6 +145,7 @@ public class GameState extends State{
 	}
 	
 	public void draw(Canvas canvas){
+		
 		
 		canvas.drawColor(Color.BLACK);
 		for(ArrayList<Sprite> row : spriteList){
@@ -130,6 +158,21 @@ public class GameState extends State{
 		left.draw(canvas);
 		right.draw(canvas);
 		player.draw(canvas);
-	}	
+		for (Opponent opp : this.opponents) {
+			opp.draw(canvas);
+		}
+	}
+	public void updateGame(PeerObject obj) {
+		switch (obj.getgObj()) {
+		case PLAYER:
+			System.out.println(obj.getxPosition() + " x og y er " + obj.getyPosition());
+			break;
+		case BOMB:
+			break;
 
+		default:
+			break;
+		}
+		
+	}
 }

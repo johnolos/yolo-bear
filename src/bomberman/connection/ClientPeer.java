@@ -17,12 +17,13 @@ public class ClientPeer extends Thread {
 	
 	@Override
 	public void run() {
-		System.out.println("Listening for other peers!");
+		System.out.println("I am running!");
 		try {
 			Socket clientPeer;
 			while (true) {
 				clientPeer = peerSocket.accept();
 				Connection clientConnection = new Connection(clientPeer, this.client);
+				
 				clientConnection.start();
 				this.client.addConnection(clientConnection);
 			}
