@@ -18,15 +18,11 @@ public class Client extends Thread {
 	
 	// This shall be deleted and replaced with config file later on
 	String SERVERIP = "78.91.12.244";
-	
-
-
 	String ANDROIDIP = "78.91.80.79";
-
 	
 	// Config file too
-	int PORT = 4078;
-	int PEERPORT = 4093;
+	public static final int PORT = 4078;
+	public static final int PEERPORT = 4093;
 	
 	ServerConnection server;
 	ArrayList<Connection> clients;
@@ -43,22 +39,16 @@ public class Client extends Thread {
 		Socket serverConnection;
 		try {
 			serverConnection = new Socket(this.SERVERIP, this.PORT);
-//			ServerSocket peerSocket = new ServerSocket(this.PORT + 5);
-			ServerSocket peerSocket = new ServerSocket(this.PORT, 50, InetAddress.getByName(this.ANDROIDIP));
+			ServerSocket peerSocket = new ServerSocket(this.PEERPORT, 50, InetAddress.getByName(this.ANDROIDIP));
 			this.peerConnection = new ClientPeer(peerSocket, this);
 			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
 			this.server.start();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		PeerInfo info = new PeerInfo(this.peerConnection.getInetAddress(),
-//				this.peerConnection.getPort());
-//		this.send(info);
 		InputStreamReader isr = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(isr);
 		while(true) {
@@ -73,31 +63,43 @@ public class Client extends Thread {
 		}
 	}
 	
+	/**
+	 * Sends object to server
+	 * @param obj Object to be sent to server.
+	 */
 	public void send(Object obj) {
 		this.server.send(obj);
 	}
 	
-	protected void printMsg(String message) {
-		System.out.println(message);
+	/**
+	 * Sends object to all other clients.
+	 * Should be used during game.
+	 * @param obj Object to be sent.
+	 */
+	public void sendAll(Object obj) {
+		for(Connection connection : this.clients) {
+			connection.send(obj);
+		}
 	}
 	
+	/**
+	 * Objects which is received are handled here.
+	 * @param obj
+	 */
 	protected void receive(Object obj) {
 		if(obj instanceof String) {
 			System.out.println((String)obj);
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo)obj;
-			System.out.println("Client at: " + peer.getInetAddress().getHostAddress());
+			Connection peerClient = new Connection(peer.getInetAddress(), this);
+			peerClient.start();
 		}
 	}
 	
 	protected void addConnection(Connection client) {
+		System.out.println("PeerConnection:" + client.getIP());
 		this.clients.add(client);
 	}
-	
-	public PeerInfo getPeerInfo() {
-		return new PeerInfo(peerConnection.getInetAddress(), peerConnection.getPort());
-	}
-	
 	
 	// Class to continue connection with server.
 	class ServerConnection extends Thread {
@@ -139,7 +141,7 @@ public class Client extends Thread {
 			}
 		}
 		
-		private void send(Object obj) {
+		protected void send(Object obj) {
 			try {
 				oos.writeObject(obj);
 				oos.flush();

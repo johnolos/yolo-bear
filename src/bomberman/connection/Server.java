@@ -17,7 +17,7 @@ public class Server {
 
 	private final static int SERVERPORT = 4078;
 	
-	ArrayList<ClientConnection> clients;
+	private ArrayList<ClientConnection> clients;
 
 	public Server() {
 		clients = new ArrayList<ClientConnection>();
@@ -48,6 +48,15 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void addClientConnection(ClientConnection client) {
+		// Creating PeerInfo class for new connection
+		PeerInfo peer = new PeerInfo(client.connection.getInetAddress(), Client.PEERPORT);
+		// Sending peerinfo to all existing connections
+		sendAll(peer);
+		// Adding connetion to list of connections
+		this.clients.add(client);
 	}
 	
 	public void sendAll(Object obj) {
@@ -113,8 +122,10 @@ public class Server {
 				oos = new ObjectOutputStream(clientOutputStream);
 				//Create InputObjectStream
 				ois = new ObjectInputStream(clientInputStream);
-				// While-loop to ensure continuation of reading in-coming messages
 				System.out.println("ClientConnection: Ready");
+				// Adding newly created connection to serverlist
+				this.server.addClientConnection(this);
+				// While-loop to ensure continuation of reading in-coming messages
 				while (this.connection.isConnected()) {
 					try {
 						//Receive object from client

@@ -19,8 +19,17 @@ public class Connection extends Thread {
 	private Client client;
 	
 	Connection(Socket connection, Client client) {
-		this.socket = connection;
 		this.client = client;
+		this.socket = connection;
+	}
+	
+	Connection(InetAddress inet, Client client) {
+		this.client = client;
+		try {
+			socket = new Socket(inet, Client.PEERPORT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -36,10 +45,12 @@ public class Connection extends Thread {
 
 			// Create ObjectOutputStream
 			this.oos = new ObjectOutputStream(serverOutputStream);
-			//Create InputObjectStream
+			// Create InputObjectStream
 			this.ois = new ObjectInputStream(serverInputStream);
 
 			System.out.println("Client-Client Connection: Ready");
+			// Adding this newly established conncetion to client peer list.
+			this.client.addConnection(this);
 			// While-loop to ensure continuation of reading in-coming messages
 			while (this.socket.isConnected()) {
 				try {
@@ -62,5 +73,9 @@ public class Connection extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public InetAddress getIP() {
+		return this.socket.getInetAddress();
 	}
 }

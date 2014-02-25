@@ -9,13 +9,11 @@ public class ClientPeer extends Thread {
 	
 	private Client client;
 	private ServerSocket peerSocket;
-	
-	
+
 	public ClientPeer(ServerSocket peerSocket, Client client) {
 		this.client = client;
 		this.peerSocket = peerSocket;
 	}
-	
 	
 	@Override
 	public void run() {
