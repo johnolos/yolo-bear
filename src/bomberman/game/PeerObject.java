@@ -1,6 +1,8 @@
 package bomberman.game;
 
-public class PeerObject {
+import java.io.Serializable;
+
+public class PeerObject  implements Serializable{
 	
 	
 	private GameObject gObj;

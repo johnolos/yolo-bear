@@ -1,6 +1,8 @@
 package bomberman.game;
 
-public enum ColorObject {
+import java.io.Serializable;
+
+public enum ColorObject implements Serializable{
 	RED,BLUE,YELLOW,GREEN;
 	
-}
+}	
