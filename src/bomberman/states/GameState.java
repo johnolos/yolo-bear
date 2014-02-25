@@ -69,7 +69,9 @@ public class GameState extends State{
 		canvas.drawColor(Color.BLACK);
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
-				sprite.draw(canvas);
+				if(!(sprite instanceof Wall)){
+					sprite.draw(canvas);
+				}
 			}
 		}
 	}
