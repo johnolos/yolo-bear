@@ -56,8 +56,10 @@ public class Server {
 	}
 	
 	public void sendAll(Object obj) {
-		for(ClientConnection client : this.clients)
+		for(ClientConnection client : this.clients) {
+			System.out.println("Sent peer information");
 			client.send(obj);
+		}
 	}
 	
 	public void send(Object obj, int index) {
@@ -71,9 +73,6 @@ public class Server {
 	
 	protected void receive(Object obj) {
 		if(obj instanceof String) {
-			System.out.println((String)obj);
-			String returnValue = (String)obj;
-			returnValue += " : -Server";
 			sendAll(obj);
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo)obj;
