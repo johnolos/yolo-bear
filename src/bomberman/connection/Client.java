@@ -89,7 +89,7 @@ public class Client extends Thread {
 			addConnection(peerClient);
 		}
 		else if(obj instanceof PeerObject){
-			this.game.updateGame(obj);
+			this.game.updateGame((PeerObject) obj);
 		}
 	}
 	

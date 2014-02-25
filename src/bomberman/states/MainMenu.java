@@ -43,7 +43,7 @@ public class MainMenu extends State implements WidgetListener{
 		} else if(action.getSource() == multiplayer) {
 			getGame().pushState(new MultiplayerState());
 		} else if(action.getSource() == game) {
-			getGame().pushState(new GameState());
+//			getGame().pushState(new GameState());
 		}
 	}
 }
