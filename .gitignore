@@ -33,3 +33,6 @@ local.properties
 # ADT TOOLS specific
 *.xml
 *.txt
+
+# BomberMan Project Specific
+src/bomberman/connection/Config.java
