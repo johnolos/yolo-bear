@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Server {
 
-	private final static String SERVERIP = "78.91.12.198";
+	private final static String SERVERIP = "78.91.12.244";
 
 	private final static int SERVERPORT = 4078;
 	
