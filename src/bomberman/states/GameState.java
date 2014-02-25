@@ -3,6 +3,7 @@ package bomberman.states;
 import java.util.ArrayList;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import bomberman.game.Board;
 import bomberman.game.Constants;
 import bomberman.game.Crate;
@@ -57,10 +58,15 @@ public class GameState extends State{
 	}
 	
 	public void update(float dt){
-		
+		for(ArrayList<Sprite> row : spriteList){
+			for(Sprite sprite : row){
+				sprite.update(dt);
+			}
+		}
 	}
 	
 	public void draw(Canvas canvas){
+		canvas.drawColor(Color.BLACK);
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
 				sprite.draw(canvas);
