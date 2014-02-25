@@ -39,7 +39,6 @@ public class Server {
 //				thread.start();
 				ClientConnection client = new ClientConnection(newConnectionSocket, this);
 				client.start();
-				this.clients.add(client);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
