@@ -165,7 +165,8 @@ public class GameState extends State{
 	public void updateGame(PeerObject obj) {
 		switch (obj.getgObj()) {
 		case PLAYER:
-			System.out.println(obj.getxPosition() + " x og y er " + obj.getyPosition());
+			opponents.get(0).setPosition((float)obj.getxPosition(),(float) obj.getyPosition());
+//			System.out.println(obj.getxPosition() + " x og y er " + obj.getyPosition());
 			break;
 		case BOMB:
 			break;
