@@ -4,23 +4,27 @@ import java.util.ArrayList;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.MotionEvent;
 import bomberman.game.Board;
 import bomberman.game.Constants;
 import bomberman.game.Crate;
 import bomberman.game.Empty;
 import bomberman.game.Player;
 import bomberman.game.Wall;
+import bomberman.graphics.DirectionKey;
 import sheep.game.Sprite;
 import sheep.game.State;
+import sheep.input.TouchListener;
 
 public class GameState extends State{
 	
 	private Player player;
 	private Board  board;
+	private DirectionKey up, down, left, right;
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
-	private boolean walls = false;
+	private TouchListener touch;
 	
 	public GameState (){
 		this.player = new Player("Player1");
@@ -28,9 +32,51 @@ public class GameState extends State{
 		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = Constants.screenHeight/2-Constants.getHeight()*6.5;
+		this.up = new DirectionKey("up",2300, 500);
+		this.down = new DirectionKey("up", 2300, 700);
+		this.right = new DirectionKey("up", 2500, 600);
+		this.left = new DirectionKey("up", 2100, 600);
 		addSprites();
 		
+		touch = new TouchListener() {
+			
+			@Override
+			public boolean onTouchUp(MotionEvent event) {
+				player.setSpeed(0,0);
+				return false;
+			}
+			
+			@Override
+			public boolean onTouchMove(MotionEvent event) {
+				
+				return false;
+			}
+			
+			@Override
+			public boolean onTouchDown(MotionEvent event) {
+				if(up.getBounds().contains(event.getX(), event.getY())){
+					player.setSpeed(0, -150);
+				}
+				else if(down.getBounds().contains(event.getX(), event.getY())){
+					player.setSpeed(0, 150);
+				}
+				else if(left.getBounds().contains(event.getX(), event.getY())){
+					player.setSpeed(-150, 0);
+				}
+				else if(right.getBounds().contains(event.getX(), event.getY())){
+					player.setSpeed(150, 0);
+				}
+				
+				
+				
+				return false;
+			}
+		};
+		
+		addTouchListener(touch);
+		
 	}
+	
 	
 	
 	public void addSprites(){
@@ -59,6 +105,11 @@ public class GameState extends State{
 	}
 	
 	public void update(float dt){
+		up.update(dt);
+		down.update(dt);
+		left.update(dt);
+		right.update(dt);
+		player.update(dt);
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
 				sprite.update(dt);
@@ -67,12 +118,18 @@ public class GameState extends State{
 	}
 	
 	public void draw(Canvas canvas){
+		
 		canvas.drawColor(Color.BLACK);
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
 				sprite.draw(canvas);
 			}
 		}
+		up.draw(canvas);
+		down.draw(canvas);
+		left.draw(canvas);
+		right.draw(canvas);
+		player.draw(canvas);
 	}	
 
 }

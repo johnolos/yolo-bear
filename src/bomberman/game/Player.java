@@ -14,6 +14,12 @@ public class Player extends Sprite {
 	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
 	private Image playerRed;
+	private int prevPosX;
+	private int prevPosY;
+	private int gridPosX;
+	private int gridPosY;
+	private boolean betweenCol;
+	private boolean betweenRow;
 	
 	public Player(String name) {
 		this.nameOfPlayer = name;
@@ -21,10 +27,10 @@ public class Player extends Sprite {
 		if(Constants.screenHeight==1600){
 			this.playerRed = new Image(R.drawable.playerredlarge);
 			this.setPosition(1833.5f, 153.5f);
-//			this.prevPosX = 1833;
-//			this.prevPosY = 153;
-//			this.gridPosX = 11;
-//			this.gridPosY = 1;
+			this.prevPosX = 1833;
+			this.prevPosY = 153;
+			this.gridPosX = 11;
+			this.gridPosY = 1;
 			this.setShape(93,93);
 		}
 		else{
@@ -78,40 +84,40 @@ public class Player extends Sprite {
 		return;
 	}
 	
-//	public void checkPosition(){
-//		if(Math.abs(prevPosX - Math.round(this.getPosition().getX()))>13.5 && Math.abs(prevPosX - Math.round(this.getPosition().getX()))<116.5){
-//			this.betweenCol = true;
-//		}
-//		if(Math.abs(prevPosY - Math.round(this.getPosition().getY()))>13.5 && Math.abs(prevPosY - Math.round(this.getPosition().getY()))<116.5){
-//			this.betweenRow = true;
-//		}
-//		if(prevPosX-Math.round(this.getPosition().getX()) >116.5){
-//			this.gridPosX -= 1;
-//			System.out.println(this.gridPosX);
-//			this.setPosition(prevPosX-120, prevPosY);
-//			this.prevPosX = prevPosX-120;
-//			this.betweenCol = false;
-//		}
-//		else if(prevPosX-Math.round(this.getPosition().getX())<-116.5){
-//			this.gridPosX += 1;
-//			System.out.println(this.gridPosX);
-//			this.setPosition(prevPosX+120, prevPosY);
-//			this.prevPosX = prevPosX+120;
-//			this.betweenCol = false;
-//		}
-//		if(prevPosY-Math.round(this.getPosition().getY()) >116.5){
-//			this.gridPosY -= 1;
-//			System.out.println(this.gridPosY);
-//			this.setPosition(prevPosX, prevPosY-120);
-//			this.prevPosY = prevPosY-120;
-//			this.betweenRow = false;
-//		}
-//		else if(prevPosY-Math.round(this.getPosition().getY())<-116.5){
-//			this.gridPosY += 1;
-//			System.out.println(this.gridPosY);
-//			this.setPosition(prevPosX, prevPosY+120);
-//			this.prevPosY = prevPosY+120;
-//			this.betweenRow = false;
-//		}
-//	}
+	public void checkPosition(){
+		if(Math.abs(prevPosX - Math.round(this.getPosition().getX()))>13.5 && Math.abs(prevPosX - Math.round(this.getPosition().getX()))<116.5){
+			this.betweenCol = true;
+		}
+		if(Math.abs(prevPosY - Math.round(this.getPosition().getY()))>13.5 && Math.abs(prevPosY - Math.round(this.getPosition().getY()))<116.5){
+			this.betweenRow = true;
+		}
+		if(prevPosX-Math.round(this.getPosition().getX()) >116.5){
+			this.gridPosX -= 1;
+			System.out.println(this.gridPosX);
+			this.setPosition(prevPosX-120, prevPosY);
+			this.prevPosX = prevPosX-120;
+			this.betweenCol = false;
+		}
+		else if(prevPosX-Math.round(this.getPosition().getX())<-116.5){
+			this.gridPosX += 1;
+			System.out.println(this.gridPosX);
+			this.setPosition(prevPosX+120, prevPosY);
+			this.prevPosX = prevPosX+120;
+			this.betweenCol = false;
+		}
+		if(prevPosY-Math.round(this.getPosition().getY()) >116.5){
+			this.gridPosY -= 1;
+			System.out.println(this.gridPosY);
+			this.setPosition(prevPosX, prevPosY-120);
+			this.prevPosY = prevPosY-120;
+			this.betweenRow = false;
+		}
+		else if(prevPosY-Math.round(this.getPosition().getY())<-116.5){
+			this.gridPosY += 1;
+			System.out.println(this.gridPosY);
+			this.setPosition(prevPosX, prevPosY+120);
+			this.prevPosY = prevPosY+120;
+			this.betweenRow = false;
+		}
+	}
 }
