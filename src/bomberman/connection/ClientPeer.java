@@ -23,6 +23,7 @@ public class ClientPeer extends Thread {
 			while (true) {
 				clientPeer = peerSocket.accept();
 				Connection clientConnection = new Connection(clientPeer, this.client);
+				clientConnection.start();
 				this.client.addConnection(clientConnection);
 			}
 		} catch (IOException e) {

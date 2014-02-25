@@ -14,16 +14,16 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Client extends Thread {
-	/** Peer-to-peer client **/
-	
-	// This shall be deleted and replaced with config file later on
-	String SERVERIP = "78.91.12.244";
-	String ANDROIDIP = "78.91.80.79";
-	
-	// Config file too
-	public static final int PORT = 4078;
-	public static final int PEERPORT = 4093;
-	
+//	/** Peer-to-peer client **/
+//	
+//	// This shall be deleted and replaced with config file later on
+//	String SERVERIP = "78.91.12.244";
+//	String ANDROIDIP = "78.91.80.79";
+//	
+//	// Config file too
+//	public static final int PORT = 4078;
+//	public static final int PEERPORT = 4093;
+//	
 	ServerConnection server;
 	ArrayList<Connection> clients;
 	ClientPeer peerConnection;
@@ -38,8 +38,8 @@ public class Client extends Thread {
 		System.out.println("Trying to connect to server!");
 		Socket serverConnection;
 		try {
-			serverConnection = new Socket(this.SERVERIP, this.PORT);
-			ServerSocket peerSocket = new ServerSocket(this.PEERPORT, 50, InetAddress.getByName(this.ANDROIDIP));
+			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
+			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
 			this.peerConnection = new ClientPeer(peerSocket, this);
 			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
@@ -93,6 +93,7 @@ public class Client extends Thread {
 			PeerInfo peer = (PeerInfo)obj;
 			Connection peerClient = new Connection(peer.getInetAddress(), this);
 			peerClient.start();
+			addConnection(peerClient);
 		}
 	}
 	

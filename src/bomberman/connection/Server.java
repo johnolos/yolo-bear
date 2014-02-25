@@ -12,10 +12,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Server {
-
-	private final static String SERVERIP = "78.91.12.244";
-
-	private final static int SERVERPORT = 4078;
 	
 	private ArrayList<ClientConnection> clients;
 
@@ -26,9 +22,9 @@ public class Server {
 	public void startServer() {
 		try {
 			// Creating a ServerSocket: Is not used further
-			ServerSocket serverSocket = new ServerSocket(this.SERVERPORT, 50, InetAddress.getByName(this.SERVERIP));
+			ServerSocket serverSocket = new ServerSocket(Config.SERVERPORT, 50, InetAddress.getByName(Config.SERVERIP));
 			// Printing IP:Port for the server
-			System.out.println("Waiting for connections on " + this.SERVERIP + " : " + this.SERVERPORT);
+			System.out.println("Waiting for connections on " + Config.SERVERIP + " : " + Config.SERVERPORT);
 
 
 			// Establishing connection to database
@@ -52,7 +48,7 @@ public class Server {
 	
 	public void addClientConnection(ClientConnection client) {
 		// Creating PeerInfo class for new connection
-		PeerInfo peer = new PeerInfo(client.connection.getInetAddress(), Client.PEERPORT);
+		PeerInfo peer = new PeerInfo(client.connection.getInetAddress(), Config.ANDROIDPORT);
 		// Sending peerinfo to all existing connections
 		sendAll(peer);
 		// Adding connetion to list of connections
