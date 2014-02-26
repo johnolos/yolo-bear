@@ -126,7 +126,7 @@ public class GameState extends State{
 	}
 	
 	public void update(float dt){
-		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX(),this.player.getY()));
+		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
 		
 		up.update(dt);
 		down.update(dt);
