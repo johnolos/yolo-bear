@@ -9,14 +9,6 @@ public class Constants {
 	public static double horSize;
 	public static double verSize;
 	
-	public static float getFixedRatioX(){
-		return screenWidth/standardWidth;
-	}
-	
-	public static float getFixedRatioY(){
-		return 800.0f/standardHeight;
-	}
-	
 	public static float getHeight(){
 		if(screenHeight==1600){
 			horSize = screenWidth;
@@ -47,8 +39,7 @@ public class Constants {
 	}
 	
 	public static float getReceivingYRatio(){
-		return getFixedRatioY();
-//		return screenHeight/standardHeight;
+		return screenHeight/standardHeight;
 	}
 
 }
