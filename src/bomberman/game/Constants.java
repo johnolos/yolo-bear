@@ -26,18 +26,18 @@ public class Constants {
 		}
 	}
 	
-	public static float getRecievingXRatio(){
+	public static float getSendingXRatio(){
 		return standardWidth/screenWidth;
 	}
 	
-	public static float getRecievingYRatio(){
+	public static float getSendingYRatio(){
 		return standardHeight/screenHeight;
 	}
-	public static float getSendingXRatio(){
+	public static float getReceivingXRatio(){
 		return screenWidth/standardWidth;
 	}
 	
-	public static float getSendingYRatio(){
+	public static float getReceivingYRatio(){
 		return screenHeight/standardHeight;
 	}
 
