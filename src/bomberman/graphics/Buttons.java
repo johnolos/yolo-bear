@@ -19,13 +19,39 @@ public class Buttons extends Sprite {
 	
 	
 	public Buttons(String buttonID, int x, int y){
-		
 		Rect bounds = null;
 		if(buttonID.equals("up")){
-			up = new Image(R.drawable.crate);
+			up = new Image(R.drawable.up);
 			this.setView(up);
 			this.setShape(100,100);
 			this.setPosition(x,y);
+			float offsetX = 75*Constants.getReceivingXRatio();
+			float offsetY = 75*Constants.getReceivingYRatio();
+			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
+		}
+		else if(buttonID.equals("down")){
+			down = new Image(R.drawable.down);
+			this.setView(down);
+			this.setShape(100,100);
+			this.setPosition(x, y);
+			float offsetX = 75*Constants.getReceivingXRatio();
+			float offsetY = 75*Constants.getReceivingYRatio();
+			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
+		}
+		else if(buttonID.equals("left")){
+			left = new Image(R.drawable.left);
+			this.setView(left);
+			this.setShape(100,100);
+			this.setPosition(x, y);
+			float offsetX = 75*Constants.getReceivingXRatio();
+			float offsetY = 75*Constants.getReceivingYRatio();
+			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
+		}
+		else if(buttonID.equals("right")){
+			right = new Image(R.drawable.right);
+			this.setView(right);
+			this.setShape(100,100);
+			this.setPosition(x, y);
 			float offsetX = 75*Constants.getReceivingXRatio();
 			float offsetY = 75*Constants.getReceivingYRatio();
 			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
