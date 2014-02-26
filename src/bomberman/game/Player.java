@@ -26,7 +26,7 @@ public class Player extends Sprite {
 
 		if(Constants.screenHeight>750){
 			this.playerRed = new Image(R.drawable.playerredlarge);
-			this.setPosition(1833.5f, 153.5f);
+			this.setPosition(1833.5f*Constants.getReceivingXRatio(), 153.5f*Constants.getReceivingYRatio());
 			this.prevPosX = 1833;
 			this.prevPosY = 153;
 			this.gridPosX = 11;

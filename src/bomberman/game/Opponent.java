@@ -9,7 +9,7 @@ public class Opponent extends Sprite {
 
 	public Opponent(ColorObject color) {
 
-		if (Constants.screenHeight >1000) {
+		if (Constants.screenHeight >750) {
 			switch (color) {
 			case RED:
 				this.opp = new Image(R.drawable.playerredlarge);
