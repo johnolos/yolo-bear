@@ -24,7 +24,7 @@ public class Player extends Sprite {
 	public Player(String name) {
 		this.nameOfPlayer = name;
 
-		if(Constants.screenHeight==1600){
+		if(Constants.screenHeight>1000){
 			this.playerRed = new Image(R.drawable.playerredlarge);
 			this.setPosition(1833.5f, 153.5f);
 			this.prevPosX = 1833;
