@@ -9,7 +9,7 @@ public class Opponent extends Sprite {
 
 	public Opponent(ColorObject color) {
 
-//		if (Constants.screenHeight == 1600) {
+		if (Constants.screenHeight >1000) {
 			switch (color) {
 			case RED:
 				this.opp = new Image(R.drawable.playerredlarge);
@@ -31,7 +31,30 @@ public class Opponent extends Sprite {
 			default:
 				break;
 			}
-//		}
+		}
+		else{
+			switch (color) {
+			case RED:
+				this.opp = new Image(R.drawable.playerred);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight(),(float) Constants.screenHeight/2 -Constants.getHeight());
+				break;
+			case YELLOW:
+				this.opp = new Image(R.drawable.playerred);
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight(),(float) Constants.screenHeight/2 -Constants.getHeight());
+				break;
+			case BLUE:
+				this.opp = new Image(R.drawable.playerred);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight(),(float) Constants.screenHeight/2 +Constants.getHeight());
+				break;
+			case GREEN:
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight(),(float) Constants.screenHeight/2 +Constants.getHeight());
+				this.opp = new Image(R.drawable.playerred);
+				break;
+
+			default:
+				break;
+			}
+		}
 		this.setView(opp);
 	}
 
