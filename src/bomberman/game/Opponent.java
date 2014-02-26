@@ -8,7 +8,8 @@ public class Opponent extends Sprite {
 	private Image opp;
 
 	public Opponent(ColorObject color) {
-		//if (Constants.screenHeight == 1600) {
+
+//		if (Constants.screenHeight == 1600) {
 			switch (color) {
 			case RED:
 				this.opp = new Image(R.drawable.playerredlarge);
@@ -30,7 +31,7 @@ public class Opponent extends Sprite {
 			default:
 				break;
 			}
-		//}
+//		}
 		this.setView(opp);
 	}
 
