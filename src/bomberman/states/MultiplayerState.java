@@ -13,9 +13,9 @@ public class MultiplayerState extends State implements WidgetListener {
 	
 	private TextButton back = new TextButton(100, 100, "Back");
 	
-	private TextButton connect = new TextButton(500, 600, "Connect");
-	private TextButton send = new TextButton(600,600, "Send");
-	private TextButton peer = new TextButton(700,600, "Peer");
+	private TextButton connect = new TextButton(100, 300, "Connect");
+	private TextButton send = new TextButton(300,300, "Send");
+	private TextButton peer = new TextButton(600,300, "Peer");
 	
 	
 	public MultiplayerState(){
