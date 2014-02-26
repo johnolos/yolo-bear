@@ -176,7 +176,7 @@ public class GameState extends State{
 		switch (obj.getgObj()) {
 		case PLAYER:
 			opponents.get(0).setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
-//			System.out.println(obj.getxPosition() + " x og y er " + obj.getyPosition());
+			System.out.println(obj.getxPosition()*Constants.getReceivingXRatio() + " x og y er " + obj.getyPosition()*Constants.getReceivingYRatio());
 			break;
 		case BOMB:
 			break;
