@@ -41,5 +41,25 @@ public class Constants {
 	public static float getReceivingYRatio(){
 		return screenHeight/standardHeight;
 	}
+	
+	public static float getScreenWidth() {
+		return screenWidth;
+	}
+	
+	public static float getScreenHeight() {
+		return screenHeight;
+	}
+	
+	public static int getPositionX(float xPixel) {
+		float re = xPixel - ((getScreenWidth() / 2.0f) - 6.5f * getHeight());
+		re = re / getHeight();
+		return (int)re;
+	}
+	
+	public static int getPositionY(float xPixel) {
+		float re = xPixel - ((getScreenHeight() / 2.0f) - 6.5f * getHeight());
+		re = re / getHeight();
+		return (int)re;
+	}
 
 }
