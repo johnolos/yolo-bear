@@ -46,10 +46,10 @@ public class GameState extends State{
 		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = Constants.screenHeight/2-Constants.getHeight()*6.5;
-		this.up = new DirectionKey("up",2300, 500);
-		this.down = new DirectionKey("up", 2300, 700);
-		this.right = new DirectionKey("up", 2500, 600);
-		this.left = new DirectionKey("up", 2100, 600);
+		this.up = new DirectionKey("up",(int) (Constants.screenWidth*0.898f), (int) (Constants.screenHeight*0.3125f));
+		this.down = new DirectionKey("up",(int) (Constants.screenWidth*0.898f), (int) (Constants.screenHeight*0.4375f));
+		this.right = new DirectionKey("up",(int) (Constants.screenWidth*0.9765f), (int) (Constants.screenHeight*0.375f));
+		this.left = new DirectionKey("up",(int) (Constants.screenWidth*0.82f), (int) (Constants.screenHeight*0.375f));
 		addSprites();
 		addOpponent();
 		

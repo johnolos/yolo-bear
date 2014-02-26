@@ -1,5 +1,6 @@
 package bomberman.graphics;
 
+import bomberman.game.Constants;
 import bomberman.game.R;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -23,7 +24,9 @@ public class DirectionKey extends Sprite {
 			this.setShape(100,100);
 			this.setPosition(x,y);
 		}
-		Rect bounds  = new Rect(x-75, y-75, x+75, y+75);
+		float offsetX = 75*Constants.getReceivingXRatio();
+		float offsetY = 75*Constants.getReceivingYRatio();
+		Rect bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
 		this.box = new BoundingBox(bounds);
 	}
 	
