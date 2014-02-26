@@ -70,7 +70,11 @@ public class GameState extends State{
 			@Override
 			public boolean onTouchDown(MotionEvent event) {
 				if(up.getBounds().contains(event.getX(), event.getY())){
-					player.setSpeed(0, -150*Constants.getReceivingYRatio());
+					Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY()+player.getImageHeight()/2)-1).get(Constants.getPositionX(player.getPosition().getX()+player.getImageHeight()/2));
+					if(player.canMoveY() && sprite instanceof Empty ){
+						player.setSpeed(0, -150*Constants.getReceivingYRatio());
+					}
+					
 				}
 				else if(down.getBounds().contains(event.getX(), event.getY())){
 					player.setSpeed(0, 150*Constants.getReceivingYRatio());

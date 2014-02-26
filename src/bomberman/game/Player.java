@@ -51,6 +51,12 @@ public class Player extends Sprite {
 	
 	public void update(float dt){
 		super.update(dt);
+//		System.out.println("X: " + Constants.getPositionX(this.getPosition().getX() + this.playerRed.getHeight()/2)
+//				+ " Y: " + Constants.getPositionY(this.getPosition().getY() + this.playerRed.getHeight()/2));
+//		System.out.println("TX: " + Constants.getPositionX(this.getPosition().getX())
+//				+ " TY: " + Constants.getPositionY(this.getPosition().getY()));
+//		System.out.println("BX: " + Constants.getPositionX(this.getPosition().getX() + this.playerRed.getHeight())
+//				+ " BY: " + Constants.getPositionY(this.getPosition().getY() + this.playerRed.getHeight()));
 	}
 	
 	public void draw(Canvas canvas){
@@ -61,6 +67,21 @@ public class Player extends Sprite {
 		return 0;
 	}
 	
+	public boolean canMoveY() {
+		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.playerRed.getHeight()))
+			return true;
+		return false;
+	}
+	
+	public boolean canMoveX() {
+		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.playerRed.getHeight()))
+			return true;
+		return false;
+	}
+	
+	public float getImageHeight(){
+		return this.playerRed.getHeight();
+	}
 	
 	/**
 	 * @param powerUp Power-up the player archived.
