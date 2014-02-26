@@ -69,7 +69,6 @@ public class Client extends Thread {
 	 * @param obj Object to be sent.
 	 */
 	public void sendAll(Object obj) {
-		System.out.println(this.clients.size());
 		for(Connection connection : this.clients) {
 			connection.send(obj);
 		}

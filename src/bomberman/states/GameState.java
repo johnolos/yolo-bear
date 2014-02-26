@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
+import android.widget.Button;
 import bomberman.connection.Client;
 import bomberman.game.Board;
+import bomberman.game.Bomb;
 import bomberman.game.Constants;
 import bomberman.game.Crate;
 import bomberman.game.Empty;
@@ -31,7 +33,8 @@ public class GameState extends State{
 	
 	private Player player;
 	private Board  board;
-	private Buttons up, down, left, right, bomb;
+	private Buttons up, down, left, right, bombIcon;
+	private ArrayList<Bomb> bombs;
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
@@ -51,7 +54,8 @@ public class GameState extends State{
 		this.down = new Buttons("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
 		this.right = new Buttons("up",(int) (Constants.screenWidth*0.9665f), (int) (Constants.screenHeight*0.375f));
 		this.left = new Buttons("up",(int) (Constants.screenWidth*0.81f), (int) (Constants.screenHeight*0.375f));
-		this.bomb = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.4f));
+		this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.4f));
+		bombs = new ArrayList<Bomb>();
 		addSprites();
 		addOpponent();
 		
@@ -75,6 +79,8 @@ public class GameState extends State{
 			public boolean onTouchDown(MotionEvent event) {
 				if(up.getBounds().contains(event.getX(), event.getY())){
 					player.setSpeed(0, -150);
+					System.out.println(bombIcon.getBounds());	
+					System.out.println(up.getBounds());
 				}
 				else if(down.getBounds().contains(event.getX(), event.getY())){
 					player.setSpeed(0, 150);
@@ -84,6 +90,11 @@ public class GameState extends State{
 				}
 				else if(right.getBounds().contains(event.getX(), event.getY())){
 					player.setSpeed(150, 0);
+				}
+				else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
+					System.out.println("yolo");
+					bombs.add(new Bomb((int)player.getPosition().getX(),(int)player.getPosition().getY(),player.getMagnitude()));
+					System.out.println(bombs.size());
 				}
 				
 				
@@ -141,8 +152,13 @@ public class GameState extends State{
 		down.update(dt);
 		left.update(dt);
 		right.update(dt);
-		bomb.update(dt);
+		bombIcon.update(dt);
 		player.update(dt);
+		if(bombs.size() != 0){
+			for (Bomb bomb : bombs) {
+				bomb.update(dt);
+			}
+		}
 		for (Opponent opp : this.opponents) {
 			opp.update(dt);
 		}
@@ -166,8 +182,13 @@ public class GameState extends State{
 		down.draw(canvas);
 		left.draw(canvas);
 		right.draw(canvas);
-		bomb.draw(canvas);
+		bombIcon.draw(canvas);
 		player.draw(canvas);
+		if(bombs.size() != 0){
+			for (Bomb bomb : bombs) {
+				bomb.draw(canvas);
+			}
+		}
 		for (Opponent opp : this.opponents) {
 			opp.draw(canvas);
 		}

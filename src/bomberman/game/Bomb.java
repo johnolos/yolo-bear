@@ -8,8 +8,11 @@ public class Bomb extends Sprite{
 	
 	private int blastRadius; //the "length" of the explosion
 	private Image bomb;
+	private int x,y;
 	
-	public Bomb(){
+	public Bomb(int x, int y, int blastRadius){
+		this.blastRadius = blastRadius;
+		this.setPosition(x, y);
 		if(Constants.screenHeight == 1600){
 			this.bomb = new Image(R.drawable.bomblarge);
 			this.setShape(120,120);
@@ -23,6 +26,7 @@ public class Bomb extends Sprite{
 			this.setShape(40,40);
 		}
 		this.setView(bomb);
+		
 	}
 	
 	public void update(float dt){
