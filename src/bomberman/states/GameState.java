@@ -126,7 +126,8 @@ public class GameState extends State{
 	}
 	
 	public void update(float dt){
-		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
+		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX(),this.player.getY()));
+		
 		up.update(dt);
 		down.update(dt);
 		left.update(dt);
@@ -164,7 +165,7 @@ public class GameState extends State{
 	public void updateGame(PeerObject obj) {
 		switch (obj.getgObj()) {
 		case PLAYER:
-			opponents.get(0).setPosition((float)obj.getxPosition()*Constants.getRecievingXRatio(),(float) obj.getyPosition()*Constants.getRecievingYRatio());
+			opponents.get(0).setPosition((float)obj.getxPosition(),(float) obj.getyPosition());
 //			System.out.println(obj.getxPosition() + " x og y er " + obj.getyPosition());
 			break;
 		case BOMB:
