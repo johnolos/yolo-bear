@@ -67,16 +67,20 @@ public class Player extends Sprite {
 		return 0;
 	}
 	
-	private boolean canMoveY() {
+	public boolean canMoveY() {
 		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.playerRed.getHeight()))
 			return true;
 		return false;
 	}
 	
-	private boolean canMoveX() {
+	public boolean canMoveX() {
 		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.playerRed.getHeight()))
 			return true;
 		return false;
+	}
+	
+	public float getImageHeight(){
+		return this.playerRed.getHeight();
 	}
 	
 	/**
