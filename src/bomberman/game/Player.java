@@ -85,7 +85,7 @@ public class Player extends Sprite {
 	}
 	
 	public void checkPosition(){
-		if(Math.abs(prevPosX - Math.round(this.getPosition().getX()))>13.5 && Math.abs(prevPosX - Math.round(this.getPosition().getX()))<116.5){
+		if(Math.abs(prevPosX - Math.round(this.getPosition().getX()))>13.5 && Math.abs(prevPosX - Math.round(this.getPosition().getX()))<116.5){//plx kommenter:P
 			this.betweenCol = true;
 		}
 		if(Math.abs(prevPosY - Math.round(this.getPosition().getY()))>13.5 && Math.abs(prevPosY - Math.round(this.getPosition().getY()))<116.5){
@@ -119,5 +119,8 @@ public class Player extends Sprite {
 			this.prevPosY = prevPosY+120;
 			this.betweenRow = false;
 		}
+	}
+	
+	public void collisionDetection(){
 	}
 }

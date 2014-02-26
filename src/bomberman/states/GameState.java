@@ -22,7 +22,7 @@ import bomberman.game.PeerObject;
 import bomberman.game.Player;
 import bomberman.game.ColorObject;
 import bomberman.game.Wall;
-import bomberman.graphics.DirectionKey;
+import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.input.TouchListener;
@@ -31,7 +31,7 @@ public class GameState extends State{
 	
 	private Player player;
 	private Board  board;
-	private DirectionKey up, down, left, right;
+	private Buttons up, down, left, right, bomb;
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
@@ -47,10 +47,11 @@ public class GameState extends State{
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = Constants.screenHeight/2-Constants.getHeight()*6.5;
 		//Buttons to control the player
-		this.up = new DirectionKey("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
-		this.down = new DirectionKey("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
-		this.right = new DirectionKey("up",(int) (Constants.screenWidth*0.9665f), (int) (Constants.screenHeight*0.375f));
-		this.left = new DirectionKey("up",(int) (Constants.screenWidth*0.81f), (int) (Constants.screenHeight*0.375f));
+		this.up = new Buttons("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
+		this.down = new Buttons("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
+		this.right = new Buttons("up",(int) (Constants.screenWidth*0.9665f), (int) (Constants.screenHeight*0.375f));
+		this.left = new Buttons("up",(int) (Constants.screenWidth*0.81f), (int) (Constants.screenHeight*0.375f));
+		this.bomb = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.4f));
 		addSprites();
 		addOpponent();
 		
@@ -140,6 +141,7 @@ public class GameState extends State{
 		down.update(dt);
 		left.update(dt);
 		right.update(dt);
+		bomb.update(dt);
 		player.update(dt);
 		for (Opponent opp : this.opponents) {
 			opp.update(dt);
@@ -164,6 +166,7 @@ public class GameState extends State{
 		down.draw(canvas);
 		left.draw(canvas);
 		right.draw(canvas);
+		bomb.draw(canvas);
 		player.draw(canvas);
 		for (Opponent opp : this.opponents) {
 			opp.draw(canvas);
