@@ -16,6 +16,8 @@ public class MainMenu extends State implements WidgetListener{
 	private TextButton multiplayer = new TextButton(300,100,"Multiplayer");
 	private TextButton game = new TextButton(600, 100, "Game");
 	
+	
+	//This class is no way near finished. Adds simple buttons to access multiplayer- and singleplayer -states.
 	public MainMenu(){
 		addTouchListener(singlePlayer);
 		addTouchListener(multiplayer);
@@ -37,6 +39,7 @@ public class MainMenu extends State implements WidgetListener{
 	}
 
 	@Override
+	//Changing the game state being shown on canvas 
 	public void actionPerformed(WidgetAction action) {
 		if(action.getSource() == singlePlayer){
 			getGame().pushState(new SinglePlayerState());
