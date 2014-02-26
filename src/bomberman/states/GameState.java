@@ -74,16 +74,16 @@ public class GameState extends State{
 			@Override
 			public boolean onTouchDown(MotionEvent event) {
 				if(up.getBounds().contains(event.getX(), event.getY())){
-					player.setSpeed(0, -150);
+					player.setSpeed(0, -150*Constants.getReceivingYRatio());
 				}
 				else if(down.getBounds().contains(event.getX(), event.getY())){
-					player.setSpeed(0, 150);
+					player.setSpeed(0, 150*Constants.getReceivingYRatio());
 				}
 				else if(left.getBounds().contains(event.getX(), event.getY())){
-					player.setSpeed(-150, 0);
+					player.setSpeed(-150*Constants.getReceivingXRatio(), 0);
 				}
 				else if(right.getBounds().contains(event.getX(), event.getY())){
-					player.setSpeed(150, 0);
+					player.setSpeed(150*Constants.getReceivingXRatio(), 0);
 				}
 				
 				
