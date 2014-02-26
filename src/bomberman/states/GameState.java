@@ -46,6 +46,7 @@ public class GameState extends State{
 		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = Constants.screenHeight/2-Constants.getHeight()*6.5;
+		//Buttons to control the player
 		this.up = new DirectionKey("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
 		this.down = new DirectionKey("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
 		this.right = new DirectionKey("up",(int) (Constants.screenWidth*0.9665f), (int) (Constants.screenHeight*0.375f));
@@ -53,6 +54,8 @@ public class GameState extends State{
 		addSprites();
 		addOpponent();
 		
+		
+		//Listens on direction buttons. Movement of the player is defined here.
 		touch = new TouchListener() {
 			
 			@Override
@@ -91,6 +94,8 @@ public class GameState extends State{
 		addTouchListener(touch);
 		
 	}
+	
+	//This method should add the correct number of opponents to the game. Should in the future take in number of players, and color of players.
 	public void addOpponent(){
 		opponents = new ArrayList<Opponent>();
 		opponents.add(new Opponent(ColorObject.BLUE));
@@ -99,7 +104,8 @@ public class GameState extends State{
 	}
 	
 	
-	
+	//This adds all board objects to an Array of Sprites. This Array is used when the board is drawn and will also be used for collision
+	//later on (perhaps).
 	public void addSprites(){
 		spriteList = new ArrayList<ArrayList<Sprite>>();
 		for(int i =0; i<board.getBoard().length;i++){
@@ -125,7 +131,9 @@ public class GameState extends State{
 		}
 	}
 	
+	//Called by Game every tic. All sprites needs to be updated here
 	public void update(float dt){
+		//Sending player location to all other players.
 		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
 		
 		up.update(dt);
@@ -144,9 +152,8 @@ public class GameState extends State{
 		}
 	}
 	
+	//Called by Game every tic. Sprites you want to see on the canvas should be drawn here. Mind the order the Sprites are drawn.
 	public void draw(Canvas canvas){
-		
-		
 		canvas.drawColor(Color.BLACK);
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
@@ -162,6 +169,9 @@ public class GameState extends State{
 			opp.draw(canvas);
 		}
 	}
+	
+	//Called when client receives information from the other peers. Positions are here converted to fit the device the game is running on.
+	//Need code for bombs and such..
 	public void updateGame(PeerObject obj) {
 		switch (obj.getgObj()) {
 		case PLAYER:
