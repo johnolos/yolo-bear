@@ -9,6 +9,8 @@ public class Bomb extends Sprite{
 	private int blastRadius; //the "length" of the explosion
 	private Image bomb;
 	private int x,y;
+	private double time = System.currentTimeMillis();
+	private boolean exploded = false;
 	
 	public Bomb(int x, int y, int blastRadius){
 		this.blastRadius = blastRadius;
@@ -35,6 +37,19 @@ public class Bomb extends Sprite{
 	
 	public void draw(Canvas canvas){
 		super.draw(canvas);
+	}
+	
+	public double getTime(){
+		return this.time;
+	}
+	
+	public boolean hasExploded(){
+		return exploded;
+	}
+	
+	public void explode(){
+		bomb = new Image(R.drawable.explode);
+		exploded = true;
 	}
 	
 }

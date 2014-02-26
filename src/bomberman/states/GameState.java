@@ -144,9 +144,16 @@ public class GameState extends State{
 		right.update(dt);
 		bombIcon.update(dt);
 		player.update(dt);
+		double now = System.currentTimeMillis();
 		if(bombs.size() != 0){
 			for (Bomb bomb : bombs) {
 				bomb.update(dt);
+				if(now - bomb.getTime() >= 3000 && !bomb.hasExploded()){
+					bomb.explode();
+				}
+				else if(now - bomb.getTime() >= 5000){
+					bombs.remove(bomb);
+				}
 			}
 		}
 		for (Opponent opp : this.opponents) {
