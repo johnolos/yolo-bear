@@ -1,17 +1,9 @@
 package bomberman.states;
 
 import java.util.ArrayList;
-
-
-
-
-
-
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
-import android.widget.Button;
 import bomberman.connection.Client;
 import bomberman.game.Board;
 import bomberman.game.Bomb;
@@ -51,9 +43,9 @@ public class GameState extends State{
 		this.startingY = Constants.screenHeight/2-Constants.getHeight()*6.5;
 		//Buttons to control the player
 		this.up = new Buttons("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
-		this.down = new Buttons("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
-		this.right = new Buttons("up",(int) (Constants.screenWidth*0.9665f), (int) (Constants.screenHeight*0.375f));
-		this.left = new Buttons("up",(int) (Constants.screenWidth*0.81f), (int) (Constants.screenHeight*0.375f));
+		this.down = new Buttons("down",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
+		this.right = new Buttons("right",(int) (Constants.screenWidth*0.9665f), (int) (Constants.screenHeight*0.375f));
+		this.left = new Buttons("left",(int) (Constants.screenWidth*0.81f), (int) (Constants.screenHeight*0.375f));
 		this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.4f));
 		bombs = new ArrayList<Bomb>();
 		addSprites();
