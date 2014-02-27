@@ -93,7 +93,7 @@ public class GameState extends State{
 				}
 				else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
 					System.out.println("yolo");
-					bombs.add(new Bomb((int)player.getPosition().getX(),(int)player.getPosition().getY(),player.getMagnitude()));
+					bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude()));
 					System.out.println(bombs.size());
 				}
 				
@@ -105,6 +105,22 @@ public class GameState extends State{
 		addTouchListener(touch);
 	}
 	
+	public int getTilePositionX(){
+		float x = player.getPosition().getX();
+		float y = player.getPosition().getY();
+		int gridX = Constants.getPositionX(x+(player.getImageHeight()/2));
+		int gridY = Constants.getPositionY(y+(player.getImageHeight()/2));
+		return (int) spriteList.get(gridY).get(gridX).getPosition().getX();
+	}
+	
+	public int getTilePositionY(){
+		float x = player.getPosition().getX();
+		float y = player.getPosition().getY();
+		int gridX = Constants.getPositionX(x);
+		int gridY = Constants.getPositionY(y);
+		return (int) spriteList.get(gridY).get(gridX).getPosition().getY();
+	}
+	
 	/**
 	 * Works on JONSKIS TABLET
 	 * @return
@@ -114,6 +130,7 @@ public class GameState extends State{
 //			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
 //					player.getImageHeight()/2) - 1).get(Constants.getPositionX(player.getPosition().getX() + 
 //							player.getImageHeight()/2));
+			System.out.println(Constants.getPositionY(player.getPosition().getY()));
 			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY()) - 1).get(Constants.getPositionX(player.getPosition().getX() + 
 							player.getImageHeight()/2));
 			// If above tile is Empty, we do not need to worry about player moving upwards.
@@ -140,7 +157,7 @@ public class GameState extends State{
 			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
 					player.getImageHeight()/2) + 1).get(Constants.getPositionX(player.getPosition().getX() + 
 							player.getImageHeight()/2));
-			// If above tile is Empty, we do not need to worry about player moving downwards.
+			// If below tile is Empty, we do not need to worry about player moving downwards.
 			if( sprite instanceof Empty) {
 				return true;
 			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
@@ -246,7 +263,7 @@ public class GameState extends State{
 	//Called by Game every tic. All sprites needs to be updated here
 	public void update(float dt){
 		
-		System.out.println("YES?: " + this.canPlayerMoveRight());
+		//System.out.println("YES?: " + this.canPlayerMoveRight());
 		
 		if(!canPlayerMoveUp() && direction == Direction.UP) {
 			player.setSpeed(player.getSpeed().getX(), 0);

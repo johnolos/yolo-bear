@@ -49,6 +49,7 @@ public class Bomb extends Sprite{
 	
 	public void explode(){
 		bomb = new Image(R.drawable.explode);
+		setView(bomb);
 		exploded = true;
 	}
 	
