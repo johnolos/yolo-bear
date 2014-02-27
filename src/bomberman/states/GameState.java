@@ -88,10 +88,9 @@ public class GameState extends State{
 					direction = Direction.RIGHT;
 					player.setSpeed(150*Constants.getReceivingXRatio(), 0);
 				}
+				//The bombs are now placed in the center of the tile the player is located. 
 				else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
-					System.out.println("yolo");
 					bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude()));
-					System.out.println(bombs.size());
 				}
 				
 				
