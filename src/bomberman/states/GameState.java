@@ -9,6 +9,7 @@ import bomberman.game.Board;
 import bomberman.game.Bomb;
 import bomberman.game.Constants;
 import bomberman.game.Crate;
+import bomberman.game.Direction;
 import bomberman.game.Empty;
 import bomberman.game.GameObject;
 import bomberman.game.Opponent;
@@ -33,6 +34,8 @@ public class GameState extends State{
 	private TouchListener touch;
 	private ArrayList<Opponent> opponents;
 	private Client client;
+	
+	private Direction direction = Direction.DOWN;
 	
 	public GameState (Client client){
 		this.client = client;
@@ -70,19 +73,22 @@ public class GameState extends State{
 			@Override
 			public boolean onTouchDown(MotionEvent event) {
 				if(up.getBounds().contains(event.getX(), event.getY())){
-					Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY()+player.getImageHeight()/2)-1).get(Constants.getPositionX(player.getPosition().getX()+player.getImageHeight()/2));
-					if(player.canMoveY() && sprite instanceof Empty ){
-						player.setSpeed(0, -150*Constants.getReceivingYRatio());
-					}
-					
+					direction = Direction.UP;
+//					if(canPlayerMoveUp()) {
+//						player.setSpeed(0, -150*Constants.getReceivingYRatio());
+//					}
+					player.setSpeed(0, -150*Constants.getReceivingYRatio());
 				}
 				else if(down.getBounds().contains(event.getX(), event.getY())){
+					direction = Direction.DOWN;
 					player.setSpeed(0, 150*Constants.getReceivingYRatio());
 				}
 				else if(left.getBounds().contains(event.getX(), event.getY())){
+					direction = Direction.LEFT;
 					player.setSpeed(-150*Constants.getReceivingXRatio(), 0);
 				}
 				else if(right.getBounds().contains(event.getX(), event.getY())){
+					direction = Direction.RIGHT;
 					player.setSpeed(150*Constants.getReceivingXRatio(), 0);
 				}
 				else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
@@ -96,10 +102,111 @@ public class GameState extends State{
 				return false;
 			}
 		};
-		
 		addTouchListener(touch);
-		
 	}
+	
+	/**
+	 * Works on JONSKIS TABLET
+	 * @return
+	 */
+	public boolean canPlayerMoveUp() {
+		if(player.canMoveY()) {
+//			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
+//					player.getImageHeight()/2) - 1).get(Constants.getPositionX(player.getPosition().getX() + 
+//							player.getImageHeight()/2));
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY()) - 1).get(Constants.getPositionX(player.getPosition().getX() + 
+							player.getImageHeight()/2));
+			// If above tile is Empty, we do not need to worry about player moving upwards.
+			if( sprite instanceof Empty) {
+				return true;
+			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
+			} else {
+				float pixelsY = (player.getPosition().getY() + 12.0f) - ((int)((player.getPosition().getY() + 12.0f) / Constants.getHeight()) * Constants.getHeight());
+//				System.out.println(pixelsY);
+				if(pixelsY > 4.0f) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Works on JONSKIS TABLET
+	 * @return
+	 */
+	public boolean canPlayerMoveDown() {
+		if(player.canMoveY()) {
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
+					player.getImageHeight()/2) + 1).get(Constants.getPositionX(player.getPosition().getX() + 
+							player.getImageHeight()/2));
+			// If above tile is Empty, we do not need to worry about player moving downwards.
+			if( sprite instanceof Empty) {
+				return true;
+			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
+			} else {
+				float pixelsY = ((int)(player.getPosition().getY() / Constants.getHeight()) + 1) * Constants.getHeight() - player.getPosition().getY();
+//				System.out.println(pixelsY);
+				if(pixelsY > 4.0f) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * Works on JONSKIS TABLET
+	 * @return
+	 */
+	public boolean canPlayerMoveLeft() {
+		if(player.canMoveX()) {
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
+					player.getImageHeight()/2)).get(Constants.getPositionX(player.getPosition().getX()) - 1);
+			// If above tile is Empty, we do not need to worry about player moving left.
+			if( sprite instanceof Empty) {
+				return true;
+			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
+			} else {
+				float pixelsX = player.getPosition().getX() - Constants.getPixelsOnSides();
+				pixelsX = pixelsX - ((int)(pixelsX / Constants.getHeight()) * Constants.getHeight());
+				if(pixelsX > 4.0f) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * Works on JONSKIS TABLET
+	 * @return
+	 */
+	public boolean canPlayerMoveRight() {
+		if(player.canMoveX()) {
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
+					player.getImageHeight()/2)).get(Constants.getPositionX(player.getPosition().getX()) + 1);
+			// If above tile is Empty, we do not need to worry about player moving right.
+			if( sprite instanceof Empty) {
+				return true;
+			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
+			} else {
+				System.out.println(player.getPosition().getX());
+				float pixelsX = (player.getPosition().getX()) - Constants.getPixelsOnSides();
+				System.out.println(pixelsX);
+				pixelsX = (((int)(pixelsX / Constants.getHeight()) + 1) * Constants.getHeight()) - pixelsX;
+				System.out.println(pixelsX);
+				if(pixelsX > 4.0f) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+	
 	
 	//This method should add the correct number of opponents to the game. Should in the future take in number of players, and color of players.
 	public void addOpponent(){
@@ -110,8 +217,7 @@ public class GameState extends State{
 	}
 	
 	
-	//This adds all board objects to an Array of Sprites. This Array is used when the board is drawn and will also be used for collision
-	//later on (perhaps).
+	//This adds all board objects to an Array of Sprites. This Array is used when the board is drawn and will also used for player detection.
 	public void addSprites(){
 		spriteList = new ArrayList<ArrayList<Sprite>>();
 		for(int i =0; i<board.getBoard().length;i++){
@@ -139,6 +245,25 @@ public class GameState extends State{
 	
 	//Called by Game every tic. All sprites needs to be updated here
 	public void update(float dt){
+		
+		System.out.println("YES?: " + this.canPlayerMoveRight());
+		
+		if(!canPlayerMoveUp() && direction == Direction.UP) {
+			player.setSpeed(player.getSpeed().getX(), 0);
+		}
+		
+		if(!canPlayerMoveDown() && direction == Direction.DOWN) {
+			player.setSpeed(player.getSpeed().getX(), 0);
+		}
+		
+		if(!canPlayerMoveLeft() && direction == Direction.LEFT) {
+			player.setSpeed(0, player.getSpeed().getY());
+		}
+		
+		if(!canPlayerMoveRight() && direction == Direction.RIGHT) {
+			player.setSpeed(0, player.getSpeed().getY());
+		}
+		
 		//Sending player location to all other players.
 		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
 		

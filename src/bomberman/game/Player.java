@@ -79,6 +79,12 @@ public class Player extends Sprite {
 		return false;
 	}
 	
+	public boolean canMoveUp(){
+		
+		return false;
+		
+	}
+	
 	public float getImageHeight(){
 		return this.playerRed.getHeight();
 	}
@@ -86,7 +92,7 @@ public class Player extends Sprite {
 	/**
 	 * @param powerUp Power-up the player archived.
 	 */
-	private void powerUp(PowerUp powerUp) {
+	public void powerUp(PowerUp powerUp) {
 		switch(powerUp) {
 		case BOMB:
 			this.numberOfBombs++;
@@ -108,7 +114,7 @@ public class Player extends Sprite {
 		}
 		return;
 	}
-	
+	// TODO: Is this used?
 	public void checkPosition(){
 		if(Math.abs(prevPosX - Math.round(this.getPosition().getX()))>13.5 && Math.abs(prevPosX - Math.round(this.getPosition().getX()))<116.5){
 			this.betweenCol = true;

@@ -61,5 +61,9 @@ public class Constants {
 		re = re / getHeight();
 		return (int)re;
 	}
+	
+	public static float getPixelsOnSides() {
+		return (getScreenWidth() - (13.0f * getHeight())) / 2.0f;
+	}
 
 }
