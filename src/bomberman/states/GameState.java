@@ -273,6 +273,7 @@ public class GameState extends State{
 				bomb.update(dt);
 				if(now - bomb.getTime() >= 3000 && !bomb.hasExploded()){
 					bomb.explode();
+					bombImpact(bomb);
 				}
 				else if(now - bomb.getTime() >= 5000){
 					bombs.remove(bomb);
@@ -286,6 +287,72 @@ public class GameState extends State{
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row){
 				sprite.update(dt);
+			}
+		}
+	}
+	
+	public void bombImpact(Bomb bomb){
+		int x = Constants.getPositionX(bomb.getPosition().getX());
+		int y = Constants.getPositionY(bomb.getPosition().getY());
+		Sprite sprite;
+		for(int column = x-1; column>=0; column-- ){
+			sprite = spriteList.get(y).get(column);
+			if(sprite instanceof Wall){
+				break;
+			}
+			else if(sprite instanceof Crate){
+				float xPixel = sprite.getPosition().getX();
+				float yPixel = sprite.getPosition().getY();
+				spriteList.get(y).remove(sprite);
+				Empty empty = new Empty();
+				empty.setPosition(xPixel, yPixel);
+				spriteList.get(y).add(column,empty);
+				break;
+			}
+		}
+		for(int column = x+1; column<=12; column++ ){
+			sprite = spriteList.get(y).get(column);
+			if(sprite instanceof Wall){
+				break;
+			}
+			else if(sprite instanceof Crate){
+				float xPixel = sprite.getPosition().getX();
+				float yPixel = sprite.getPosition().getY();
+				spriteList.get(y).remove(sprite);
+				Empty empty = new Empty();
+				empty.setPosition(xPixel, yPixel);
+				spriteList.get(y).add(column,empty);
+				break;
+			}
+		}
+		for(int row = y-1; row>=0; row-- ){
+			sprite = spriteList.get(row).get(x);
+			if(sprite instanceof Wall){
+				break;
+			}
+			else if(sprite instanceof Crate){
+				float xPixel = sprite.getPosition().getX();
+				float yPixel = sprite.getPosition().getY();
+				spriteList.get(row).remove(sprite);
+				Empty empty = new Empty();
+				empty.setPosition(xPixel, yPixel);
+				spriteList.get(row).add(x,empty);
+				break;
+			}
+		}
+		for(int row = y+1; row<=12; row++ ){
+			sprite = spriteList.get(row).get(x);
+			if(sprite instanceof Wall){
+				break;
+			}
+			else if(sprite instanceof Crate){
+				float xPixel = sprite.getPosition().getX();
+				float yPixel = sprite.getPosition().getY();
+				spriteList.get(row).remove(sprite);
+				Empty empty = new Empty();
+				empty.setPosition(xPixel, yPixel);
+				spriteList.get(row).add(x,empty);
+				break;
 			}
 		}
 	}
