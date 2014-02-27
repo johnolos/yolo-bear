@@ -74,9 +74,6 @@ public class GameState extends State{
 			public boolean onTouchDown(MotionEvent event) {
 				if(up.getBounds().contains(event.getX(), event.getY())){
 					direction = Direction.UP;
-//					if(canPlayerMoveUp()) {
-//						player.setSpeed(0, -150*Constants.getReceivingYRatio());
-//					}
 					player.setSpeed(0, -150*Constants.getReceivingYRatio());
 				}
 				else if(down.getBounds().contains(event.getX(), event.getY())){
@@ -122,25 +119,18 @@ public class GameState extends State{
 	}
 	
 	/**
-	 * Works on JONSKIS TABLET
+	 * 
 	 * @return
 	 */
 	public boolean canPlayerMoveUp() {
 		if(player.canMoveY()) {
-//			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
-//					player.getImageHeight()/2) - 1).get(Constants.getPositionX(player.getPosition().getX() + 
-//							player.getImageHeight()/2));
-			System.out.println(Constants.getPositionY(player.getPosition().getY()));
 			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY()) - 1).get(Constants.getPositionX(player.getPosition().getX() + 
 							player.getImageHeight()/2));
-			// If above tile is Empty, we do not need to worry about player moving upwards.
 			if( sprite instanceof Empty) {
 				return true;
-			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
 			} else {
-				float pixelsY = (player.getPosition().getY() + 12.0f) - ((int)((player.getPosition().getY() + 12.0f) / Constants.getHeight()) * Constants.getHeight());
-//				System.out.println(pixelsY);
-				if(pixelsY > 4.0f) {
+				float pixelsY = (player.getPosition().getY()) - (sprite.getPosition().getY() + Constants.getHeight());
+				if(pixelsY > 8.0f * Constants.getReceivingYRatio()) {
 					return true;
 				}
 			}
@@ -149,7 +139,7 @@ public class GameState extends State{
 	}
 	
 	/**
-	 * Works on JONSKIS TABLET
+	 * 
 	 * @return
 	 */
 	public boolean canPlayerMoveDown() {
@@ -157,14 +147,11 @@ public class GameState extends State{
 			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
 					player.getImageHeight()/2) + 1).get(Constants.getPositionX(player.getPosition().getX() + 
 							player.getImageHeight()/2));
-			// If below tile is Empty, we do not need to worry about player moving downwards.
 			if( sprite instanceof Empty) {
 				return true;
-			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
 			} else {
-				float pixelsY = ((int)(player.getPosition().getY() / Constants.getHeight()) + 1) * Constants.getHeight() - player.getPosition().getY();
-//				System.out.println(pixelsY);
-				if(pixelsY > 4.0f) {
+				float pixelsY = sprite.getPosition().getY() - (player.getPosition().getY() + player.getImageHeight());
+				if(pixelsY > 8.0f * Constants.getReceivingYRatio()) {
 					return true;
 				}
 			}
@@ -174,21 +161,18 @@ public class GameState extends State{
 	}
 	
 	/**
-	 * Works on JONSKIS TABLET
+	 * 
 	 * @return
 	 */
 	public boolean canPlayerMoveLeft() {
 		if(player.canMoveX()) {
 			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
 					player.getImageHeight()/2)).get(Constants.getPositionX(player.getPosition().getX()) - 1);
-			// If above tile is Empty, we do not need to worry about player moving left.
 			if( sprite instanceof Empty) {
 				return true;
-			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
 			} else {
-				float pixelsX = player.getPosition().getX() - Constants.getPixelsOnSides();
-				pixelsX = pixelsX - ((int)(pixelsX / Constants.getHeight()) * Constants.getHeight());
-				if(pixelsX > 4.0f) {
+				float pixelsX = player.getPosition().getX() - (sprite.getPosition().getX() + Constants.getHeight());
+				if(pixelsX > 8.0f * Constants.getReceivingYRatio()) {
 					return true;
 				}
 			}
@@ -198,24 +182,18 @@ public class GameState extends State{
 	}
 	
 	/**
-	 * Works on JONSKIS TABLET
+	 * 
 	 * @return
 	 */
 	public boolean canPlayerMoveRight() {
 		if(player.canMoveX()) {
 			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
 					player.getImageHeight()/2)).get(Constants.getPositionX(player.getPosition().getX()) + 1);
-			// If above tile is Empty, we do not need to worry about player moving right.
 			if( sprite instanceof Empty) {
 				return true;
-			// If player has a the above tile blocked. Movement to but not over tile should be allowed.
 			} else {
-				System.out.println(player.getPosition().getX());
-				float pixelsX = (player.getPosition().getX()) - Constants.getPixelsOnSides();
-				System.out.println(pixelsX);
-				pixelsX = (((int)(pixelsX / Constants.getHeight()) + 1) * Constants.getHeight()) - pixelsX;
-				System.out.println(pixelsX);
-				if(pixelsX > 4.0f) {
+				float pixelsX = sprite.getPosition().getX() - (player.getPosition().getX() + player.getImageHeight());
+				if(pixelsX > 8.0f * Constants.getReceivingYRatio()) {
 					return true;
 				}
 			}
@@ -263,7 +241,7 @@ public class GameState extends State{
 	//Called by Game every tic. All sprites needs to be updated here
 	public void update(float dt){
 		
-		//System.out.println("YES?: " + this.canPlayerMoveRight());
+		System.out.println(Constants.getPositionX(player.getPosition().getX()));
 		
 		if(!canPlayerMoveUp() && direction == Direction.UP) {
 			player.setSpeed(player.getSpeed().getX(), 0);

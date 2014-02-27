@@ -8,7 +8,6 @@ public class Bomb extends Sprite{
 	
 	private int blastRadius; //the "length" of the explosion
 	private Image bomb;
-	private int x,y;
 	private double time = System.currentTimeMillis();
 	private boolean exploded = false;
 	
