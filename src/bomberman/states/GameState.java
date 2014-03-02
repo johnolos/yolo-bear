@@ -22,7 +22,7 @@ import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.input.TouchListener;
 
-public class GameState extends State{
+public class GameState extends State implements TouchListener{
 	
 	private Player player;
 	private Board  board;
@@ -52,53 +52,44 @@ public class GameState extends State{
 		this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.4f));
 		bombs = new ArrayList<Bomb>();
 		addSprites();
-		addOpponent();
+		addOpponent();	
+	}
+	
+	@Override
+	public boolean onTouchUp(MotionEvent event) {
+		player.setSpeed(0,0);
+		return false;
+	}
+	
+	@Override
+	public boolean onTouchMove(MotionEvent event) {
 		
-		
-		//Listens on direction buttons. Movement of the player is defined here.
-		touch = new TouchListener() {
-			
-			@Override
-			public boolean onTouchUp(MotionEvent event) {
-				player.setSpeed(0,0);
-				return false;
-			}
-			
-			@Override
-			public boolean onTouchMove(MotionEvent event) {
-				
-				return false;
-			}
-			
-			@Override
-			public boolean onTouchDown(MotionEvent event) {
-				if(up.getBounds().contains(event.getX(), event.getY())){
-					direction = Direction.UP;
-					player.setSpeed(0, -150*Constants.getReceivingYRatio());
-				}
-				else if(down.getBounds().contains(event.getX(), event.getY())){
-					direction = Direction.DOWN;
-					player.setSpeed(0, 150*Constants.getReceivingYRatio());
-				}
-				else if(left.getBounds().contains(event.getX(), event.getY())){
-					direction = Direction.LEFT;
-					player.setSpeed(-150*Constants.getReceivingXRatio(), 0);
-				}
-				else if(right.getBounds().contains(event.getX(), event.getY())){
-					direction = Direction.RIGHT;
-					player.setSpeed(150*Constants.getReceivingXRatio(), 0);
-				}
-				//The bombs are now placed in the center of the tile the player is located. 
-				else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
-					bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude()));
-				}
-				
-				
-				
-				return false;
-			}
-		};
-		addTouchListener(touch);
+		return false;
+	}
+	
+	@Override
+	public boolean onTouchDown(MotionEvent event) {
+		if(up.getBounds().contains(event.getX(), event.getY())){
+			direction = Direction.UP;
+			player.setSpeed(0, -150*Constants.getReceivingYRatio());
+		}
+		else if(down.getBounds().contains(event.getX(), event.getY())){
+			direction = Direction.DOWN;
+			player.setSpeed(0, 150*Constants.getReceivingYRatio());
+		}
+		else if(left.getBounds().contains(event.getX(), event.getY())){
+			direction = Direction.LEFT;
+			player.setSpeed(-150*Constants.getReceivingXRatio(), 0);
+		}
+		else if(right.getBounds().contains(event.getX(), event.getY())){
+			direction = Direction.RIGHT;
+			player.setSpeed(150*Constants.getReceivingXRatio(), 0);
+		}
+		//The bombs are now placed in the center of the tile the player is located. 
+		else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
+			bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this));
+		}
+		return false;
 	}
 	
 	public int getTilePositionX(){
@@ -267,17 +258,9 @@ public class GameState extends State{
 		right.update(dt);
 		bombIcon.update(dt);
 		player.update(dt);
-		double now = System.currentTimeMillis();
 		if(bombs.size() != 0){
 			for (Bomb bomb : bombs) {
 				bomb.update(dt);
-				if(now - bomb.getTime() >= 3000 && !bomb.hasExploded()){
-					bomb.explode();
-					bombImpact(bomb);
-				}
-				else if(now - bomb.getTime() >= 5000){
-					bombs.remove(bomb);
-				}
 			}
 		}
 		for (Opponent opp : this.opponents) {
@@ -355,6 +338,10 @@ public class GameState extends State{
 				break;
 			}
 		}
+	}
+	
+	public ArrayList<Bomb> getBombs(){
+		return bombs;
 	}
 	
 	//Called by Game every tic. Sprites you want to see on the canvas should be drawn here. Mind the order the Sprites are drawn.
