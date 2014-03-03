@@ -1,6 +1,8 @@
 package bomberman.states;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -39,7 +41,7 @@ public class GameState extends State implements TouchListener{
 	
 	public GameState (Client client){
 		this.client = client;
-		this.player = new Player("Player1");
+		this.player = new Player("Player1",ColorObject.RED);
 		this.board = new Board();
 		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
@@ -258,9 +260,11 @@ public class GameState extends State implements TouchListener{
 		right.update(dt);
 		bombIcon.update(dt);
 		player.update(dt);
-		if(bombs.size() != 0){
-			for (Bomb bomb : bombs) {
-				bomb.update(dt);
+		for(Iterator<Bomb> it = bombs.iterator(); it.hasNext();){
+			Bomb bomb = it.next();
+			bomb.update(dt);
+			if(bomb.finished()){
+				it.remove();
 			}
 		}
 		for (Opponent opp : this.opponents) {
@@ -358,10 +362,9 @@ public class GameState extends State implements TouchListener{
 		right.draw(canvas);
 		bombIcon.draw(canvas);
 		player.draw(canvas);
-		if(bombs.size() != 0){
-			for (Bomb bomb : bombs) {
-				bomb.draw(canvas);
-			}
+		for(Iterator<Bomb> it = bombs.iterator(); it.hasNext();){
+			Bomb bomb = it.next();
+			bomb.draw(canvas);
 		}
 		for (Opponent opp : this.opponents) {
 			opp.draw(canvas);

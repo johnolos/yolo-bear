@@ -13,7 +13,7 @@ public class Player extends Sprite {
 	private double speedOfPlayer = 1.0;
 	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
-	private Image playerRed;
+	private Image player;
 	private int prevPosX;
 	private int prevPosY;
 	private int gridPosX;
@@ -21,24 +21,55 @@ public class Player extends Sprite {
 	private boolean betweenCol;
 	private boolean betweenRow;
 	
-	public Player(String name) {
+	public Player(String name,ColorObject color) {
 		this.nameOfPlayer = name;
+		if (Constants.screenHeight >750) {
+			switch (color) {
+			case RED:
+				this.player = new Image(R.drawable.playerredlarge);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				break;
+			case YELLOW:
+				this.player = new Image(R.drawable.playerredlarge);
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				break;
+			case BLUE:
+				this.player = new Image(R.drawable.playerredlarge);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				break;
+			case GREEN:
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				this.player = new Image(R.drawable.playerredlarge);
+				break;
 
-		if(Constants.screenHeight>750){
-			this.playerRed = new Image(R.drawable.playerredlarge);
-			this.setPosition(1833.5f*Constants.getReceivingXRatio(), 153.5f*Constants.getReceivingYRatio());
-			this.prevPosX = 1833;
-			this.prevPosY = 153;
-			this.gridPosX = 11;
-			this.gridPosY = 1;
-			this.setShape(93,93);
+			default:
+				break;
+			}
 		}
 		else{
-			this.playerRed = new Image(R.drawable.playerred);
-			this.setPosition(100, 100);
-			this.setShape(40,40);
+			switch (color) {
+			case RED:
+				this.player = new Image(R.drawable.playerred);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				break;
+			case YELLOW:
+				this.player = new Image(R.drawable.playerred);
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				break;
+			case BLUE:
+				this.player = new Image(R.drawable.playerred);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				break;
+			case GREEN:
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				this.player = new Image(R.drawable.playerred);
+				break;
+
+			default:
+				break;
+			}
 		}
-		this.setView(playerRed);
+		this.setView(player);
 	}
 	
 	public void resetRound() {
@@ -51,12 +82,6 @@ public class Player extends Sprite {
 	
 	public void update(float dt){
 		super.update(dt);
-//		System.out.println("X: " + Constants.getPositionX(this.getPosition().getX() + this.playerRed.getHeight()/2)
-//				+ " Y: " + Constants.getPositionY(this.getPosition().getY() + this.playerRed.getHeight()/2));
-//		System.out.println("TX: " + Constants.getPositionX(this.getPosition().getX())
-//				+ " TY: " + Constants.getPositionY(this.getPosition().getY()));
-//		System.out.println("BX: " + Constants.getPositionX(this.getPosition().getX() + this.playerRed.getHeight())
-//				+ " BY: " + Constants.getPositionY(this.getPosition().getY() + this.playerRed.getHeight()));
 	}
 	
 	public void draw(Canvas canvas){
@@ -68,13 +93,13 @@ public class Player extends Sprite {
 	}
 	
 	public boolean canMoveY() {
-		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.playerRed.getHeight()))
+		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.player.getHeight()))
 			return true;
 		return false;
 	}
 	
 	public boolean canMoveX() {
-		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.playerRed.getHeight()))
+		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.player.getHeight()))
 			return true;
 		return false;
 	}
@@ -86,7 +111,7 @@ public class Player extends Sprite {
 	}
 	
 	public float getImageHeight(){
-		return this.playerRed.getHeight();
+		return this.player.getHeight();
 	}
 	
 	/**
@@ -114,44 +139,6 @@ public class Player extends Sprite {
 		}
 		return;
 	}
-	// TODO: Is this used?
-	public void checkPosition(){
-		if(Math.abs(prevPosX - Math.round(this.getPosition().getX()))>13.5 && Math.abs(prevPosX - Math.round(this.getPosition().getX()))<116.5){
-			this.betweenCol = true;
-		}
-		if(Math.abs(prevPosY - Math.round(this.getPosition().getY()))>13.5 && Math.abs(prevPosY - Math.round(this.getPosition().getY()))<116.5){
-			this.betweenRow = true;
-		}
-		if(prevPosX-Math.round(this.getPosition().getX()) >116.5){
-			this.gridPosX -= 1;
-			System.out.println(this.gridPosX);
-			this.setPosition(prevPosX-120, prevPosY);
-			this.prevPosX = prevPosX-120;
-			this.betweenCol = false;
-		}
-		else if(prevPosX-Math.round(this.getPosition().getX())<-116.5){
-			this.gridPosX += 1;
-			System.out.println(this.gridPosX);
-			this.setPosition(prevPosX+120, prevPosY);
-			this.prevPosX = prevPosX+120;
-			this.betweenCol = false;
-		}
-		if(prevPosY-Math.round(this.getPosition().getY()) >116.5){
-			this.gridPosY -= 1;
-			System.out.println(this.gridPosY);
-			this.setPosition(prevPosX, prevPosY-120);
-			this.prevPosY = prevPosY-120;
-			this.betweenRow = false;
-		}
-		else if(prevPosY-Math.round(this.getPosition().getY())<-116.5){
-			this.gridPosY += 1;
-			System.out.println(this.gridPosY);
-			this.setPosition(prevPosX, prevPosY+120);
-			this.prevPosY = prevPosY+120;
-			this.betweenRow = false;
-		}
-	}
-	
 	public int getMagnitude(){
 		return this.magnitudeOfBombs;
 	}

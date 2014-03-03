@@ -13,6 +13,7 @@ public class Bomb extends Sprite{
 	private double explodedTime;
 	private boolean exploded = false;
 	private boolean phase2 = false;
+	private boolean finished = false;
 	private GameState gs;
 	private Image[] explodeImages;
 	
@@ -57,7 +58,8 @@ public class Bomb extends Sprite{
 			explodeAnimation();
 		}
 		else if(System.currentTimeMillis() - time >= 5000)
-			gs.getBombs().remove(this);
+			this.finished = true;
+//			gs.getBombs().remove(this);
 	}
 	
 	public void explodeAnimation() {
@@ -87,5 +89,9 @@ public class Bomb extends Sprite{
 	
 	public double getTime(){
 		return this.time;
+	}
+	
+	public boolean finished(){
+		return this.finished;
 	}
 }
