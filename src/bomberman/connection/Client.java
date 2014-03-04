@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import bomberman.game.ColorObject;
 import bomberman.game.PeerObject;
 import bomberman.states.GameState;
 
@@ -89,6 +90,10 @@ public class Client extends Thread {
 		}
 		else if(obj instanceof PeerObject){
 			this.game.updateGame((PeerObject) obj);
+		}
+		else if(obj instanceof ColorObject){
+			System.out.println("Received color!");
+			this.game.setPlayerColor((ColorObject) obj);
 		}
 	}
 	

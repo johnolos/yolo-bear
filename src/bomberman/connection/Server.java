@@ -11,6 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import bomberman.game.ColorObject;
+
 public class Server {
 	
 	private ArrayList<ClientConnection> clients;
@@ -52,6 +54,25 @@ public class Server {
 		sendAll(peer);
 		// Adding connetion to list of connections
 		this.clients.add(client);
+		int clientNumber = this.clients.size()-1;
+		ColorObject color = null;
+		switch(clientNumber){
+		case 0:
+			color = ColorObject.RED;
+			break;
+		case 1:
+			color = ColorObject.BLUE;
+			break;
+		case 2:
+			color = ColorObject.GREEN;
+			break;
+		case 3:
+			color = ColorObject.YELLOW;
+			break;
+		default:
+			break;
+		}
+		send(color,this.clients.get(clientNumber));
 	}
 	
 	public void sendAll(Object obj) {

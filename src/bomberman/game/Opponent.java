@@ -5,9 +5,13 @@ import sheep.game.Sprite;
 import sheep.graphics.Image;
 
 public class Opponent extends Sprite {
+	
 	private Image opp;
+	private ColorObject myColor;
 
 	public Opponent(ColorObject color) {
+		
+		this.myColor = color;
 
 		if (Constants.screenHeight >750) {
 			switch (color) {
@@ -64,5 +68,9 @@ public class Opponent extends Sprite {
 
 	public void update(float dt) {
 		super.update(dt);
+	}
+	
+	public ColorObject getColor(){
+		return this.myColor;
 	}
 }

@@ -94,4 +94,8 @@ public class Bomb extends Sprite{
 	public boolean finished(){
 		return this.finished;
 	}
+	
+	public int getBlastRadius() {
+		return this.blastRadius;
+	}
 }

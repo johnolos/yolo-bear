@@ -41,7 +41,7 @@ public class GameState extends State implements TouchListener{
 	
 	public GameState (Client client){
 		this.client = client;
-		this.player = new Player("Player1",ColorObject.RED);
+		this.player = new Player("Player1");
 		this.board = new Board();
 		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
@@ -253,6 +253,7 @@ public class GameState extends State implements TouchListener{
 		
 		//Sending player location to all other players.
 		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
+//		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,Constants.getUniversalXPosition(this.player.getX()),Constants.getUniversalYPosition(this.player.getY())));
 		
 		up.update(dt);
 		down.update(dt);
@@ -279,10 +280,14 @@ public class GameState extends State implements TouchListener{
 	}
 	
 	public void bombImpact(Bomb bomb){
+		int blastRadius = bomb.getBlastRadius();
 		int x = Constants.getPositionX(bomb.getPosition().getX());
 		int y = Constants.getPositionY(bomb.getPosition().getY());
+		int i = 0;
 		Sprite sprite;
 		for(int column = x-1; column>=0; column-- ){
+			if(i == blastRadius)
+				break;
 			sprite = spriteList.get(y).get(column);
 			if(sprite instanceof Wall){
 				break;
@@ -296,8 +301,12 @@ public class GameState extends State implements TouchListener{
 				spriteList.get(y).add(column,empty);
 				break;
 			}
+			i++;
 		}
+		i = 0;
 		for(int column = x+1; column<=12; column++ ){
+			if(i == blastRadius)
+				break;
 			sprite = spriteList.get(y).get(column);
 			if(sprite instanceof Wall){
 				break;
@@ -311,8 +320,12 @@ public class GameState extends State implements TouchListener{
 				spriteList.get(y).add(column,empty);
 				break;
 			}
+			i++;
 		}
+		i = 0;
 		for(int row = y-1; row>=0; row-- ){
+			if(i == blastRadius)
+				break;
 			sprite = spriteList.get(row).get(x);
 			if(sprite instanceof Wall){
 				break;
@@ -326,8 +339,12 @@ public class GameState extends State implements TouchListener{
 				spriteList.get(row).add(x,empty);
 				break;
 			}
+			i++;
 		}
+		i = 0;
 		for(int row = y+1; row<=12; row++ ){
+			if(i == blastRadius)
+				break;
 			sprite = spriteList.get(row).get(x);
 			if(sprite instanceof Wall){
 				break;
@@ -341,6 +358,7 @@ public class GameState extends State implements TouchListener{
 				spriteList.get(row).add(x,empty);
 				break;
 			}
+			i++;
 		}
 	}
 	
@@ -376,8 +394,17 @@ public class GameState extends State implements TouchListener{
 	public void updateGame(PeerObject obj) {
 		switch (obj.getgObj()) {
 		case PLAYER:
-			opponents.get(0).setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
-			System.out.println(obj.getxPosition()*Constants.getReceivingXRatio() + " x og y er " + obj.getyPosition()*Constants.getReceivingYRatio());
+//			New code for moving opponents, now we should move the correct player. Player ID is color.
+			ColorObject color = obj.getColor();
+			for(Opponent opponent : opponents){
+				if(opponent.getColor() == color){
+					opponent.setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
+//					opponent.setPosition(Constants.getLocalXPosition(obj.getxPosition()),Constants.getLocalYPosition(obj.getyPosition()));
+				}
+			}
+//			This is the original code for moving opponent:
+//			opponents.get(0).setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
+//			System.out.println(obj.getxPosition()*Constants.getReceivingXRatio() + " x og y er " + obj.getyPosition()*Constants.getReceivingYRatio());
 			break;
 		case BOMB:
 			break;
@@ -386,5 +413,9 @@ public class GameState extends State implements TouchListener{
 			break;
 		}
 		
+	}
+
+	public void setPlayerColor(ColorObject obj) {
+		this.player.setColor(obj);
 	}
 }

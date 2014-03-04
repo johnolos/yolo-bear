@@ -7,9 +7,9 @@ public class PeerObject  implements Serializable{
 	
 	private GameObject gObj;
 	private ColorObject color;
-	private double xPosition,yPosition;
+	private float xPosition,yPosition;
 	
-	public PeerObject(ColorObject color, GameObject gObject, double x, double y) {
+	public PeerObject(ColorObject color, GameObject gObject, float x, float y) {
 		this.color = color;
 		this.gObj = gObject;
 		this.xPosition = x;
@@ -24,11 +24,11 @@ public class PeerObject  implements Serializable{
 		return color;
 	}
 
-	public double getxPosition() {
+	public float getxPosition() {
 		return xPosition;
 	}
 
-	public double getyPosition() {
+	public float getyPosition() {
 		return yPosition;
 	}
 

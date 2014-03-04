@@ -6,8 +6,8 @@ public class Config {
 	public static final int ANDROIDPORT = 4093;
 	
 	/* There should be changed for your devices */
-	public static final String SERVERIP = "192.168.0.102";
+	public static final String SERVERIP = "78.91.38.185";
 
-	public static final String ANDROIDIP = "192.168.0.103";
+	public static final String ANDROIDIP = "78.91.0.96";
 
 }

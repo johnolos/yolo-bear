@@ -21,8 +21,13 @@ public class Player extends Sprite {
 	private boolean betweenCol;
 	private boolean betweenRow;
 	
-	public Player(String name,ColorObject color) {
+	public Player(String name) {
 		this.nameOfPlayer = name;
+		this.player = new Image(R.drawable.playerredlarge);
+		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
+	}
+	
+	public void setColor(ColorObject color) {
 		if (Constants.screenHeight >750) {
 			switch (color) {
 			case RED:
@@ -71,7 +76,7 @@ public class Player extends Sprite {
 		}
 		this.setView(player);
 	}
-	
+
 	public void resetRound() {
 		this.numberOfBombs = 1;
 		this.kickBombs = false;

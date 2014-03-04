@@ -50,6 +50,27 @@ public class Constants {
 		return screenHeight;
 	}
 	
+	
+	/** TESTING PURPOSE **/
+	
+	public static float getUniversalXPosition(float x) {
+		return x / screenWidth;
+	}
+	
+	public static float getUniversalYPosition(float y) {
+		return y / screenHeight;
+	}
+	
+	public static float getLocalXPosition(float x) {
+		return x * screenWidth;
+	}
+	
+	public static float getLocalYPosition(float y) {
+		return y * screenHeight;
+	}
+	
+	/*******/
+	
 	public static int getPositionX(float xPixel) {
 		float re = xPixel - ((getScreenWidth() / 2.0f) - 6.5f * getHeight());
 		re = re / getHeight();
