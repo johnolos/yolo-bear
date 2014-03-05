@@ -108,7 +108,6 @@ public class Constants {
 		Resources resources = context.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		float dp = (px / metrics.density) +0.5f;
-		System.out.println(dp);
 		return dp;
 	}
 

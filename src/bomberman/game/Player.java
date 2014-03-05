@@ -16,7 +16,7 @@ public class Player extends Sprite {
 	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
 	private Image player;
-	private ArrayList<Image> playerImages; // UP, DOWN, RIGHT, LEFT
+	private ArrayList<Image> playerImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
 	private int prevPosX;
 	private int prevPosY;
 	private int gridPosX;
@@ -24,16 +24,18 @@ public class Player extends Sprite {
 	private boolean betweenCol;
 	private boolean betweenRow;
 	private ColorObject color;
-	private Direction direction = Direction.DOWN;
+	private Direction direction = Direction.UP;
 	
 	public Player(String name) {
 		this.nameOfPlayer = name;
 		this.player = new Image(R.drawable.playerredlarge);
 		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
+		this.setColor(ColorObject.BROWN);
 	}
 	
 	public void setColor(ColorObject color) {
 		this.color = color;
+		this.playerImages.clear();
 		if (Constants.screenHeight >750) {
 			switch (color) {
 			case BROWN:

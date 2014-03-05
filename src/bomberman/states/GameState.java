@@ -254,7 +254,7 @@ public class GameState extends State implements TouchListener{
 		
 //		Think this is the way to do this!?
 //		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER, Constants.pxToDp(this.player.getX()),Constants.pxToDp(this.player.getY())));
-		Constants.pxToDp(this.player.getX());
+//		Constants.pxToDp(this.player.getX());
 		
 		up.update(dt);
 		down.update(dt);
@@ -414,6 +414,7 @@ public class GameState extends State implements TouchListener{
 //			System.out.println(obj.getxPosition()*Constants.getReceivingXRatio() + " x og y er " + obj.getyPosition()*Constants.getReceivingYRatio());
 			break;
 		case BOMB:
+			System.out.println("Bomb received");
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == obj.getColor()){
 					bombs.add(new Bomb((int)obj.getxPosition(),(int)obj.getyPosition(),opponent.getMagnitude(),this));
