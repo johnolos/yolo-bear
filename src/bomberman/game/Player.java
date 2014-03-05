@@ -1,4 +1,6 @@
 package bomberman.game;
+import java.util.ArrayList;
+
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
@@ -14,6 +16,7 @@ public class Player extends Sprite {
 	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
 	private Image player;
+	private ArrayList<Image> playerImages; // UP, DOWN, RIGHT, LEFT
 	private int prevPosX;
 	private int prevPosY;
 	private int gridPosX;
@@ -21,6 +24,7 @@ public class Player extends Sprite {
 	private boolean betweenCol;
 	private boolean betweenRow;
 	private ColorObject color;
+	private Direction direction = Direction.DOWN;
 	
 	public Player(String name) {
 		this.nameOfPlayer = name;
@@ -33,20 +37,32 @@ public class Player extends Sprite {
 		if (Constants.screenHeight >750) {
 			switch (color) {
 			case BROWN:
-				this.player = new Image(R.drawable.brownbear);
+				this.playerImages.add(new Image(R.drawable.brownbearup));
+				this.playerImages.add(new Image(R.drawable.brownbeardown));
+				this.playerImages.add(new Image(R.drawable.brownbearright));
+				this.playerImages.add(new Image(R.drawable.brownbearleft));
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
 			case BLACK:
-				this.player = new Image(R.drawable.blackbear);
+				this.playerImages.add(new Image(R.drawable.blackbearup));
+				this.playerImages.add(new Image(R.drawable.blackbeardown));
+				this.playerImages.add(new Image(R.drawable.blackbearright));
+				this.playerImages.add(new Image(R.drawable.blackbearleft));
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
 			case WHITE:
-				this.player = new Image(R.drawable.whitebear);
+				this.playerImages.add(new Image(R.drawable.whitebearup));
+				this.playerImages.add(new Image(R.drawable.whitebeardown));
+				this.playerImages.add(new Image(R.drawable.whitebearright));
+				this.playerImages.add(new Image(R.drawable.whitebearleft));
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
 				break;
 			case SWAG:
+				this.playerImages.add(new Image(R.drawable.swaggybearup));
+				this.playerImages.add(new Image(R.drawable.swaggybeardown));
+				this.playerImages.add(new Image(R.drawable.swaggybearright));
+				this.playerImages.add(new Image(R.drawable.swaggybearleft));
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
-				this.player = new Image(R.drawable.yolobear);
 				break;
 
 			default:
@@ -56,27 +72,39 @@ public class Player extends Sprite {
 		else{
 			switch (color) {
 			case BROWN:
-				this.player = new Image(R.drawable.smallbrownbear);
+				this.playerImages.add(new Image(R.drawable.smallbrownbearup));
+				this.playerImages.add(new Image(R.drawable.smallbrownbeardown));
+				this.playerImages.add(new Image(R.drawable.smallbrownbearright));
+				this.playerImages.add(new Image(R.drawable.smallbrownbearleft));
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
 			case BLACK:
-				this.player = new Image(R.drawable.smallblackbear);
+				this.playerImages.add(new Image(R.drawable.smallblackbearup));
+				this.playerImages.add(new Image(R.drawable.smallblackbeardown));
+				this.playerImages.add(new Image(R.drawable.smallblackbearright));
+				this.playerImages.add(new Image(R.drawable.smallblackbearleft));
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
 			case WHITE:
-				this.player = new Image(R.drawable.smallwhitebear);
+				this.playerImages.add(new Image(R.drawable.smallwhitebearup));
+				this.playerImages.add(new Image(R.drawable.smallwhitebeardown));
+				this.playerImages.add(new Image(R.drawable.smallwhitebearright));
+				this.playerImages.add(new Image(R.drawable.smallwhitebearleft));
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
 				break;
 			case SWAG:
+				this.playerImages.add(new Image(R.drawable.smallswaggybearup));
+				this.playerImages.add(new Image(R.drawable.smallswaggybeardown));
+				this.playerImages.add(new Image(R.drawable.smallswaggybearright));
+				this.playerImages.add(new Image(R.drawable.smallswaggybearleft));
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
-				this.player = new Image(R.drawable.smallswaggybear);
 				break;
 
 			default:
 				break;
 			}
 		}
-		this.setView(player);
+		this.setView(playerImages.get(0));
 	}
 
 	public void resetRound() {
@@ -115,6 +143,28 @@ public class Player extends Sprite {
 		
 		return false;
 		
+	}
+	
+	public Direction getDirection() {
+		return this.direction;
+	}
+	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+		switch(direction) {
+		case UP:
+			this.setView(this.playerImages.get(0));
+			break;
+		case DOWN:
+			this.setView(this.playerImages.get(1));
+			break;
+		case RIGHT:
+			this.setView(this.playerImages.get(2));
+			break;
+		case LEFT:
+			this.setView(this.playerImages.get(3));
+			break;
+		}
 	}
 	
 	public float getImageHeight(){

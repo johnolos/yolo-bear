@@ -37,8 +37,6 @@ public class GameState extends State implements TouchListener{
 	private ArrayList<Opponent> opponents;
 	private Client client;
 	
-	private Direction direction = Direction.DOWN;
-	
 	public GameState (Client client){
 		this.client = client;
 		this.player = new Player("Player1");
@@ -72,19 +70,19 @@ public class GameState extends State implements TouchListener{
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(up.getBounds().contains(event.getX(), event.getY())){
-			direction = Direction.UP;
+			this.player.setDirection(Direction.UP);
 			player.setSpeed(0, -150*Constants.getReceivingYRatio());
 		}
 		else if(down.getBounds().contains(event.getX(), event.getY())){
-			direction = Direction.DOWN;
+			this.player.setDirection(Direction.DOWN);
 			player.setSpeed(0, 150*Constants.getReceivingYRatio());
 		}
 		else if(left.getBounds().contains(event.getX(), event.getY())){
-			direction = Direction.LEFT;
+			this.player.setDirection(Direction.LEFT);
 			player.setSpeed(-150*Constants.getReceivingXRatio(), 0);
 		}
 		else if(right.getBounds().contains(event.getX(), event.getY())){
-			direction = Direction.RIGHT;
+			this.player.setDirection(Direction.RIGHT);
 			player.setSpeed(150*Constants.getReceivingXRatio(), 0);
 		}
 		//The bombs are now placed in the center of the tile the player is located. 
@@ -233,19 +231,19 @@ public class GameState extends State implements TouchListener{
 	
 	//Called by Game every tic. All sprites needs to be updated here
 	public void update(float dt){
-		if(!canPlayerMoveUp() && direction == Direction.UP) {
+		if(!canPlayerMoveUp() && this.player.getDirection() == Direction.UP) {
 			player.setSpeed(player.getSpeed().getX(), 0);
 		}
 		
-		if(!canPlayerMoveDown() && direction == Direction.DOWN) {
+		if(!canPlayerMoveDown() && this.player.getDirection() == Direction.DOWN) {
 			player.setSpeed(player.getSpeed().getX(), 0);
 		}
 		
-		if(!canPlayerMoveLeft() && direction == Direction.LEFT) {
+		if(!canPlayerMoveLeft() && this.player.getDirection() == Direction.LEFT) {
 			player.setSpeed(0, player.getSpeed().getY());
 		}
 		
-		if(!canPlayerMoveRight() && direction == Direction.RIGHT) {
+		if(!canPlayerMoveRight() && this.player.getDirection() == Direction.RIGHT) {
 			player.setSpeed(0, player.getSpeed().getY());
 		}
 		
