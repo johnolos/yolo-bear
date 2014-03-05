@@ -11,6 +11,7 @@ public class Opponent extends Sprite {
 	private ArrayList<Image> playerImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
 	private ColorObject myColor;
 	private Direction direction = Direction.UP;
+	private int magnitude=2;
 
 	public Opponent(ColorObject color) {
 		
@@ -109,6 +110,14 @@ public class Opponent extends Sprite {
 			this.setView(this.playerImages.get(3));
 			break;
 		}
+	}
+	
+	public void updateMagnitude(){
+		this.magnitude ++;
+	}
+	
+	public int getMagnitude(){
+		return this.magnitude;
 	}
 
 	public void draw(Canvas canvas) {

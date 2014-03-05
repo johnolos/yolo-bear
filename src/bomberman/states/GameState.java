@@ -88,6 +88,7 @@ public class GameState extends State implements TouchListener{
 		//The bombs are now placed in the center of the tile the player is located. 
 		else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
 			bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this));
+			client.sendAll(new PeerObject(this.player.getColor(), GameObject.BOMB, getTilePositionX(), getTilePositionY()));
 		}
 		return false;
 	}
@@ -413,6 +414,11 @@ public class GameState extends State implements TouchListener{
 //			System.out.println(obj.getxPosition()*Constants.getReceivingXRatio() + " x og y er " + obj.getyPosition()*Constants.getReceivingYRatio());
 			break;
 		case BOMB:
+			for(Opponent opponent : opponents){
+				if(opponent.getColor() == obj.getColor()){
+					bombs.add(new Bomb((int)obj.getxPosition(),(int)obj.getyPosition(),opponent.getMagnitude(),this));
+				}
+			}
 			break;
 
 		default:
