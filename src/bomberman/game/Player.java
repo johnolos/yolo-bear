@@ -20,6 +20,7 @@ public class Player extends Sprite {
 	private int gridPosY;
 	private boolean betweenCol;
 	private boolean betweenRow;
+	private ColorObject color;
 	
 	public Player(String name) {
 		this.nameOfPlayer = name;
@@ -28,6 +29,7 @@ public class Player extends Sprite {
 	}
 	
 	public void setColor(ColorObject color) {
+		this.color = color;
 		if (Constants.screenHeight >750) {
 			switch (color) {
 			case RED:
@@ -146,5 +148,9 @@ public class Player extends Sprite {
 	}
 	public int getMagnitude(){
 		return this.magnitudeOfBombs;
+	}
+	
+	public ColorObject getColor(){
+		return this.color;
 	}
 }

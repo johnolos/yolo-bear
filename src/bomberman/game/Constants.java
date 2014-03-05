@@ -1,5 +1,8 @@
 package bomberman.game;
 
+import android.content.Context;
+import sheep.game.Game;
+
 public class Constants {
 	
 	public static float screenHeight = 0.0f;
@@ -85,6 +88,26 @@ public class Constants {
 	
 	public static float getPixelsOnSides() {
 		return (getScreenWidth() - (13.0f * getHeight())) / 2.0f;
+	}
+	
+	
+//	This might be the way to do it!?
+	public static float dpToPx(float dp){
+		Context context = Game.getInstance().getContext();
+		if(context == null){
+			return -1;
+		}
+		System.out.println(dp * context.getResources().getDisplayMetrics().density);
+		return dp * context.getResources().getDisplayMetrics().density;
+	}
+	
+	public static float pxToDp(float px){
+		Context context = Game.getInstance().getContext();
+		if(context == null){
+			return -1;
+		}
+		System.out.println(px / context.getResources().getDisplayMetrics().density);
+		return px / context.getResources().getDisplayMetrics().density;
 	}
 
 }

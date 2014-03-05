@@ -42,6 +42,7 @@ public class GameState extends State implements TouchListener{
 	public GameState (Client client){
 		this.client = client;
 		this.player = new Player("Player1");
+		this.player.setColor(ColorObject.RED);
 		this.board = new Board();
 		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
@@ -232,9 +233,6 @@ public class GameState extends State implements TouchListener{
 	
 	//Called by Game every tic. All sprites needs to be updated here
 	public void update(float dt){
-		
-		System.out.println(Constants.getPositionX(player.getPosition().getX()));
-		
 		if(!canPlayerMoveUp() && direction == Direction.UP) {
 			player.setSpeed(player.getSpeed().getX(), 0);
 		}
@@ -252,8 +250,11 @@ public class GameState extends State implements TouchListener{
 		}
 		
 		//Sending player location to all other players.
-		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
+//		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
 //		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,Constants.getUniversalXPosition(this.player.getX()),Constants.getUniversalYPosition(this.player.getY())));
+		
+//		Think this is the way to do this!?
+		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER, Constants.pxToDp(this.player.getX()),Constants.pxToDp(this.player.getY())));
 		
 		up.update(dt);
 		down.update(dt);
@@ -398,8 +399,14 @@ public class GameState extends State implements TouchListener{
 			ColorObject color = obj.getColor();
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == color){
-					opponent.setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
+//					Original:
+//					opponent.setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
+					
+//					Testing with John-Olav:
 //					opponent.setPosition(Constants.getLocalXPosition(obj.getxPosition()),Constants.getLocalYPosition(obj.getyPosition()));
+					
+//					Epic solution by Brage:
+					opponent.setPosition(Constants.dpToPx(obj.getxPosition()),Constants.dpToPx(obj.getyPosition()));
 				}
 			}
 //			This is the original code for moving opponent:
