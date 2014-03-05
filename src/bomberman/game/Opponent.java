@@ -40,18 +40,18 @@ public class Opponent extends Sprite {
 			switch (color) {
 			case RED:
 				this.opp = new Image(R.drawable.playerred);
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight(),(float) Constants.screenHeight/2 -Constants.getHeight());
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
 			case YELLOW:
 				this.opp = new Image(R.drawable.playerred);
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight(),(float) Constants.screenHeight/2 -Constants.getHeight());
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
 			case BLUE:
 				this.opp = new Image(R.drawable.playerred);
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight(),(float) Constants.screenHeight/2 +Constants.getHeight());
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
 				break;
 			case GREEN:
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight(),(float) Constants.screenHeight/2 +Constants.getHeight());
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
 				this.opp = new Image(R.drawable.playerred);
 				break;
 
