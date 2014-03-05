@@ -42,7 +42,6 @@ public class GameState extends State implements TouchListener{
 	public GameState (Client client){
 		this.client = client;
 		this.player = new Player("Player1");
-		this.player.setColor(ColorObject.RED);
 		this.board = new Board();
 		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
@@ -199,9 +198,10 @@ public class GameState extends State implements TouchListener{
 	//This method should add the correct number of opponents to the game. Should in the future take in number of players, and color of players.
 	public void addOpponent(){
 		opponents = new ArrayList<Opponent>();
-		opponents.add(new Opponent(ColorObject.BLUE));
-		opponents.add(new Opponent(ColorObject.GREEN));
-		opponents.add(new Opponent(ColorObject.YELLOW));
+		opponents.add(new Opponent(ColorObject.BROWN));
+		opponents.add(new Opponent(ColorObject.BLACK));
+		opponents.add(new Opponent(ColorObject.WHITE));
+		opponents.add(new Opponent(ColorObject.SWAG));
 	}
 	
 	
@@ -250,11 +250,12 @@ public class GameState extends State implements TouchListener{
 		}
 		
 		//Sending player location to all other players.
-//		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
+		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER,this.player.getX()*Constants.getSendingXRatio(),this.player.getY()*Constants.getSendingYRatio()));
 //		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,Constants.getUniversalXPosition(this.player.getX()),Constants.getUniversalYPosition(this.player.getY())));
 		
 //		Think this is the way to do this!?
-		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER, Constants.pxToDp(this.player.getX()),Constants.pxToDp(this.player.getY())));
+//		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER, Constants.pxToDp(this.player.getX()),Constants.pxToDp(this.player.getY())));
+		Constants.pxToDp(this.player.getX());
 		
 		up.update(dt);
 		down.update(dt);
@@ -400,13 +401,13 @@ public class GameState extends State implements TouchListener{
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == color){
 //					Original:
-//					opponent.setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
+					opponent.setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
 					
 //					Testing with John-Olav:
 //					opponent.setPosition(Constants.getLocalXPosition(obj.getxPosition()),Constants.getLocalYPosition(obj.getyPosition()));
 					
 //					Epic solution by Brage:
-					opponent.setPosition(Constants.dpToPx(obj.getxPosition()),Constants.dpToPx(obj.getyPosition()));
+//					opponent.setPosition(Constants.pxToDp(Constants.dpToPx(obj.getxPosition())),Constants.pxToDp(Constants.dpToPx(obj.getyPosition())));
 				}
 			}
 //			This is the original code for moving opponent:

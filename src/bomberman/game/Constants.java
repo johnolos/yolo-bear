@@ -1,6 +1,8 @@
 package bomberman.game;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import sheep.game.Game;
 
 public class Constants {
@@ -94,20 +96,20 @@ public class Constants {
 //	This might be the way to do it!?
 	public static float dpToPx(float dp){
 		Context context = Game.getInstance().getContext();
-		if(context == null){
-			return -1;
-		}
-		System.out.println(dp * context.getResources().getDisplayMetrics().density);
-		return dp * context.getResources().getDisplayMetrics().density;
+		Resources resources = context.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		float px = (dp * metrics.density) +0.5f;
+		return px;
 	}
+
 	
 	public static float pxToDp(float px){
 		Context context = Game.getInstance().getContext();
-		if(context == null){
-			return -1;
-		}
-		System.out.println(px / context.getResources().getDisplayMetrics().density);
-		return px / context.getResources().getDisplayMetrics().density;
+		Resources resources = context.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		float dp = (px / metrics.density) +0.5f;
+		System.out.println(dp);
+		return dp;
 	}
 
 }

@@ -32,21 +32,21 @@ public class Player extends Sprite {
 		this.color = color;
 		if (Constants.screenHeight >750) {
 			switch (color) {
-			case RED:
-				this.player = new Image(R.drawable.playerredlarge);
+			case BROWN:
+				this.player = new Image(R.drawable.brownbear);
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
-			case YELLOW:
-				this.player = new Image(R.drawable.playerredlarge);
+			case BLACK:
+				this.player = new Image(R.drawable.blackbear);
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
-			case BLUE:
-				this.player = new Image(R.drawable.playerredlarge);
+			case WHITE:
+				this.player = new Image(R.drawable.whitebear);
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
 				break;
-			case GREEN:
+			case SWAG:
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
-				this.player = new Image(R.drawable.playerredlarge);
+				this.player = new Image(R.drawable.yolobear);
 				break;
 
 			default:
@@ -55,21 +55,21 @@ public class Player extends Sprite {
 		}
 		else{
 			switch (color) {
-			case RED:
-				this.player = new Image(R.drawable.playerred);
+			case BROWN:
+				this.player = new Image(R.drawable.smallbrownbear);
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
-			case YELLOW:
-				this.player = new Image(R.drawable.playerred);
+			case BLACK:
+				this.player = new Image(R.drawable.smallblackbear);
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
 				break;
-			case BLUE:
-				this.player = new Image(R.drawable.playerred);
+			case WHITE:
+				this.player = new Image(R.drawable.smallwhitebear);
 				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
 				break;
-			case GREEN:
+			case SWAG:
 				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
-				this.player = new Image(R.drawable.playerred);
+				this.player = new Image(R.drawable.smallswaggybear);
 				break;
 
 			default:

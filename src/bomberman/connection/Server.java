@@ -58,16 +58,16 @@ public class Server {
 		ColorObject color = null;
 		switch(clientNumber){
 		case 0:
-			color = ColorObject.RED;
+			color = ColorObject.BROWN;
 			break;
 		case 1:
-			color = ColorObject.BLUE;
+			color = ColorObject.BLACK;
 			break;
 		case 2:
-			color = ColorObject.GREEN;
+			color = ColorObject.WHITE;
 			break;
 		case 3:
-			color = ColorObject.YELLOW;
+			color = ColorObject.SWAG;
 			break;
 		default:
 			break;
