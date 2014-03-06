@@ -42,10 +42,9 @@ public class GameState extends State implements TouchListener{
 		this.client = client;
 		this.player = new Player("Player1");
 		this.board = new Board();
-		//Finding the upper-left coordinates of the game-view
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
-//		this.startingY = Constants.screenHeight/2-Constants.getHeight()*6.5;
 		this.startingY = 0.0f;
+		
 		//Buttons to control the player
 		this.up = new Buttons("up",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
 		this.down = new Buttons("down",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
@@ -118,6 +117,20 @@ public class GameState extends State implements TouchListener{
 		return (int) spriteList.get(gridY).get(gridX).getY();
 	}
 	
+	public void playerCollision() {
+		if(!canPlayerMoveUp() && this.player.getDirection() == Direction.UP)
+			player.setSpeed(player.getSpeed().getX(), 0);
+		
+		if(!canPlayerMoveDown() && this.player.getDirection() == Direction.DOWN)
+			player.setSpeed(player.getSpeed().getX(), 0);
+		
+		if(!canPlayerMoveLeft() && this.player.getDirection() == Direction.LEFT)
+			player.setSpeed(0, player.getSpeed().getY());
+		
+		if(!canPlayerMoveRight() && this.player.getDirection() == Direction.RIGHT)
+			player.setSpeed(0, player.getSpeed().getY());
+	}
+	
 	/**
 	 * Returns true if a player can up right from the current location.
 	 * @return
@@ -180,8 +193,6 @@ public class GameState extends State implements TouchListener{
 		return false;
 	}
 	
-	
-	//This method should add the correct number of opponents to the game. Should in the future take in number of players, and color of players.
 	/**
 	 * This method adds the correct number of opponents to the game when started.
 	 */
@@ -224,43 +235,13 @@ public class GameState extends State implements TouchListener{
 	 * Called every game tic. All sprites needs to be updated here.
 	 */
 	public void update(float dt){
-		
-		if(!canPlayerMoveUp() && this.player.getDirection() == Direction.UP) {
-			player.setSpeed(player.getSpeed().getX(), 0);
-		}
-		
-		if(!canPlayerMoveDown() && this.player.getDirection() == Direction.DOWN) {
-			player.setSpeed(player.getSpeed().getX(), 0);
-		}
-		
-		if(!canPlayerMoveLeft() && this.player.getDirection() == Direction.LEFT) {
-			player.setSpeed(0, player.getSpeed().getY());
-		}
-		
-		if(!canPlayerMoveRight() && this.player.getDirection() == Direction.RIGHT) {
-			player.setSpeed(0, player.getSpeed().getY());
-		}
-		
-//		float x = this.player.getMiddleX();
-//		float y = this.player.getMiddleY();
-//		System.out.println("X: " + x);
-//		System.out.println("Y: " + y);
-//		float x1 = Constants.getUniversalXPosition(this.player.getMiddleX());
-//		float y1 = Constants.getUniversalYPosition(this.player.getMiddleY());
-//		System.out.println("X: " + x1);
-//		System.out.println("Y: " + y1);
+		playerCollision();
 		
 		//Sending player location to all other players.
 		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER,
 				Constants.getUniversalXPosition(this.player.getMiddleX()),
 				Constants.getUniversalYPosition(this.player.getMiddleY()))
 		);
-		
-//		client.sendAll(new PeerObject(ColorObject.BLUE,GameObject.PLAYER,Constants.getUniversalXPosition(this.player.getX()),Constants.getUniversalYPosition(this.player.getY())));
-		
-//		Think this is the way to do this!?
-//		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER, Constants.pxToDp(this.player.getX()),Constants.pxToDp(this.player.getY())));
-//		Constants.pxToDp(this.player.getX());
 		
 		up.update(dt);
 		down.update(dt);
@@ -271,18 +252,14 @@ public class GameState extends State implements TouchListener{
 		for(Iterator<Bomb> it = bombs.iterator(); it.hasNext();){
 			Bomb bomb = it.next();
 			bomb.update(dt);
-			if(bomb.finished()){
+			if(bomb.finished())
 				it.remove();
-			}
 		}
-		for (Opponent opp : this.opponents) {
+		for (Opponent opp : this.opponents)
 			opp.update(dt);
-		}
-		
 		for(ArrayList<Sprite> row : spriteList){
-			for(Sprite sprite : row){
+			for(Sprite sprite : row)
 				sprite.update(dt);
-			}
 		}
 	}
 	
@@ -408,53 +385,38 @@ public class GameState extends State implements TouchListener{
 	}
 	
 	/**
-	 * Called with an PeerObject which will update the gamestate for this player.
+	 * Called with an PeerObject which will update the GameState for this player.
 	 * @param obj PeerObject received from other players.
 	 * TODO: UPDATE FOR MORE GAME ELEMENTS
 	 */
 	public void updateGame(PeerObject obj) {
 		switch (obj.getgObj()) {
 		case PLAYER:
-//			New code for moving opponents, now we should move the correct player. Player ID is color.
 			ColorObject color = obj.getColor();
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == color){
-					float x = obj.getxPosition();
-					float y = obj.getyPosition();
+					float x = obj.getX();
+					float y = obj.getY();
 					x = Constants.getLocalXPosition(x);
 					y = Constants.getLocalYPosition(y);
 					x = x - (this.player.getImageWidth() / 2);
 					y = y - (this.player.getImageHeight() / 2);
 					opponent.setPosition(x, y);
-					
-//					Original:
-//					opponent.setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
-					
-//					Testing with John-Olav:
-//					opponent.setPosition(Constants.getLocalXPosition(obj.getxPosition()),Constants.getLocalYPosition(obj.getyPosition()));
-					
-//					Epic solution by Brage:
-//					opponent.setPosition(Constants.dpToPx(obj.getxPosition()),Constants.dpToPx(obj.getyPosition()));
 				}
 			}
-//			This is the original code for moving opponent:
-//			opponents.get(0).setPosition((float)obj.getxPosition()*Constants.getReceivingXRatio(),(float) obj.getyPosition()*Constants.getReceivingYRatio());
-//			System.out.println(obj.getxPosition()*Constants.getReceivingXRatio() + " x og y er " + obj.getyPosition()*Constants.getReceivingYRatio());
 			break;
 		case BOMB:
 			// TODO: Crashes the client.
 			System.out.println("Bomb received");
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == obj.getColor()){
-					bombs.add(new Bomb((int)obj.getxPosition(),(int)obj.getyPosition(),opponent.getMagnitude(),this));
+					bombs.add(new Bomb((int)obj.getX(),(int)obj.getY(),opponent.getMagnitude(),this));
 				}
 			}
 			break;
-
 		default:
 			break;
 		}
-		
 	}
 
 	public void setPlayerColor(ColorObject obj) {

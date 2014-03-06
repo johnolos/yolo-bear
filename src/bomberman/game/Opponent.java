@@ -14,9 +14,7 @@ public class Opponent extends Sprite {
 	private int magnitude=2;
 
 	public Opponent(ColorObject color) {
-		
 		this.myColor = color;
-
 		if (Constants.screenHeight >750) {
 			switch (color) {
 			case BROWN:

@@ -38,23 +38,6 @@ public class Constants {
 		}
 	}
 	
-	public static float getSendingXRatio(){
-		return standardWidth/screenWidth;
-	}
-	
-	public static float getSendingYRatio(){
-		return standardHeight/screenHeight;
-	}
-	
-	public static float getReceivingXRatio(){
-		return screenWidth/standardWidth;
-	}
-	
-	public static float getReceivingYRatio(){
-		return screenHeight/standardHeight;
-	}
-	
-	
 	public static float getScreenWidth() {
 		return screenWidth;
 	}
@@ -81,9 +64,7 @@ public class Constants {
 	public static float getLocalYPosition(float y) {
 		return y * 13*getHeight();
 	}
-	
-	/*****REWORK**/
-	
+		
 	/**
 	 * Returns 1-indexed for position
 	 * @param xPixel
@@ -102,9 +83,6 @@ public class Constants {
 	 */
 	public static int getPositionY(float yPixel) {
 		float re = yPixel / getHeight();
-		
-//		float re = xPixel - ((getScreenHeight() / 2.0f) - 6.5f * getHeight());
-//		re = re / getHeight();
 		return (int)re;
 	}
 	
@@ -112,27 +90,46 @@ public class Constants {
 		return (getScreenWidth() - (13.0f * getHeight())) / 2.0f;
 	}
 	
-//	
-//	UP for deletion?
-	public static float dpXToPx(float dp){
-		float px = dp*(160*densityX/160);
-		return px;
+	
+	/***** Maybe deleted later. Avoid usage ***/
+	public static float getSendingXRatio(){
+		return standardWidth/screenWidth;
 	}
-	public static float dpYToPx(float dp){
-		float px = dp*(160*densityY/160);
-		return px;
+	
+	public static float getSendingYRatio(){
+		return standardHeight/screenHeight;
 	}
+	
+	public static float getReceivingXRatio(){
+		return screenWidth/standardWidth;
+	}
+	
+	public static float getReceivingYRatio(){
+		return screenHeight/standardHeight;
+	}
+	/************/
+	
 
-	
-	public static float pxXToDp(float px){
-		float dp = px/(160*densityX/160);
-		return dp;
-	}
-	
-	public static float pxYToDp(float px){
-		float dp = px/(160*densityY/160);
-		return dp;
-	}
+//	UP for deletion?
+//	public static float dpXToPx(float dp){
+//		float px = dp*(160*densityX/160);
+//		return px;
+//	}
+//	public static float dpYToPx(float dp){
+//		float px = dp*(160*densityY/160);
+//		return px;
+//	}
+//
+//	
+//	public static float pxXToDp(float px){
+//		float dp = px/(160*densityX/160);
+//		return dp;
+//	}
+//	
+//	public static float pxYToDp(float px){
+//		float dp = px/(160*densityY/160);
+//		return dp;
+//	}
 	
 	
 

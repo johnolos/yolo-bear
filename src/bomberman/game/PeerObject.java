@@ -24,11 +24,11 @@ public class PeerObject  implements Serializable{
 		return color;
 	}
 
-	public float getxPosition() {
+	public float getX() {
 		return xPosition;
 	}
 
-	public float getyPosition() {
+	public float getY() {
 		return yPosition;
 	}
 

@@ -1,14 +1,11 @@
 package bomberman.game;
 
-
-
 import bomberman.states.MainMenu;
 import sheep.game.Game;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
-
 
 public class MainActivity extends Activity {
 
@@ -33,7 +30,6 @@ public class MainActivity extends Activity {
         Constants.densityX = Constants.screenWidth/Constants.standardXdp;
         Constants.densityY = Constants.screenHeight/Constants.standardYdp;
 
-        
         
         if(Constants.screenWidth == 2560){
         	Constants.density = 2.0f;
