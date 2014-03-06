@@ -45,6 +45,7 @@ public class Constants {
 	public static float getSendingYRatio(){
 		return standardHeight/screenHeight;
 	}
+	
 	public static float getReceivingXRatio(){
 		return screenWidth/standardWidth;
 	}
@@ -52,6 +53,7 @@ public class Constants {
 	public static float getReceivingYRatio(){
 		return screenHeight/standardHeight;
 	}
+	
 	
 	public static float getScreenWidth() {
 		return screenWidth;
@@ -62,7 +64,7 @@ public class Constants {
 	}
 	
 	
-	/** TESTING PURPOSE **/
+	/** WORKING FOR OUR PURPOSE **/
 	
 	public static float getUniversalXPosition(float x) {
 		return x / screenWidth;
@@ -80,17 +82,29 @@ public class Constants {
 		return y * 13*getHeight();
 	}
 	
-	/*******/
+	/*****REWORK**/
 	
+	/**
+	 * Returns 1-indexed for position
+	 * @param xPixel
+	 * @return
+	 */
 	public static int getPositionX(float xPixel) {
 		float re = xPixel - ((getScreenWidth() / 2.0f) - 6.5f * getHeight());
 		re = re / getHeight();
 		return (int)re;
 	}
 	
-	public static int getPositionY(float xPixel) {
-		float re = xPixel - ((getScreenHeight() / 2.0f) - 6.5f * getHeight());
-		re = re / getHeight();
+	/**
+	 * Returns 1-indexed value for position y
+	 * @param xPixel
+	 * @return
+	 */
+	public static int getPositionY(float yPixel) {
+		float re = yPixel / getHeight();
+		
+//		float re = xPixel - ((getScreenHeight() / 2.0f) - 6.5f * getHeight());
+//		re = re / getHeight();
 		return (int)re;
 	}
 	
@@ -99,7 +113,7 @@ public class Constants {
 	}
 	
 //	
-//	This might be the way to do it!?
+//	UP for deletion?
 	public static float dpXToPx(float dp){
 		float px = dp*(160*densityX/160);
 		return px;

@@ -149,12 +149,6 @@ public class Player extends Sprite {
 		return false;
 	}
 	
-	public boolean canMoveUp(){
-		
-		return false;
-		
-	}
-	
 	public Direction getDirection() {
 		return this.direction;
 	}

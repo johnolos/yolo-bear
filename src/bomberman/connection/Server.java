@@ -54,25 +54,25 @@ public class Server {
 		sendAll(peer);
 		// Adding connetion to list of connections
 		this.clients.add(client);
-		int clientNumber = this.clients.size()-1;
-		ColorObject color = null;
-		switch(clientNumber){
-		case 0:
-			color = ColorObject.BROWN;
-			break;
-		case 1:
-			color = ColorObject.BLACK;
-			break;
-		case 2:
-			color = ColorObject.WHITE;
-			break;
-		case 3:
-			color = ColorObject.SWAG;
-			break;
-		default:
-			break;
-		}
-		send(color,this.clients.get(clientNumber));
+//		int clientNumber = this.clients.size()-1;
+//		ColorObject color = null;
+//		switch(clientNumber){
+//		case 0:
+//			color = ColorObject.BROWN;
+//			break;
+//		case 1:
+//			color = ColorObject.BLACK;
+//			break;
+//		case 2:
+//			color = ColorObject.WHITE;
+//			break;
+//		case 3:
+//			color = ColorObject.SWAG;
+//			break;
+//		default:
+//			break;
+//		}
+//		send(color,this.clients.get(clientNumber));
 	}
 	
 	public void sendAll(Object obj) {

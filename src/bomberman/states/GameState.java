@@ -72,11 +72,11 @@ public class GameState extends State implements TouchListener{
 	public boolean onTouchDown(MotionEvent event) {
 		if(up.getBounds().contains(event.getX(), event.getY())){
 			this.player.setDirection(Direction.UP);
-			player.setSpeed(0, -150*Constants.getReceivingYRatio());
+			player.setSpeed(0, -150*Constants.getReceivingXRatio());
 		}
 		else if(down.getBounds().contains(event.getX(), event.getY())){
 			this.player.setDirection(Direction.DOWN);
-			player.setSpeed(0, 150*Constants.getReceivingYRatio());
+			player.setSpeed(0, 150*Constants.getReceivingXRatio());
 		}
 		else if(left.getBounds().contains(event.getX(), event.getY())){
 			this.player.setDirection(Direction.LEFT);
@@ -95,10 +95,8 @@ public class GameState extends State implements TouchListener{
 	}
 	
 	public int getTilePositionX(){
-		float x = player.getPosition().getX();
-		float y = player.getPosition().getY();
-		int gridX = Constants.getPositionX(x+(player.getImageHeight()/2));
-		int gridY = Constants.getPositionY(y+(player.getImageHeight()/2));
+		int gridX = Constants.getPositionX(player.getMiddleX());
+		int gridY = Constants.getPositionY(player.getMiddleY());	
 		return (int) spriteList.get(gridY).get(gridX).getPosition().getX();
 	}
 	
@@ -116,8 +114,7 @@ public class GameState extends State implements TouchListener{
 	 */
 	public boolean canPlayerMoveUp() {
 		if(player.canMoveY()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY()) - 1).get(Constants.getPositionX(player.getPosition().getX() + 
-							player.getImageHeight()/2));
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) - 1).get(Constants.getPositionX(player.getMiddleX()));
 			if( sprite instanceof Empty) {
 				return true;
 			} else {
@@ -136,9 +133,7 @@ public class GameState extends State implements TouchListener{
 	 */
 	public boolean canPlayerMoveDown() {
 		if(player.canMoveY()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
-					player.getImageHeight()/2) + 1).get(Constants.getPositionX(player.getPosition().getX() + 
-							player.getImageHeight()/2));
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) + 1).get(Constants.getPositionX(player.getMiddleX()));
 			if( sprite instanceof Empty) {
 				return true;
 			} else {
@@ -158,8 +153,7 @@ public class GameState extends State implements TouchListener{
 	 */
 	public boolean canPlayerMoveLeft() {
 		if(player.canMoveX()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
-					player.getImageHeight()/2)).get(Constants.getPositionX(player.getPosition().getX()) - 1);
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) - 1);
 			if( sprite instanceof Empty) {
 				return true;
 			} else {
@@ -179,8 +173,7 @@ public class GameState extends State implements TouchListener{
 	 */
 	public boolean canPlayerMoveRight() {
 		if(player.canMoveX()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getPosition().getY() +
-					player.getImageHeight()/2)).get(Constants.getPositionX(player.getPosition().getX()) + 1);
+			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) + 1);
 			if( sprite instanceof Empty) {
 				return true;
 			} else {
@@ -233,21 +226,22 @@ public class GameState extends State implements TouchListener{
 	
 	//Called by Game every tic. All sprites needs to be updated here
 	public void update(float dt){
-//		if(!canPlayerMoveUp() && this.player.getDirection() == Direction.UP) {
-//			player.setSpeed(player.getSpeed().getX(), 0);
-//		}
-//		
-//		if(!canPlayerMoveDown() && this.player.getDirection() == Direction.DOWN) {
-//			player.setSpeed(player.getSpeed().getX(), 0);
-//		}
-//		
-//		if(!canPlayerMoveLeft() && this.player.getDirection() == Direction.LEFT) {
-//			player.setSpeed(0, player.getSpeed().getY());
-//		}
-//		
-//		if(!canPlayerMoveRight() && this.player.getDirection() == Direction.RIGHT) {
-//			player.setSpeed(0, player.getSpeed().getY());
-//		}
+		
+		if(!canPlayerMoveUp() && this.player.getDirection() == Direction.UP) {
+			player.setSpeed(player.getSpeed().getX(), 0);
+		}
+		
+		if(!canPlayerMoveDown() && this.player.getDirection() == Direction.DOWN) {
+			player.setSpeed(player.getSpeed().getX(), 0);
+		}
+		
+		if(!canPlayerMoveLeft() && this.player.getDirection() == Direction.LEFT) {
+			player.setSpeed(0, player.getSpeed().getY());
+		}
+		
+		if(!canPlayerMoveRight() && this.player.getDirection() == Direction.RIGHT) {
+			player.setSpeed(0, player.getSpeed().getY());
+		}
 		
 		//Sending player location to all other players.
 		float x = this.player.getMiddleX();
