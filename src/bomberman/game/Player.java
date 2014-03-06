@@ -33,6 +33,14 @@ public class Player extends Sprite {
 		this.setColor(ColorObject.BROWN);
 	}
 	
+	public float getMiddleX(){
+		return this.getX() + this.getImageWidth() / 2;
+	}
+	
+	public float getMiddleY() {
+		return this.getY() + this.getImageHeight() / 2;
+	}
+	
 	public void setColor(ColorObject color) {
 		this.color = color;
 		this.playerImages.clear();
@@ -130,13 +138,13 @@ public class Player extends Sprite {
 	}
 	
 	public boolean canMoveY() {
-		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.player.getHeight()))
+		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.playerImages.get(0).getHeight()))
 			return true;
 		return false;
 	}
 	
 	public boolean canMoveX() {
-		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.player.getHeight()))
+		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.playerImages.get(0).getHeight()))
 			return true;
 		return false;
 	}
@@ -170,7 +178,11 @@ public class Player extends Sprite {
 	}
 	
 	public float getImageHeight(){
-		return this.player.getHeight();
+		return this.playerImages.get(0).getHeight();
+	}
+	
+	public float getImageWidth() {
+		return this.playerImages.get(0).getWidth();
 	}
 	
 	/**

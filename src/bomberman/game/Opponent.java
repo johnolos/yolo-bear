@@ -131,4 +131,5 @@ public class Opponent extends Sprite {
 	public ColorObject getColor(){
 		return this.myColor;
 	}
+
 }

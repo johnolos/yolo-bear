@@ -11,8 +11,14 @@ public class Constants {
 	public static float screenWidth = 0.0f;
 	public static float standardHeight = 1600;
 	public static float standardWidth = 2560;
+	public static float standardXdp = 1280;
+	public static float standardYdp = 800;
+	public static float densityX = 0.0f;
+	public static float densityY = 0.0f;
+	public static float density = 0.0f;
 	public static double horSize;
 	public static double verSize;
+	
 	
 	public static float getHeight(){
 		if(screenHeight==1600){
@@ -63,7 +69,7 @@ public class Constants {
 	}
 	
 	public static float getUniversalYPosition(float y) {
-		return y / screenHeight;
+		return y / (13*getHeight());
 	}
 	
 	public static float getLocalXPosition(float x) {
@@ -71,7 +77,7 @@ public class Constants {
 	}
 	
 	public static float getLocalYPosition(float y) {
-		return y * screenHeight;
+		return y * 13*getHeight();
 	}
 	
 	/*******/
@@ -92,23 +98,28 @@ public class Constants {
 		return (getScreenWidth() - (13.0f * getHeight())) / 2.0f;
 	}
 	
-	
+//	
 //	This might be the way to do it!?
-	public static float dpToPx(float dp){
-		Context context = Game.getInstance().getContext();
-		Resources resources = context.getResources();
-		DisplayMetrics metrics = resources.getDisplayMetrics();
-		float px = (dp * metrics.density) +0.5f;
+	public static float dpXToPx(float dp){
+		float px = dp*(160*densityX/160);
+		return px;
+	}
+	public static float dpYToPx(float dp){
+		float px = dp*(160*densityY/160);
 		return px;
 	}
 
 	
-	public static float pxToDp(float px){
-		Context context = Game.getInstance().getContext();
-		Resources resources = context.getResources();
-		DisplayMetrics metrics = resources.getDisplayMetrics();
-		float dp = (px / metrics.density) +0.5f;
+	public static float pxXToDp(float px){
+		float dp = px/(160*densityX/160);
 		return dp;
 	}
+	
+	public static float pxYToDp(float px){
+		float dp = px/(160*densityY/160);
+		return dp;
+	}
+	
+	
 
 }
