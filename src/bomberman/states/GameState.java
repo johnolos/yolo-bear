@@ -68,6 +68,9 @@ public class GameState extends State implements TouchListener{
 		return false;
 	}
 	
+	/**
+	 * Handles onTouchDown events given for the various game elements in the state.
+	 */
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(up.getBounds().contains(event.getX(), event.getY())){
@@ -86,109 +89,102 @@ public class GameState extends State implements TouchListener{
 			this.player.setDirection(Direction.RIGHT);
 			player.setSpeed(150*Constants.getReceivingXRatio(), 0);
 		}
-		//The bombs are now placed in the center of the tile the player is located. 
 		else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
-			bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this));
-			client.sendAll(new PeerObject(this.player.getColor(), GameObject.BOMB, getTilePositionX(), getTilePositionY()));
+			if (canPlayerPlaceBomb()) {
+				bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this));
+				client.sendAll(new PeerObject(this.player.getColor(), GameObject.BOMB, getTilePositionX(), getTilePositionY()));
+			}
 		}
 		return false;
 	}
 	
+	/**
+	 * Returns tile position in X-direction from current player position.
+	 * @return
+	 */
 	public int getTilePositionX(){
 		int gridX = Constants.getPositionX(player.getMiddleX());
 		int gridY = Constants.getPositionY(player.getMiddleY());	
-		return (int) spriteList.get(gridY).get(gridX).getPosition().getX();
-	}
-	
-	public int getTilePositionY(){
-		float x = player.getPosition().getX();
-		float y = player.getPosition().getY();
-		int gridX = Constants.getPositionX(x);
-		int gridY = Constants.getPositionY(y);
-		return (int) spriteList.get(gridY).get(gridX).getPosition().getY();
+		return (int) spriteList.get(gridY).get(gridX).getX();
 	}
 	
 	/**
-	 * 
+	 * Returns tile position in Y-direction from the current player position.
+	 * @return
+	 */
+	public int getTilePositionY(){
+		int gridX = Constants.getPositionX(player.getMiddleX());
+		int gridY = Constants.getPositionY(player.getMiddleY());
+		return (int) spriteList.get(gridY).get(gridX).getY();
+	}
+	
+	/**
+	 * Returns true if a player can up right from the current location.
 	 * @return
 	 */
 	public boolean canPlayerMoveUp() {
-		if(player.canMoveY()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) - 1).get(Constants.getPositionX(player.getMiddleX()));
-			if( sprite instanceof Empty) {
-				return true;
-			} else {
-				float pixelsY = (player.getPosition().getY()) - (sprite.getPosition().getY() + Constants.getHeight());
-				if(pixelsY > 8.0f * Constants.getReceivingYRatio()) {
-					return true;
-				}
-			}
-		}
+		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) - 1).get(Constants.getPositionX(player.getMiddleX()));
+		if(player.canMoveY())
+			if( sprite instanceof Empty) return true;
+		float pixelsY = (player.getPosition().getY()) - (sprite.getPosition().getY() + Constants.getHeight());
+		if(pixelsY > 4.0f * Constants.getReceivingYRatio())
+			return true;
 		return false;
 	}
 	
 	/**
-	 * 
+	 * Returns true if a player can move down from the current location.
 	 * @return
 	 */
 	public boolean canPlayerMoveDown() {
-		if(player.canMoveY()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) + 1).get(Constants.getPositionX(player.getMiddleX()));
-			if( sprite instanceof Empty) {
-				return true;
-			} else {
-				float pixelsY = sprite.getPosition().getY() - (player.getPosition().getY() + player.getImageHeight());
-				if(pixelsY > 8.0f * Constants.getReceivingYRatio()) {
-					return true;
-				}
-			}
-			return false;
-		}
+		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) + 1).get(Constants.getPositionX(player.getMiddleX()));
+		if(player.canMoveY())
+			if( sprite instanceof Empty) return true;
+		float pixelsY = sprite.getPosition().getY() - (player.getPosition().getY() + player.getImageHeight());
+		if(pixelsY > 4.0f * Constants.getReceivingYRatio())
+			return true;
 		return false;
 	}
 	
 	/**
-	 * 
+	 * Returns true if a player can move left from the current location.
 	 * @return
 	 */
 	public boolean canPlayerMoveLeft() {
-		if(player.canMoveX()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) - 1);
-			if( sprite instanceof Empty) {
-				return true;
-			} else {
-				float pixelsX = player.getPosition().getX() - (sprite.getPosition().getX() + Constants.getHeight());
-				if(pixelsX > 8.0f * Constants.getReceivingYRatio()) {
-					return true;
-				}
-			}
-			return false;
-		}
+		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) - 1);
+		if(player.canMoveX())
+			if( sprite instanceof Empty) return true;
+		float pixelsX = player.getPosition().getX() - (sprite.getPosition().getX() + Constants.getHeight());
+		if(pixelsX > 4.0f * Constants.getReceivingYRatio())
+			return true;
 		return false;
 	}
 	
 	/**
-	 * 
+	 * Returns true if a player can move right from the current location.
 	 * @return
 	 */
 	public boolean canPlayerMoveRight() {
-		if(player.canMoveX()) {
-			Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) + 1);
-			if( sprite instanceof Empty) {
-				return true;
-			} else {
-				float pixelsX = sprite.getPosition().getX() - (player.getPosition().getX() + player.getImageHeight());
-				if(pixelsX > 8.0f * Constants.getReceivingYRatio()) {
-					return true;
-				}
-			}
-			return false;
-		}
+		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) + 1);
+		if(player.canMoveX())
+			if( sprite instanceof Empty) return true;
+		float pixelsX = sprite.getPosition().getX() - (player.getPosition().getX() + player.getImageHeight());
+		if(pixelsX > 4.0f * Constants.getReceivingYRatio())
+			return true;
+		return false;
+	}
+	
+	public boolean canPlayerPlaceBomb() {
+		if(this.bombs.size() < player.getNumberOfBombs())
+			return true;
 		return false;
 	}
 	
 	
 	//This method should add the correct number of opponents to the game. Should in the future take in number of players, and color of players.
+	/**
+	 * This method adds the correct number of opponents to the game when started.
+	 */
 	public void addOpponent(){
 		opponents = new ArrayList<Opponent>();
 		opponents.add(new Opponent(ColorObject.BROWN));
@@ -224,7 +220,9 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
-	//Called by Game every tic. All sprites needs to be updated here
+	/**
+	 * Called every game tic. All sprites needs to be updated here.
+	 */
 	public void update(float dt){
 		
 		if(!canPlayerMoveUp() && this.player.getDirection() == Direction.UP) {
@@ -243,15 +241,16 @@ public class GameState extends State implements TouchListener{
 			player.setSpeed(0, player.getSpeed().getY());
 		}
 		
+//		float x = this.player.getMiddleX();
+//		float y = this.player.getMiddleY();
+//		System.out.println("X: " + x);
+//		System.out.println("Y: " + y);
+//		float x1 = Constants.getUniversalXPosition(this.player.getMiddleX());
+//		float y1 = Constants.getUniversalYPosition(this.player.getMiddleY());
+//		System.out.println("X: " + x1);
+//		System.out.println("Y: " + y1);
+		
 		//Sending player location to all other players.
-		float x = this.player.getMiddleX();
-		float y = this.player.getMiddleY();
-		System.out.println("X: " + x);
-		System.out.println("Y: " + y);
-		float x1 = Constants.getUniversalXPosition(this.player.getMiddleX());
-		float y1 = Constants.getUniversalYPosition(this.player.getMiddleY());
-		System.out.println("X: " + x1);
-		System.out.println("Y: " + y1);
 		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER,
 				Constants.getUniversalXPosition(this.player.getMiddleX()),
 				Constants.getUniversalYPosition(this.player.getMiddleY()))
@@ -262,8 +261,6 @@ public class GameState extends State implements TouchListener{
 //		Think this is the way to do this!?
 //		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER, Constants.pxToDp(this.player.getX()),Constants.pxToDp(this.player.getY())));
 //		Constants.pxToDp(this.player.getX());
-		
-		
 		
 		up.update(dt);
 		down.update(dt);
@@ -289,6 +286,11 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
+	/**
+	 * Evaluates a bomb and removes the creates it finds in its impact range.
+	 * Refactoring should be considered.
+	 * @param bomb
+	 */
 	public void bombImpact(Bomb bomb){
 		int blastRadius = bomb.getBlastRadius();
 		int x = Constants.getPositionX(bomb.getPosition().getX());
@@ -372,11 +374,17 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
+	/**
+	 * Gets bomb-array list
+	 * @return
+	 */
 	public ArrayList<Bomb> getBombs(){
 		return bombs;
 	}
 	
-	//Called by Game every tic. Sprites you want to see on the canvas should be drawn here. Mind the order the Sprites are drawn.
+	/**
+	 * Called every game tic. Sprites are drawn on the given canvas parameter here.
+	 */
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		for(ArrayList<Sprite> row : spriteList){
@@ -399,8 +407,11 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
-	//Called when client receives information from the other peers. Positions are here converted to fit the device the game is running on.
-	//Need code for bombs and such..
+	/**
+	 * Called with an PeerObject which will update the gamestate for this player.
+	 * @param obj PeerObject received from other players.
+	 * TODO: UPDATE FOR MORE GAME ELEMENTS
+	 */
 	public void updateGame(PeerObject obj) {
 		switch (obj.getgObj()) {
 		case PLAYER:
@@ -431,6 +442,7 @@ public class GameState extends State implements TouchListener{
 //			System.out.println(obj.getxPosition()*Constants.getReceivingXRatio() + " x og y er " + obj.getyPosition()*Constants.getReceivingYRatio());
 			break;
 		case BOMB:
+			// TODO: Crashes the client.
 			System.out.println("Bomb received");
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == obj.getColor()){

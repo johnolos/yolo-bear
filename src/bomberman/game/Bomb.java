@@ -64,7 +64,6 @@ public class Bomb extends Sprite{
 	
 	public void explodeAnimation() {
 		if(System.currentTimeMillis() - explodedTime >= 250 && System.currentTimeMillis() - explodedTime < 500){
-			System.out.println("hello");
 			bomb = explodeImages[1];
 			setView(bomb);
 		}
