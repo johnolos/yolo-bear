@@ -90,8 +90,9 @@ public class GameState extends State implements TouchListener{
 		}
 		else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
 			if (canPlayerPlaceBomb()) {
+				//TODO: Image glitch where bomb is viewed a few milliseconds in top-left of the screen before placed correctly.
 				bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this));
-				client.sendAll(new PeerObject(this.player.getColor(), GameObject.BOMB, getTilePositionX(), getTilePositionY()));
+				client.sendAll(new PeerObject(this.player.getColor(), GameObject.BOMB, getTilePositionX(), getTilePositionY(), Direction.UP));
 			}
 		}
 		return false;
@@ -240,7 +241,8 @@ public class GameState extends State implements TouchListener{
 		//Sending player location to all other players.
 		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER,
 				Constants.getUniversalXPosition(this.player.getMiddleX()),
-				Constants.getUniversalYPosition(this.player.getMiddleY()))
+				Constants.getUniversalYPosition(this.player.getMiddleY()),
+				this.player.getDirection())
 		);
 		
 		up.update(dt);
@@ -351,10 +353,6 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
-	/**
-	 * Gets bomb-array list
-	 * @return
-	 */
 	public ArrayList<Bomb> getBombs(){
 		return bombs;
 	}
@@ -402,6 +400,7 @@ public class GameState extends State implements TouchListener{
 					x = x - (this.player.getImageWidth() / 2);
 					y = y - (this.player.getImageHeight() / 2);
 					opponent.setPosition(x, y);
+					opponent.setDirection(obj.getDirection());
 				}
 			}
 			break;
