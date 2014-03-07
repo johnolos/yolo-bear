@@ -36,6 +36,8 @@ public class GameState extends State implements TouchListener{
 	private ArrayList<Opponent> opponents;
 	private Client client;
 	
+	int counter = 0;
+	
 	public GameState (Client client){
 		this.client = client;
 		this.player = new Player("Player1");
@@ -48,7 +50,10 @@ public class GameState extends State implements TouchListener{
 		this.down = new Buttons("down",(int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.4375f));
 		this.right = new Buttons("right",(int) (Constants.screenWidth*0.9665f), (int) (Constants.screenHeight*0.375f));
 		this.left = new Buttons("left",(int) (Constants.screenWidth*0.81f), (int) (Constants.screenHeight*0.375f));
-		this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.4f));
+		if(Constants.screenHeight > 752)
+			this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.4f));
+		else
+			this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.407f));
 		bombs = new ArrayList<Bomb>();
 		addSprites();
 		addOpponent();
@@ -68,6 +73,7 @@ public class GameState extends State implements TouchListener{
 	/**
 	 * Handles onTouchDown events given for the various game elements in the state.
 	 */
+	
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(up.getBounds().contains(event.getX(), event.getY())){
@@ -87,10 +93,12 @@ public class GameState extends State implements TouchListener{
 			player.setSpeed(150*Constants.getReceivingXRatio(), 0);
 		}
 		else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
-			if (canPlayerPlaceBomb()) {
+			if (this.player.canPlaceBomb()) {
 				//TODO: Image glitch where bomb is viewed a few milliseconds in top-left of the screen before placed correctly.
-				bombs.add(new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this));
-				client.sendAll(new PeerObject(this.player.getColor(), GameObject.BOMB, getTilePositionX(), getTilePositionY(), Direction.UP));
+				Bomb bomb = new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this);
+				bombs.add(bomb);
+				this.player.addBomb(bomb);
+				client.sendAll(new PeerObject(this.player.getColor(), GameObject.BOMB, Constants.getPositionX(getTilePositionX()), Constants.getPositionY(getTilePositionY()), Direction.UP));
 			}
 		}
 		return false;
@@ -186,12 +194,6 @@ public class GameState extends State implements TouchListener{
 		return false;
 	}
 	
-	public boolean canPlayerPlaceBomb() {
-		if(this.bombs.size() < player.getNumberOfBombs())
-			return true;
-		return false;
-	}
-	
 	/**
 	 * This method adds the correct number of opponents to the game when started.
 	 */
@@ -235,13 +237,17 @@ public class GameState extends State implements TouchListener{
 	 */
 	public void update(float dt){
 		playerCollision();
-		
 		//Sending player location to all other players.
-		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER,
-				Constants.getUniversalX(this.player.getMiddleX()),
+		++counter;
+		if(counter % 3 == 0 && this.player.hasMovedSince()) {
+			client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER,
+				Constants.getUniversalXPosition(this.player.getMiddleX()),
 				Constants.getUniversalYPosition(this.player.getMiddleY()),
 				this.player.getDirection())
-		);
+			);
+			player.updatePosition();
+		}
+			
 		
 		up.update(dt);
 		down.update(dt);
@@ -252,8 +258,10 @@ public class GameState extends State implements TouchListener{
 		for(Iterator<Bomb> it = bombs.iterator(); it.hasNext();){
 			Bomb bomb = it.next();
 			bomb.update(dt);
-			if(bomb.finished())
+			if(bomb.finished()) {
 				it.remove();
+				player.removeBomb(bomb);
+			}
 		}
 		for (Opponent opp : this.opponents)
 			opp.update(dt);
@@ -393,12 +401,10 @@ public class GameState extends State implements TouchListener{
 				if(opponent.getColor() == color){
 					float x = obj.getX();
 					float y = obj.getY();
-					x = Constants.getLocalX(x);
+					x = Constants.getLocalXPosition(x);
 					y = Constants.getLocalYPosition(y);
 					x = x - (this.player.getImageWidth() / 2);
 					y = y - (this.player.getImageHeight() / 2);
-					System.out.println("X: " + x);
-					System.out.println("Y: " + y);
 					opponent.setPosition(x, y);
 					opponent.setDirection(obj.getDirection());
 				}
@@ -409,7 +415,8 @@ public class GameState extends State implements TouchListener{
 			System.out.println("Bomb received");
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == obj.getColor()){
-					bombs.add(new Bomb((int)obj.getX(),(int)obj.getY(),opponent.getMagnitude(),this));
+					Sprite sprite = spriteList.get((int)obj.getY()).get((int)obj.getX());
+					bombs.add(new Bomb((int)sprite.getX(),(int)sprite.getY(),opponent.getMagnitude(),this));
 				}
 			}
 			break;

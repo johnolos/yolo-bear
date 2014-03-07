@@ -57,9 +57,15 @@ public class Buttons extends Sprite {
 			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
 		}
 		else if(buttonID.equals("bomb")){
-			bombIcon = new Image(R.drawable.bombicon);
+			if(Constants.screenHeight >= 752) {
+				bombIcon = new Image(R.drawable.bombicon);
+				this.setShape(200,200);
+			}
+			else {
+				bombIcon = new Image(R.drawable.bombiconsmall);
+				this.setShape(100,100);
+			}
 			this.setView(bombIcon);
-			this.setShape(200,200);
 			this.setPosition(x, y);
 			float offsetX = 200*Constants.getReceivingXRatio();
 			float offsetY = 200*Constants.getReceivingYRatio();

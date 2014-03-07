@@ -22,7 +22,9 @@ public class Player extends Sprite {
 	private int magnitudeOfBombs = 1;
 	private int scoreOfPlayer = 0;
 	
-//	ArrayList<Bomb> bombsPlaced;
+	private float previousX;
+	private float previousY;
+	private ArrayList<Bomb> bombsPlaced;
 	
 	// These are up for deletion.
 //	private int prevPosX;
@@ -35,8 +37,8 @@ public class Player extends Sprite {
 	public Player(String name) {
 		this.nameOfPlayer = name;
 		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
-		this.setColor(ColorObject.BLACK);
-//		bombsPlaced = new ArrayList<Bomb>();
+		this.setColor(ColorObject.SWAG);
+		bombsPlaced = new ArrayList<Bomb>();
 	}
 	
 	/**
@@ -268,12 +270,25 @@ public class Player extends Sprite {
 		return this.kickBombs;
 	}
 	
-//	public void addBomb(Bomb bomb) {
-//		this.bombsPlaced.add(bomb);
-//	}
-//	
-//	public void removeBomb(Bomb bomb) {
-//		this.bombsPlaced.remove(bomb);
-//	}
+	public void updatePosition() {
+		this.previousX = this.getMiddleX();
+		this.previousY = this.getMiddleY();
+	}
+	
+	public boolean hasMovedSince() {
+		return !(this.previousX == this.getMiddleX() && this.previousY == this.getMiddleY());
+	}
+	
+	public boolean canPlaceBomb() {
+		return (this.bombsPlaced.size() < getNumberOfBombs());
+	}
+	
+	public void addBomb(Bomb bomb) {
+		this.bombsPlaced.add(bomb);
+	}
+	
+	public void removeBomb(Bomb bomb) {
+		this.bombsPlaced.remove(bomb);
+	}
 	
 }
