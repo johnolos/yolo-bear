@@ -35,7 +35,7 @@ public class Player extends Sprite {
 	public Player(String name) {
 		this.nameOfPlayer = name;
 		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
-		this.setColor(ColorObject.BROWN);
+		this.setColor(ColorObject.BLACK);
 //		bombsPlaced = new ArrayList<Bomb>();
 	}
 	

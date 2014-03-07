@@ -238,7 +238,7 @@ public class GameState extends State implements TouchListener{
 		
 		//Sending player location to all other players.
 		client.sendAll(new PeerObject(this.player.getColor(),GameObject.PLAYER,
-				Constants.getUniversalXPosition(this.player.getMiddleX()),
+				Constants.getUniversalX(this.player.getMiddleX()),
 				Constants.getUniversalYPosition(this.player.getMiddleY()),
 				this.player.getDirection())
 		);
@@ -393,10 +393,12 @@ public class GameState extends State implements TouchListener{
 				if(opponent.getColor() == color){
 					float x = obj.getX();
 					float y = obj.getY();
-					x = Constants.getLocalXPosition(x);
+					x = Constants.getLocalX(x);
 					y = Constants.getLocalYPosition(y);
 					x = x - (this.player.getImageWidth() / 2);
 					y = y - (this.player.getImageHeight() / 2);
+					System.out.println("X: " + x);
+					System.out.println("Y: " + y);
 					opponent.setPosition(x, y);
 					opponent.setDirection(obj.getDirection());
 				}

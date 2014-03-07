@@ -59,6 +59,16 @@ public class Constants {
 	public static float getLocalYPosition(float y) {
 		return y * 13*getHeight();
 	}
+	
+	public static float getUniversalX(float x) {
+		x = x-getPixelsOnSides();
+		return x / (13.0f*getHeight());
+	}
+	public static float getLocalX(float x) {
+		x = (x*13.0f*getHeight()) + getPixelsOnSides();
+		return x;
+	}
+	
 		
 	/**
 	 * Returns 1-indexed for position
