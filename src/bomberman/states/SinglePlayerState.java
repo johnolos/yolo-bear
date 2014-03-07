@@ -1,7 +1,6 @@
 package bomberman.states;
 
 import android.graphics.Canvas;
-import sheep.game.Game;
 import sheep.game.State;
 import sheep.gui.TextButton;
 import sheep.gui.WidgetAction;

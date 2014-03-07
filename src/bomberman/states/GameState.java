@@ -20,7 +20,6 @@ import bomberman.game.Player;
 import bomberman.game.ColorObject;
 import bomberman.game.Wall;
 import bomberman.graphics.Buttons;
-import sheep.game.Game;
 import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.input.TouchListener;
@@ -34,7 +33,6 @@ public class GameState extends State implements TouchListener{
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
-	private TouchListener touch;
 	private ArrayList<Opponent> opponents;
 	private Client client;
 	

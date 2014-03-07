@@ -5,6 +5,10 @@ import java.io.Serializable;
 public class PeerObject  implements Serializable{
 	
 	
+	/**
+	 * Generated serial value
+	 */
+	private static final long serialVersionUID = -713360367638714156L;
 	private GameObject gObj;
 	private ColorObject color;
 	private Direction direction;

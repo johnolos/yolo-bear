@@ -1,10 +1,5 @@
 package bomberman.game;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
-import sheep.game.Game;
-
 public class Constants {
 	
 	public static float screenHeight = 0.0f;

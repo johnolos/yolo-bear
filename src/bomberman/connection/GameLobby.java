@@ -3,6 +3,7 @@ package bomberman.connection;
 import java.util.ArrayList;
 
 public class GameLobby {
+	
 	/**
 	 * Unused class: 25 of February 2014.
 	 */

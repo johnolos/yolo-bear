@@ -7,7 +7,6 @@ public class Config {
 	
 	/* There should be changed for your devices */
 	public static final String SERVERIP = "192.168.0.100";
-
 	public static final String ANDROIDIP = "192.168.0.103";
 
 }
