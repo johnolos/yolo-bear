@@ -2,6 +2,7 @@ package bomberman.states;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import bomberman.game.Opponent;
 import bomberman.game.PeerObject;
 import bomberman.game.Player;
 import bomberman.game.ColorObject;
+import bomberman.game.PowerUp;
 import bomberman.game.Wall;
 import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
@@ -30,11 +32,13 @@ public class GameState extends State implements TouchListener{
 	private Board  board;
 	private Buttons up, down, left, right, bombIcon;
 	private ArrayList<Bomb> bombs;
+	private ArrayList<PowerUp> powerups;
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
 	private ArrayList<Opponent> opponents;
 	private Client client;
+	private Random randomGenerator = new Random();
 	
 	int counter = 0;
 	
@@ -55,6 +59,7 @@ public class GameState extends State implements TouchListener{
 		else
 			this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.407f));
 		bombs = new ArrayList<Bomb>();
+		powerups = new ArrayList<PowerUp>();
 		addSprites();
 		addOpponent();
 	}
@@ -263,6 +268,8 @@ public class GameState extends State implements TouchListener{
 				player.removeBomb(bomb);
 			}
 		}
+		for (PowerUp powerup : this.powerups)
+			powerup.update(dt);
 		for (Opponent opp : this.opponents)
 			opp.update(dt);
 		for(ArrayList<Sprite> row : spriteList){
@@ -296,6 +303,7 @@ public class GameState extends State implements TouchListener{
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(y).add(column,empty);
+				maybeCreatePowerUp(column, y);
 				break;
 			}
 			i++;
@@ -315,6 +323,7 @@ public class GameState extends State implements TouchListener{
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(y).add(column,empty);
+				maybeCreatePowerUp(column, y);
 				break;
 			}
 			i++;
@@ -334,6 +343,7 @@ public class GameState extends State implements TouchListener{
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(row).add(x,empty);
+				maybeCreatePowerUp(x, row);
 				break;
 			}
 			i++;
@@ -353,6 +363,7 @@ public class GameState extends State implements TouchListener{
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(row).add(x,empty);
+				maybeCreatePowerUp(x, row);
 				break;
 			}
 			i++;
@@ -378,7 +389,6 @@ public class GameState extends State implements TouchListener{
 		left.draw(canvas);
 		right.draw(canvas);
 		bombIcon.draw(canvas);
-		player.draw(canvas);
 		for(Iterator<Bomb> it = bombs.iterator(); it.hasNext();){
 			Bomb bomb = it.next();
 			bomb.draw(canvas);
@@ -386,6 +396,9 @@ public class GameState extends State implements TouchListener{
 		for (Opponent opp : this.opponents) {
 			opp.draw(canvas);
 		}
+		for(PowerUp powerup : this.powerups)
+			powerup.draw(canvas);
+		player.draw(canvas);
 	}
 	
 	/**
@@ -411,8 +424,6 @@ public class GameState extends State implements TouchListener{
 			}
 			break;
 		case BOMB:
-			// TODO: Crashes the client.
-			System.out.println("Bomb received");
 			for(Opponent opponent : opponents){
 				if(opponent.getColor() == obj.getColor()){
 					Sprite sprite = spriteList.get((int)obj.getY()).get((int)obj.getX());
@@ -420,8 +431,21 @@ public class GameState extends State implements TouchListener{
 				}
 			}
 			break;
+		case POWERUP:
+			PowerUp powerup = new PowerUp((int)obj.getX(), (int)obj.getY(),obj.getPowerUpType());
+			this.powerups.add(powerup);
+			break;
 		default:
 			break;
+		}
+	}
+	
+	public void maybeCreatePowerUp(int x, int y) {
+		int p = randomGenerator.nextInt(10);
+		if(p >= 7) {
+			PowerUp powerup = new PowerUp(x, y);
+			powerups.add(powerup);
+			client.sendAll(new PeerObject(GameObject.POWERUP, x, y, powerup.getPowerUpType()));
 		}
 	}
 

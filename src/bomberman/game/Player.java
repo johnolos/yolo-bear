@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
-import bomberman.graphics.PowerUp;
+import bomberman.graphics.PowerUpType;
 
 public class Player extends Sprite {
 
@@ -215,7 +215,7 @@ public class Player extends Sprite {
 	 * Handles power-ups
 	 * @param powerUp Power-up the player archived.
 	 */
-	public void powerUp(PowerUp powerUp) {
+	public void powerUp(PowerUpType powerUp) {
 		switch(powerUp) {
 		case BOMB:
 			this.numberOfBombs++;

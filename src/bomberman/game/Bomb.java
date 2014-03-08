@@ -18,13 +18,13 @@ public class Bomb extends Sprite{
 	private Image[] explodeImages;
 	
 	public Bomb(int x, int y, int blastRadius, GameState gs){
+		this.setPosition(x, y);
 		explodeImages = new Image[4];
 		explodeImages[1] = new Image(R.drawable.explode2);
 		explodeImages[2] = new Image(R.drawable.explode3);
 		explodeImages[3] = new Image(R.drawable.explode4);
 		this.blastRadius = blastRadius;
 		this.gs = gs;
-		this.setPosition(x, y);
 		if(Constants.screenHeight == 1600){
 			this.bomb = new Image(R.drawable.bomblarge);
 			this.setShape(120,120);
