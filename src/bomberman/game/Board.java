@@ -22,6 +22,7 @@ public class Board {
 		
 	}
 	
+	
 	public int[][] getBoard(){
 		return this.board;
 	}
