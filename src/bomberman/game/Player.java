@@ -1,38 +1,67 @@
 package bomberman.game;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
-import bomberman.graphics.PowerUp;
+import bomberman.graphics.PowerUpType;
 
 public class Player extends Sprite {
 
+	/** Player settings **/
 	private String nameOfPlayer;
+	private ArrayList<Image> playerImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
+	private ColorObject color;
+	private Direction direction = Direction.UP;
+	
+	/** Player power **/
 	private int numberOfBombs = 1;
 	private boolean kickBombs = false;
 	private boolean throwBombs = false;
 	private double speedOfPlayer = 1.0;
-	private int magnitudeOfBombs = 2;
+	private int magnitudeOfBombs = 1;
 	private int scoreOfPlayer = 0;
-	private Image player;
-	private ArrayList<Image> playerImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
-	private int prevPosX;
-	private int prevPosY;
-	private int gridPosX;
-	private int gridPosY;
-	private boolean betweenCol;
-	private boolean betweenRow;
-	private ColorObject color;
-	private Direction direction = Direction.UP;
+	
+	private float previousX;
+	private float previousY;
+	private ArrayList<Bomb> bombsPlaced;
+	
+	// These are up for deletion.
+//	private int prevPosX;
+//	private int prevPosY;
+//	private int gridPosX;
+//	private int gridPosY;
+//	private boolean betweenCol;
+//	private boolean betweenRow;
 	
 	public Player(String name) {
 		this.nameOfPlayer = name;
-		this.player = new Image(R.drawable.playerredlarge);
 		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
-		this.setColor(ColorObject.BROWN);
+		this.setColor(ColorObject.SWAG);
+		bombsPlaced = new ArrayList<Bomb>();
 	}
 	
+	/**
+	 * Returns the centered X-coordinate of player sprite.
+	 * @return
+	 */
+	public float getMiddleX(){
+		return this.getX() + this.getImageWidth() / 2;
+	}
+	
+	/**
+	 * Returns the centered Y-coordinate of player sprite.
+	 * @return
+	 */
+	public float getMiddleY() {
+		return this.getY() + this.getImageHeight() / 2;
+	}
+	
+	/**
+	 * Handles appropriate image assignment given ColorObject input.
+	 * Should be called at beginning of game when color is decided.
+	 * @param color
+	 */
 	public void setColor(ColorObject color) {
 		this.color = color;
 		this.playerImages.clear();
@@ -109,6 +138,9 @@ public class Player extends Sprite {
 		this.setView(playerImages.get(0));
 	}
 
+	/**
+	 * Reset player power-ups at end of round.
+	 */
 	public void resetRound() {
 		this.numberOfBombs = 1;
 		this.kickBombs = false;
@@ -125,32 +157,34 @@ public class Player extends Sprite {
 		super.draw(canvas);
 	}
 	
-	public int getCenterOfTilePosition(){
-		return 0;
-	}
-	
+	/**
+	 * Checks if a player can move in Y-direction.
+	 * @return
+	 */
 	public boolean canMoveY() {
-		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.player.getHeight()))
+		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.playerImages.get(0).getHeight()))
 			return true;
 		return false;
 	}
 	
+	/**
+	 * Checks if a player can move in X-direction
+	 * @return
+	 */
 	public boolean canMoveX() {
-		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.player.getHeight()))
+		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.playerImages.get(0).getHeight()))
 			return true;
 		return false;
-	}
-	
-	public boolean canMoveUp(){
-		
-		return false;
-		
 	}
 	
 	public Direction getDirection() {
 		return this.direction;
 	}
 	
+	/**
+	 * Sets player animation based on walking direction.
+	 * @param direction
+	 */
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 		switch(direction) {
@@ -170,13 +204,18 @@ public class Player extends Sprite {
 	}
 	
 	public float getImageHeight(){
-		return this.player.getHeight();
+		return this.playerImages.get(0).getHeight();
+	}
+	
+	public float getImageWidth() {
+		return this.playerImages.get(0).getWidth();
 	}
 	
 	/**
+	 * Handles power-ups
 	 * @param powerUp Power-up the player archived.
 	 */
-	public void powerUp(PowerUp powerUp) {
+	public void powerUp(PowerUpType powerUp) {
 		switch(powerUp) {
 		case BOMB:
 			this.numberOfBombs++;
@@ -198,6 +237,11 @@ public class Player extends Sprite {
 		}
 		return;
 	}
+	
+	public String getNameOfPlayer() {
+		return this.nameOfPlayer;
+	}
+	
 	public int getMagnitude(){
 		return this.magnitudeOfBombs;
 	}
@@ -205,4 +249,46 @@ public class Player extends Sprite {
 	public ColorObject getColor(){
 		return this.color;
 	}
+	
+	public double getPlayerSpeed() {
+		return this.speedOfPlayer;
+	}
+	
+	public int getScore() {
+		return this.scoreOfPlayer;
+	}
+	
+	public boolean canThrowBomb() {
+		return this.throwBombs;
+	}
+	
+	public int getNumberOfBombs(){
+		return this.numberOfBombs;
+	}
+	
+	public boolean canKickBomb() {
+		return this.kickBombs;
+	}
+	
+	public void updatePosition() {
+		this.previousX = this.getMiddleX();
+		this.previousY = this.getMiddleY();
+	}
+	
+	public boolean hasMovedSince() {
+		return !(this.previousX == this.getMiddleX() && this.previousY == this.getMiddleY());
+	}
+	
+	public boolean canPlaceBomb() {
+		return (this.bombsPlaced.size() < getNumberOfBombs());
+	}
+	
+	public void addBomb(Bomb bomb) {
+		this.bombsPlaced.add(bomb);
+	}
+	
+	public void removeBomb(Bomb bomb) {
+		this.bombsPlaced.remove(bomb);
+	}
+	
 }

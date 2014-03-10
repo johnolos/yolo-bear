@@ -1,9 +1,7 @@
 package bomberman.connection;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -18,16 +16,7 @@ import bomberman.game.PeerObject;
 import bomberman.states.GameState;
 
 public class Client extends Thread {
-//	/** Peer-to-peer client **/
-//	
-//	// This shall be deleted and replaced with config file later on
-//	String SERVERIP = "78.91.12.244";
-//	String ANDROIDIP = "78.91.80.79";
-//	
-//	// Config file too
-//	public static final int PORT = 4078;
-//	public static final int PEERPORT = 4093;
-//	
+	/** Peer-to-peer client **/
 	ServerConnection server;
 	ArrayList<Connection> clients;
 	ClientPeer peerConnection;
@@ -36,7 +25,6 @@ public class Client extends Thread {
 	
 	public Client() {
 		clients = new ArrayList<Connection>();
-		// Make a connection to game server
 	}
 	
 	public void run() {
@@ -97,6 +85,10 @@ public class Client extends Thread {
 		}
 	}
 	
+	/**
+	 * Adds connection to connection list.
+	 * @param client Connection to client.
+	 */
 	protected void addConnection(Connection client) {
 		System.out.println("PeerConnection:" + client.getIP());
 		this.clients.add(client);
@@ -119,18 +111,18 @@ public class Client extends Thread {
 			try {
 				// Fetches InputStream from connection
 				InputStream serverInputStream = this.connection.getInputStream();
-				// Fetches OutputStream from connect
+				// Fetches OutputStream from connect.
 				OutputStream serverOutputStream = this.connection.getOutputStream();
-				// Create ObjectOutputStream
+				// Create ObjectOutputStream. Used to output objects
 				this.oos = new ObjectOutputStream(serverOutputStream);
-				//Create InputObjectStream
+				//Create InputObjectStream. Used to get input objects.
 				this.ois = new ObjectInputStream(serverInputStream);
 
 				System.out.println("ServerConnection: Ready");
 				// While-loop to ensure continuation of reading in-coming messages
 				while (this.connection.isConnected()) {
 					try {
-						//Receive object from client
+						//Receive object from server
 						Object obj = this.ois.readObject();
 						this.client.receive(obj);
 					} catch (ClassNotFoundException e) {
