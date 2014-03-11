@@ -8,7 +8,7 @@ Key-features:
 	1.	Are we doing proper MVC architecture.
 		1.	Board or BoardModel.java (does not exist) of Game should be it's own model class.
 			The model should be edited through Controller, which right now happens to be MultiplayerGameState.java.
-			Futher, I think we should avoid drawing BoardModel when there's no change. When a change is made, i.e. a create is destoryed, the model should fireBoardChange which calls a function in MultiplayerGameState or SinglePlayerState which draws the board again.
+			Futher, I think we should avoid drawing BoardModel when there's no change. When a change is made, i.e. a crate is destoryed, the model should fireBoardChange which calls a function in MultiplayerGameState or SinglePlayerState which draws the board again.
 	2.	~~Peer-to-peer:~~
 		1.	There is not really much to it. We are already doing this.
 	3.	Server:
