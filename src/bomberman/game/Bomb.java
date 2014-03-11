@@ -5,7 +5,7 @@ import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
 
-public class Bomb extends Sprite{
+public class Bomb extends Sprite implements Collision{
 	
 	private int blastRadius; //the "length" of the explosion
 	private Image bomb;
@@ -16,8 +16,11 @@ public class Bomb extends Sprite{
 	private boolean finished = false;
 	private GameState gs;
 	private Image[] explodeImages;
+	private int column, row;
 	
 	public Bomb(int x, int y, int blastRadius, GameState gs){
+		this.column = Constants.getPositionX(x);
+		this.row = Constants.getPositionY(y);
 		this.setPosition(x, y);
 		explodeImages = new Image[4];
 		explodeImages[1] = new Image(R.drawable.explode2);
@@ -96,5 +99,10 @@ public class Bomb extends Sprite{
 	
 	public int getBlastRadius() {
 		return this.blastRadius;
+	}
+
+	@Override
+	public boolean collision(int x, int y) {
+		return (this.column == x && this.row == y);
 	}
 }
