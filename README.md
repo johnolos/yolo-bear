@@ -9,7 +9,7 @@ Key-features:
 		1.	Board or BoardModel.java (does not exist) of Game should be it's own model class.
 			The model should be edited through Controller, which right now happens to be MultiplayerGameState.java.
 			Futher, I think we should avoid drawing BoardModel when there's no change. When a change is made, i.e. a create is destoryed, the model should fireBoardChange which calls a function in MultiplayerGameState or SinglePlayerState which draws the board again.
-	2.	Peer-to-peer:
+	2.	~~Peer-to-peer:~~
 		1.	There is not really much to it. We are already doing this.
 	3.	Server:
 		1.	We have a lot of work to be done when we are able to run different rounds.
