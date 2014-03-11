@@ -103,6 +103,7 @@ git commit -m "Message for commit"
 git push
 ```
 ## After being used first time
+[[Back to top]](#table-of-contents)
 ```
 git pull
 git push
