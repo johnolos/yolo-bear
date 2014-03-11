@@ -15,10 +15,10 @@ Table-of-Contents:
 *	3.	[After being used first time](#after-being-used-first-time)
 *	
 
-[[Back to top]](#table-of-contents)
 #Project priorities
 ## Non-implemented features
 ###Key features:
+[[Back to top]](#table-of-contents)
 *	Make adjustments in code to meet architectual description of our system.
 	1.	Are we doing proper MVC architecture.
 		1.	Board or BoardModel.java (does not exist) of Game should be it's own model class.
@@ -47,6 +47,7 @@ Table-of-Contents:
 	2. Remove duplicate bears at startup and bears not controlled by anyone.
 
 ###Non-key features:
+[[Back to top]](#table-of-contents)
 *	Tool-assisted-movements
 	Hard to move in-game. Make it a little easier?
 *	Bomb.java
@@ -55,12 +56,14 @@ Table-of-Contents:
 
 
 ## Implemented features
+[[Back to top]](#table-of-contents)
 *	Powerups:
 	1.	Place additional bombs.
 	2.	Increased player speed.
 
 
 ## Buggy features
+[[Back to top]](#table-of-contents)
 *	Powerups:
 	1.	Kick: Does not work as intended.
 	2.	Movements: Hard to navigate through game. Especially when having high movement speed.
@@ -69,6 +72,7 @@ Table-of-Contents:
 		Reason: Java sockets give CorruptedSocketException because of trying to send over object before
 
 # Setting up ADT project
+[[Back to top]](#table-of-contents)
 ```
 File > New > Android Application Project
 Application Name: BomberMan
@@ -82,12 +86,14 @@ Install git bash. Go to BomberMan-folder and do commands written below.
 ```
 
 ## Initial git commands.
+[[Back to top]](#table-of-contents)
 ```
 git clone https://github.com/johnolos/yolo-bear.git
 
 ```
 
 ## Commit sequence
+[[Back to top]](#table-of-contents)
 ```
 git add --all "folder"
 git add "path_to_file_and_filename"
