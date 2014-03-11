@@ -16,7 +16,9 @@ Table-of-Contents:
 *	
 
 #Project priorities
+[[Back to top]](#table-of-contents)
 ## Non-implemented features
+[[Back to top]](#table-of-contents)
 ###Key features:
 [[Back to top]](#table-of-contents)
 *	Make adjustments in code to meet architectual description of our system.
