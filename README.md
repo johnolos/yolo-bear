@@ -15,6 +15,7 @@ Table-of-Contents:
 *	3.	[After being used first time](#after-being-used-first-time)
 *	
 
+[[Back to top]](#table-of-contents)
 #Project priorities
 ## Non-implemented features
 ###Key features:
