@@ -9,11 +9,11 @@ Table-of-Contents:
 		2.	[Non-key features](#non-key-features)
 	2.	[Implemented features](#implemented-features)
 	3.	[Buggy features](#buggy-features)
-*	[Setting up ADT project](#setting-up-adt-project)
-*	1.	[Initial git commands](#initial-git-commands)
-*	2.	[Commit sequence](#commit-sequence)
-*	3.	[After being used first time](#after-being-used-first-time)
-*	
+	[Setting up ADT project](#setting-up-adt-project)
+	1.	[Initial git commands](#initial-git-commands)
+	2.	[Commit sequence](#commit-sequence)
+	3.	[After being used first time](#after-being-used-first-time)
+	
 
 #Project priorities
 [[Back to top]](#table-of-contents)
