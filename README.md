@@ -7,8 +7,13 @@ Table-of-Contents:
 	1.	[Non-implemented features](#non-implemented-features)
 		1.	[Key features](#key-features)
 		2.	[Non-key features](#non-key-features)
-
-
+	2.	[Implemented features](#implemented-features)
+	3.	[Buggy features](#buggy-features)
+*	[Setting up ADT project](#setting-up-adt-project)
+*	1.	[Initial git commands](#initial-git-commands)
+*	2.	[Commit sequence](#commit-sequence)
+*	3.	[After being used first time](#after-being-used-first-time)
+*	
 
 #Project priorities
 ## Non-implemented features
@@ -39,7 +44,6 @@ Table-of-Contents:
 	1.	Enable magnitude range of bombs in UP, DOWN, LEFT, RIGHT directions after bomb impact.
 		Image resources already available.
 	2. Remove duplicate bears at startup and bears not controlled by anyone.
-
 
 ###Non-key features:
 *	Tool-assisted-movements
@@ -76,24 +80,20 @@ Delete MainActivity.java in bomberman.game.
 Install git bash. Go to BomberMan-folder and do commands written below.
 ```
 
-# Initial git commands.
+## Initial git commands.
 ```
-git init
-git pull https://github.com/johnolos/yolo-bear.git
-
-Alternatively:
 git clone https://github.com/johnolos/yolo-bear.git
 
 ```
 
-# Commit sequence
+## Commit sequence
 ```
 git add --all "folder"
 git add "path_to_file_and_filename"
 git commit -m "Message for commit"
-git push https://github.com/johnolos/yolo-bear.git (master)
+git push
 ```
-# After being used first time
+## After being used first time
 ```
 git pull
 git push
