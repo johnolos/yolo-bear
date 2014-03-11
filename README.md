@@ -4,10 +4,23 @@ ProgArk V2014 - Group no.13
 #Project priorities
 ## Non-implemented features
 Key-features:
-* Intro game screen: Graphics and all it's glory.
-* Seperation between Multiplayer and Singleplayer
-* New round for all players. Server assigning colors to players
-* Stats in multiplayer and transistion between rounds.
+*	Make adjustments in code to meet architectual description of our system.
+	1.	Are we doing proper MVC architecture.
+		1.	Board or BoardModel.java (does not exist) of Game should be it's own model class.
+			The model should be edited through Controller, which right now happens to be MultiplayerGameState.java.
+			Futher, I think we should avoid drawing BoardModel when there's no change. When a change is made, i.e. a create is destoryed, the model should fireBoardChange which calls a function in MultiplayerGameState or SinglePlayerState which draws the board again.
+	2.	Peer-to-peer:
+		1.	There is not really much to it. We are already doing this.
+	3.	Server:
+		1.	We have a lot of work to be done when we are able to run different rounds.
+*	Intro game screen: Graphics and all it's glory.
+*	Seperation between Multiplayer and Singleplayer
+	1.	Singleplayer doesn't work.
+	2.	AI for singleplayer is not implemented.
+*	New round for all players. Server assigning colors to players
+	1.	Detect end of game.
+*	Stats in multiplayer and transistion between rounds.
+	1. After detecting of a end of game. We should run a sequence of actions to restart everything to start a new clean round. Everything except player scores whould be wiped.
 *	Powerups
 	1.	Throw-implementation.
 		Idea: If you try to place a bomb at a location which already contains bomb. Throw it if that player has picked up throw-powerup.
