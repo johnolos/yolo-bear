@@ -23,9 +23,6 @@ public class Bomb extends Sprite implements Collision{
 		this.row = Constants.getPositionY(y);
 		this.setPosition(x, y);
 		explodeImages = new Image[4];
-		explodeImages[1] = new Image(R.drawable.explode2);
-		explodeImages[2] = new Image(R.drawable.explode3);
-		explodeImages[3] = new Image(R.drawable.explode4);
 		this.blastRadius = blastRadius;
 		this.gs = gs;
 		if(Constants.screenHeight == 1600){
