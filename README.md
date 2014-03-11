@@ -1,9 +1,12 @@
 ProgArk V2014 - Group no.13
 =========
-[Project priotiries](#project-priorities)
-	[Non-implemented features](#non-implemented-features)
-		[Key features](#key-features)
-		[Non-key features](#non-key-features)
+
+Table-of-Contents:
+------------------
+*	[Project priotiries](#project-priorities)
+	1.	[Non-implemented features](#non-implemented-features)
+		1.	[Key features](#key-features)
+		2.	[Non-key features](#non-key-features)
 
 
 
