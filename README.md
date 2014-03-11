@@ -1,15 +1,15 @@
 ProgArk V2014 - Group no.13
 =========
 [Project priotiries](#project-priorities)
-[Non-implemented features](#non-implemented-features)
-[Key-features](#key-features)
-[Key-features](#non-key-features)
+	[Non-implemented features](#non-implemented-features)
+		[Key features](#key-features)
+		[Non-key features](#non-key-features)
 
 
 
 #Project priorities
 ## Non-implemented features
-###Key-features:
+###Key features:
 *	Make adjustments in code to meet architectual description of our system.
 	1.	Are we doing proper MVC architecture.
 		1.	Board or BoardModel.java (does not exist) of Game should be it's own model class.
