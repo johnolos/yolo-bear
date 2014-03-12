@@ -1,6 +1,5 @@
 ProgArk V2014 - Group no.13
 =========
-
 Table-of-Contents:
 ------------------
 *	[Project priotiries](#project-priorities)
@@ -14,7 +13,6 @@ Table-of-Contents:
 	2.	[Commit sequence](#commit-sequence)
 	3.	[After being used first time](#after-being-used-first-time)
 
-
 #Project priorities
 [[Back to top]](#table-of-contents)
 ## Non-implemented features
@@ -22,14 +20,16 @@ Table-of-Contents:
 ###Key features:
 [[Back to top]](#table-of-contents)
 *	Make adjustments in code to meet architectual description of our system.
-	1.	Are we doing proper MVC architecture.
-		1.	Board or BoardModel.java (does not exist) of Game should be it's own model class.
+	1.	Are we doing proper MVC architecture?
+		1.	Board or BoardModel.java (does not exist in such a way it should) of Game should be it's own model class.
 			The model should be edited through Controller, which right now happens to be MultiplayerGameState.java.
 			Futher, I think we should avoid drawing BoardModel when there's no change. When a change is made, i.e. a crate is destoryed, the model should fireBoardChange which calls a function in MultiplayerGameState or SinglePlayerState which draws the board again.
 	2.	~~Peer-to-peer:~~
 		1.	There is not really much to it. We are already doing this.
 	3.	Server:
 		1.	We have a lot of work to be done when we are able to run different rounds.
+		2.	Currently, server does not assign colors to players connecting. Player figures are hard-coded.
+			Reason: Java sockets give CorruptedSocketException because of trying to send over object before
 *	Intro game screen: Graphics and all it's glory.
 *	Seperation between Multiplayer and Singleplayer
 	1.	Singleplayer doesn't work.
@@ -37,12 +37,13 @@ Table-of-Contents:
 *	New round for all players. Server assigning colors to players
 	1.	Detect end of game.
 *	Stats in multiplayer and transistion between rounds.
-	1. After detecting of a end of game. We should run a sequence of actions to restart everything to start a new clean round. Everything except player scores whould be wiped.
+	1. After detecting end of game. We should run a sequence of actions to restart everything to start a new clean round. Everything except player scores should be wiped.
 *	Powerups
-	1.	Throw-implementation.
-		Idea: If you try to place a bomb at a location which already contains bomb. Throw it if that player has picked up throw-powerup.
+	1.	~~Throw-implementation.~~
+		~~Idea: If you try to place a bomb at a location which already contains bomb. Throw it if that player has picked up throw-powerup.~~
 	2.	Powerup graphics.
 		Currently, just a placeholder image is given. Make static image placeholder for the various powerup-images in PowerUpType.java so save memory.
+		Just like Brage did with BombImage.java.
 *	Graphics:
 	1.	~~Enable magnitude range of bombs in UP, DOWN, LEFT, RIGHT directions after bomb impact.~~
 		~~Image resources already available.~~
@@ -59,11 +60,12 @@ Table-of-Contents:
 
 ## Implemented features
 [[Back to top]](#table-of-contents)
-*	Powerups:
+*	Powerups(Complete):
 	1.	Place additional bombs.
-	2.	Increased player speed.
-	3. 	Kick
-
+	2.	Magnitude
+	3.	Increased player speed.
+	4. 	Kick
+	5.	Throw
 
 ## Buggy features
 [[Back to top]](#table-of-contents)
@@ -71,10 +73,6 @@ Table-of-Contents:
 	1.	~~Kick: Does not work as intended.~~
 	2.	Movements: Hard to navigate through game. Especially when having high movement speed.
 	3.	Sometimes a powerup appears where no crate is destoryed.
-*	Server:
-	1.	Currently, server does not assign colors to players connecting. Player figures are hard-coded.
-		Reason: Java sockets give CorruptedSocketException because of trying to send over object before
-
 # Setting up ADT project
 [[Back to top]](#table-of-contents)
 ```
@@ -93,9 +91,7 @@ Install git bash. Go to BomberMan-folder and do commands written below.
 [[Back to top]](#table-of-contents)
 ```
 git clone https://github.com/johnolos/yolo-bear.git
-
 ```
-
 ## Commit sequence
 [[Back to top]](#table-of-contents)
 ```
@@ -110,4 +106,3 @@ git push
 git pull
 git push
 ```
-
