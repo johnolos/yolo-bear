@@ -163,7 +163,7 @@ public class GameState extends State implements TouchListener{
 		float pixelsY = (player.getPosition().getY()) - (sprite.getPosition().getY() + Constants.getHeight());
 		if(pixelsY > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
-		if(bombAtPosition(x,y-1)) {
+		if(bombAtPosition(x,y-1)&& player.getDirection() == Direction.UP) {
 			kickBomb(x,y - 1,player.getDirection());
 		}
 		return false;
@@ -185,7 +185,7 @@ public class GameState extends State implements TouchListener{
 		float pixelsY = sprite.getPosition().getY() - (player.getPosition().getY() + player.getImageHeight());
 		if(pixelsY > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
-		if(bombAtPosition(x,y + 1)) {
+		if(bombAtPosition(x,y + 1) && player.getDirection() == Direction.DOWN) {
 			kickBomb(x,y + 1,player.getDirection());
 		}
 		return false;
@@ -207,7 +207,7 @@ public class GameState extends State implements TouchListener{
 		float pixelsX = player.getPosition().getX() - (sprite.getPosition().getX() + Constants.getHeight());
 		if(pixelsX > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
-		if(bombAtPosition(x-1,y)) {
+		if(bombAtPosition(x-1,y) && player.getDirection()==Direction.LEFT) {
 			kickBomb(x-1,y,player.getDirection());
 		}
 		return false;
@@ -229,7 +229,7 @@ public class GameState extends State implements TouchListener{
 		float pixelsX = sprite.getPosition().getX() - (player.getPosition().getX() + player.getImageHeight());
 		if(pixelsX > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
-		if(bombAtPosition(x+1,y)) {
+		if(bombAtPosition(x+1,y) && player.getDirection() == Direction.RIGHT) {
 			kickBomb(x+1,y,player.getDirection());
 		}
 		return false;
@@ -298,6 +298,7 @@ public class GameState extends State implements TouchListener{
 		player.update(dt);
 		for(Iterator<Bomb> it = bombs.iterator(); it.hasNext();){
 			Bomb bomb = it.next();
+			checkBombCollision(bomb);
 			bomb.update(dt);
 			if(bomb.finished()) {
 				it.remove();
@@ -314,6 +315,42 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
+	private void checkBombCollision(Bomb bomb) {
+		if(bomb.getDirection() != Direction.STOP){
+			int x = Constants.getPositionX(bomb.getX()+Constants.getHeight()/2);
+			int y = Constants.getPositionY(bomb.getY()+Constants.getHeight()/2);
+			switch (bomb.getDirection()) {
+			case UP:
+				if(!(spriteList.get(y-1).get(x) instanceof Empty)){
+					bomb.setSpeed(0, 0);
+					bomb.setPosition(spriteList.get(y).get(x).getX(), spriteList.get(y).get(x).getY());
+				}
+				break;
+			case DOWN:
+				if(!(spriteList.get(y+1).get(x) instanceof Empty)){
+					bomb.setSpeed(0, 0);
+					bomb.setPosition(spriteList.get(y).get(x).getX(), spriteList.get(y).get(x).getY());
+				}
+				break;
+			case LEFT:
+				if(!(spriteList.get(y).get(x-1) instanceof Empty)){
+					bomb.setSpeed(0, 0);
+					bomb.setPosition(spriteList.get(y).get(x).getX(), spriteList.get(y).get(x).getY());
+				}
+				break;
+			case RIGHT:
+				if(!(spriteList.get(y).get(x+1) instanceof Empty)){
+					bomb.setSpeed(0, 0);
+					bomb.setPosition(spriteList.get(y).get(x).getX(), spriteList.get(y).get(x).getY());
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		
+	}
+
 	/**
 	 * Evaluates a bomb and removes the creates it finds in its impact range.
 	 * Refactoring should be considered.
@@ -321,8 +358,8 @@ public class GameState extends State implements TouchListener{
 	 */
 	public void bombImpact(Bomb bomb){
 		int blastRadius = bomb.getBlastRadius();
-		int x = Constants.getPositionX(bomb.getPosition().getX());
-		int y = Constants.getPositionY(bomb.getPosition().getY());
+		int x = Constants.getPositionX(bomb.getPosition().getX()+Constants.getHeight()/2);
+		int y = Constants.getPositionY(bomb.getPosition().getY()+Constants.getHeight()/2);
 		int i = 0;
 		Sprite sprite;
 		for(int column = x-1; column>=0; column-- ){
@@ -510,19 +547,23 @@ public class GameState extends State implements TouchListener{
 	public void kickBomb(int x, int y, Direction direction) {
 		System.out.println("Kick!");
 		for(Bomb bomb : this.bombs) {
-			if(bomb.collision(x, y)) {
+			if(bomb.collision(x, y) && !bomb.initiated()) {
 				switch(direction) {
 				case UP:
 					bomb.setSpeed(0, -150*Constants.getReceivingXRatio());
+					bomb.setDirection(Direction.UP);
 					break;
 				case DOWN:
 					bomb.setSpeed(0, 150*Constants.getReceivingXRatio());
+					bomb.setDirection(Direction.DOWN);
 					break;
 				case RIGHT:
 					bomb.setSpeed(150*Constants.getReceivingXRatio(), 0);
+					bomb.setDirection(Direction.RIGHT);
 					break;
 				case LEFT:
 					bomb.setSpeed(-150*Constants.getReceivingXRatio(), 0);
+					bomb.setDirection(Direction.LEFT);
 					break;
 				}
 			}
@@ -532,7 +573,9 @@ public class GameState extends State implements TouchListener{
 	
 	public boolean bombAtPosition(int x, int y) {
 		for(Bomb bomb : this.bombs)
-			if(bomb.collision(x, y)) return true;
+			if(bomb.collision(x, y)){
+				return true;
+			}
 		return false;
 	}
 
