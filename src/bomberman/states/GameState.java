@@ -14,6 +14,7 @@ import bomberman.game.Constants;
 import bomberman.game.Crate;
 import bomberman.game.Direction;
 import bomberman.game.Empty;
+import bomberman.game.Explosion;
 import bomberman.game.GameObject;
 import bomberman.game.Opponent;
 import bomberman.game.PeerObject;
@@ -21,6 +22,7 @@ import bomberman.game.Player;
 import bomberman.game.ColorObject;
 import bomberman.game.PowerUp;
 import bomberman.game.Wall;
+import bomberman.graphics.BombImages;
 import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
@@ -33,6 +35,7 @@ public class GameState extends State implements TouchListener{
 	private Buttons up, down, left, right, bombIcon;
 	private ArrayList<Bomb> bombs;
 	private ArrayList<PowerUp> powerups;
+	private ArrayList<Explosion> explosions;
 	
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
@@ -61,6 +64,7 @@ public class GameState extends State implements TouchListener{
 			this.bombIcon = new Buttons("bomb", (int) (Constants.screenWidth*0.08f), (int) (Constants.screenHeight*0.407f));
 		bombs = new ArrayList<Bomb>();
 		powerups = new ArrayList<PowerUp>();
+		explosions = new ArrayList<Explosion>();
 		addSprites();
 		addOpponent();
 	}
@@ -301,6 +305,7 @@ public class GameState extends State implements TouchListener{
 		}
 			
 		collisionCheck();
+		removeExplosions();
 		up.update(dt);
 		down.update(dt);
 		left.update(dt);
@@ -320,12 +325,25 @@ public class GameState extends State implements TouchListener{
 			powerup.update(dt);
 		for (Opponent opp : this.opponents)
 			opp.update(dt);
+		for (Explosion explosion : this.explosions)
+			explosion.update(dt);
 		for(ArrayList<Sprite> row : spriteList){
 			for(Sprite sprite : row)
 				sprite.update(dt);
 		}
 	}
 	
+	private void removeExplosions() {
+		for(Iterator<Explosion> it = explosions.iterator(); it.hasNext();){
+			Explosion explosion = it.next();
+			if(explosion.removeExplosion()){
+				it.remove();
+			}
+			
+		}
+		
+	}
+
 	private void checkBombCollision(Bomb bomb) {
 		if(bomb.getDirection() != Direction.STOP){
 			int x = Constants.getPositionX(bomb.getX()+Constants.getHeight()/2);
@@ -371,24 +389,36 @@ public class GameState extends State implements TouchListener{
 		int blastRadius = bomb.getBlastRadius();
 		int x = Constants.getPositionX(bomb.getPosition().getX()+Constants.getHeight()/2);
 		int y = Constants.getPositionY(bomb.getPosition().getY()+Constants.getHeight()/2);
+		float pixelX = spriteList.get(y).get(x).getX();
+		float pixelY = spriteList.get(y).get(x).getY();
+		explosions.add(new Explosion(pixelX, pixelY, BombImages.bombExplosionCenter));
 		int i = 0;
 		Sprite sprite;
 		for(int column = x-1; column>=0; column-- ){
 			if(i == blastRadius)
 				break;
 			sprite = spriteList.get(y).get(column);
+			float xPixel = sprite.getPosition().getX();
+			float yPixel = sprite.getPosition().getY();
 			if(sprite instanceof Wall){
 				break;
 			}
-			else if(sprite instanceof Crate){
-				float xPixel = sprite.getPosition().getX();
-				float yPixel = sprite.getPosition().getY();
+			else if(sprite instanceof Crate || i+1 == blastRadius){
+				explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndLeft));
 				spriteList.get(y).remove(sprite);
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(y).add(column,empty);
 				maybeCreatePowerUp(column, y);
 				break;
+			}
+			else if(sprite instanceof Empty){
+				if(spriteList.get(y).get(column-1) instanceof Wall){
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndLeft));
+				}
+				else{
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionMidLeft));
+				}
 			}
 			i++;
 		}
@@ -397,18 +427,27 @@ public class GameState extends State implements TouchListener{
 			if(i == blastRadius)
 				break;
 			sprite = spriteList.get(y).get(column);
+			float xPixel = sprite.getPosition().getX();
+			float yPixel = sprite.getPosition().getY();
 			if(sprite instanceof Wall){
 				break;
 			}
-			else if(sprite instanceof Crate){
-				float xPixel = sprite.getPosition().getX();
-				float yPixel = sprite.getPosition().getY();
+			else if(sprite instanceof Crate || i+1 == blastRadius){
+				explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndRight));
 				spriteList.get(y).remove(sprite);
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(y).add(column,empty);
 				maybeCreatePowerUp(column, y);
 				break;
+			}
+			else if(sprite instanceof Empty){
+				if(spriteList.get(y).get(column+1) instanceof Wall){
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndRight));
+				}
+				else{
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionMidRight));
+				}
 			}
 			i++;
 		}
@@ -417,18 +456,27 @@ public class GameState extends State implements TouchListener{
 			if(i == blastRadius)
 				break;
 			sprite = spriteList.get(row).get(x);
+			float xPixel = sprite.getPosition().getX();
+			float yPixel = sprite.getPosition().getY();
 			if(sprite instanceof Wall){
 				break;
 			}
-			else if(sprite instanceof Crate){
-				float xPixel = sprite.getPosition().getX();
-				float yPixel = sprite.getPosition().getY();
+			else if(sprite instanceof Crate || i+1 == blastRadius){
+				explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndUp));
 				spriteList.get(row).remove(sprite);
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(row).add(x,empty);
 				maybeCreatePowerUp(x, row);
 				break;
+			}
+			else if(sprite instanceof Empty){
+				if(spriteList.get(row-1).get(x) instanceof Wall){
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndUp));
+				}
+				else{
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionMidUp));
+				}
 			}
 			i++;
 		}
@@ -437,18 +485,27 @@ public class GameState extends State implements TouchListener{
 			if(i == blastRadius)
 				break;
 			sprite = spriteList.get(row).get(x);
+			float xPixel = sprite.getPosition().getX();
+			float yPixel = sprite.getPosition().getY();
 			if(sprite instanceof Wall){
 				break;
 			}
-			else if(sprite instanceof Crate){
-				float xPixel = sprite.getPosition().getX();
-				float yPixel = sprite.getPosition().getY();
+			else if(sprite instanceof Crate || i+1 == blastRadius){
+				explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndDown));
 				spriteList.get(row).remove(sprite);
 				Empty empty = new Empty();
 				empty.setPosition(xPixel, yPixel);
 				spriteList.get(row).add(x,empty);
 				maybeCreatePowerUp(x, row);
 				break;
+			}
+			else if(sprite instanceof Empty){
+				if(spriteList.get(row+1).get(x) instanceof Wall){
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndDown));
+				}
+				else{
+					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionMidDown));
+				}
 			}
 			i++;
 		}
@@ -489,6 +546,8 @@ public class GameState extends State implements TouchListener{
 		}
 		for(PowerUp powerup : this.powerups)
 			powerup.draw(canvas);
+		for(Explosion explosion : this.explosions)
+			explosion.draw(canvas);
 		player.draw(canvas);
 	}
 	
@@ -563,7 +622,7 @@ public class GameState extends State implements TouchListener{
 	
 	public void kickBomb(int x, int y, Direction direction) {
 		for(Bomb bomb : this.bombs) {
-			if(bomb.collision(x, y)) {
+			if(bomb.collision(x, y) && !bomb.initiated()) {
 				switch(direction) {
 				case UP:
 					bomb.setSpeed(0, -150*Constants.getReceivingXRatio());

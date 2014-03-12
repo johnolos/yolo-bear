@@ -18,6 +18,7 @@ public class Bomb extends Sprite implements Collision{
 	private Image[] explodeImages;
 	private int column, row;
 	private Direction direction;
+	private boolean initiated = false;
 	
 	public Bomb(int x, int y, int blastRadius, GameState gs){
 		this.column = Constants.getPositionX(x);
@@ -44,6 +45,7 @@ public class Bomb extends Sprite implements Collision{
 	
 	public void bombAnimation(){
 		if(System.currentTimeMillis() - time >= 2000 && !this.exploded && !this.phase2){
+			initiated = true;
 			bomb = new Image(R.drawable.bombphase2);
 			setView(bomb);
 			phase2 = true;
@@ -111,5 +113,9 @@ public class Bomb extends Sprite implements Collision{
 	
 	public Direction getDirection(){
 		return this.direction;
+	}
+	
+	public boolean initiated(){
+		return this.initiated;
 	}
 }

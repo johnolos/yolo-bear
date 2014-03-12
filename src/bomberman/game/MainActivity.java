@@ -1,5 +1,6 @@
 package bomberman.game;
 
+import bomberman.graphics.BombImages;
 import bomberman.states.MainMenu;
 import sheep.game.Game;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
  		Constants.screenHeight = dm.heightPixels;
  		Constants.screenWidth  = dm.widthPixels;
+ 		
+ 		BombImages.loadImages();
         
         System.out.println(Constants.screenHeight);
         System.out.println(Constants.screenWidth);
