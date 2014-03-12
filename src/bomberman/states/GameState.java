@@ -547,7 +547,7 @@ public class GameState extends State implements TouchListener{
 	public void kickBomb(int x, int y, Direction direction) {
 		System.out.println("Kick!");
 		for(Bomb bomb : this.bombs) {
-			if(bomb.collision(x, y)) {
+			if(bomb.collision(x, y) && !bomb.initiated()) {
 				switch(direction) {
 				case UP:
 					bomb.setSpeed(0, -150*Constants.getReceivingXRatio());
