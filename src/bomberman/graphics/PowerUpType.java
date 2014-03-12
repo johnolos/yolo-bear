@@ -25,7 +25,7 @@ public enum PowerUpType implements Serializable {
 	
 	public static PowerUpType randomPowerUp() {
 //		return VALUES.get(RANDOM.nextInt(SIZE));
-		return SPEED;
+		return THROW;
 	}
 	
 }

@@ -99,6 +99,17 @@ public class GameState extends State implements TouchListener{
 			player.setSpeed(150*Constants.getReceivingXRatio()*player.getPlayerSpeed(), 0);
 		}
 		else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
+			if(this.player.canThrowBomb()) {
+				int x1 = Constants.getPositionX(player.getMiddleX());
+				int y1 = Constants.getPositionY(player.getMiddleY());
+				int x2 = x1 + this.player.getDirection().getX();
+				int y2 = y1 + this.player.getDirection().getY();
+				for(Bomb bomb : this.bombs) {
+					if(bomb.collision(x1, y1) || bomb.collision(x2, y2)) {
+						bombThrown(bomb, player.getDirection());
+					}
+				}
+			}
 			if (this.player.canPlaceBomb()) {
 				//TODO: Image glitch where bomb is viewed a few milliseconds in top-left of the screen before placed correctly.
 				Bomb bomb = new Bomb(getTilePositionX(),getTilePositionY(),player.getMagnitude(),this);
@@ -443,6 +454,13 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
+	
+	public void bombThrown(Bomb bomb, Direction direction) {
+		
+	}
+	
+	
+	
 	public ArrayList<Bomb> getBombs(){
 		return bombs;
 	}
@@ -540,12 +558,10 @@ public class GameState extends State implements TouchListener{
 			PowerUp powerup = new PowerUp(x, y);
 			powerups.add(powerup);
 			client.sendAll(new PeerObject(GameObject.POWERUP, x, y, powerup.getPowerUpType()));
-			System.out.println("X: " + x + " Y: " + y);
 		}
 	}
 	
 	public void kickBomb(int x, int y, Direction direction) {
-		System.out.println("Kick!");
 		for(Bomb bomb : this.bombs) {
 			if(bomb.collision(x, y)) {
 				switch(direction) {
