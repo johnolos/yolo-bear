@@ -19,7 +19,7 @@ public class Player extends Sprite {
 	private boolean kickBombs = false;
 	private boolean throwBombs = false;
 	private float speedOfPlayer = 1.0f;
-	private int magnitudeOfBombs = 1;
+	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
 	
 	private float previousX;
@@ -214,7 +214,7 @@ public class Player extends Sprite {
 			this.numberOfBombs++;
 			return;
 		case SPEED:
-			this.speedOfPlayer++;
+			this.speedOfPlayer+=0.2f;
 			return;
 		case THROW:
 			this.throwBombs = true;
