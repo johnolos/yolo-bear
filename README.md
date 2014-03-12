@@ -44,8 +44,8 @@ Table-of-Contents:
 	2.	Powerup graphics.
 		Currently, just a placeholder image is given. Make static image placeholder for the various powerup-images in PowerUpType.java so save memory.
 *	Graphics:
-	1.	~~~Enable magnitude range of bombs in UP, DOWN, LEFT, RIGHT directions after bomb impact.
-		Image resources already available.~~~
+	1.	~~Enable magnitude range of bombs in UP, DOWN, LEFT, RIGHT directions after bomb impact.~~
+		~~Image resources already available.~~
 	2. Remove duplicate bears at startup and bears not controlled by anyone.
 
 ###Non-key features:
