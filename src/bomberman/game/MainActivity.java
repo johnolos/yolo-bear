@@ -14,32 +14,11 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		Game game = new Game(this, null);
-		game.pushState(new MainMenu());
-		
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		
-		
-
-        Constants.screenHeight = dm.heightPixels;
-        Constants.screenWidth  = dm.widthPixels;
+		game.pushState(new MainMenu());		
         
         System.out.println(Constants.screenHeight);
         System.out.println(Constants.screenWidth);
-        
-        Constants.densityX = Constants.screenWidth/Constants.standardXdp;
-        Constants.densityY = Constants.screenHeight/Constants.standardYdp;
 
-        
-        if(Constants.screenWidth == 2560){
-        	Constants.density = 2.0f;
-        }
-        else if(Constants.screenWidth == 1280){
-        	Constants.density = 1.0f;
-        }
-        else{
-        	Constants.density = 0.75f;
-        }
 		setContentView(game);
 	}
 	

@@ -26,13 +26,6 @@ public class Player extends Sprite {
 	private float previousY;
 	private ArrayList<Bomb> bombsPlaced;
 	
-	// These are up for deletion.
-//	private int prevPosX;
-//	private int prevPosY;
-//	private int gridPosX;
-//	private int gridPosY;
-//	private boolean betweenCol;
-//	private boolean betweenRow;
 	
 	public Player(String name) {
 		this.nameOfPlayer = name;

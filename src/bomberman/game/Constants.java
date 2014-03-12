@@ -6,11 +6,7 @@ public class Constants {
 	public static float screenWidth = 0.0f;
 	public static float standardHeight = 1600;
 	public static float standardWidth = 2560;
-	public static float standardXdp = 1280;
-	public static float standardYdp = 800;
-	public static float densityX = 0.0f;
-	public static float densityY = 0.0f;
-	public static float density = 0.0f;
+
 	public static double horSize;
 	public static double verSize;
 	
@@ -61,16 +57,6 @@ public class Constants {
 	public static float getLocalYPosition(float y) {
 		return y * 13*getHeight();
 	}
-	
-	public static float getUniversalX(float x) {
-		x = x-getPixelsOnSides();
-		return x / (13.0f*getHeight());
-	}
-	public static float getLocalX(float x) {
-		x = (x*13.0f*getHeight()) + getPixelsOnSides();
-		return x;
-	}
-	
 		
 	/**
 	 * Returns 1-indexed for position
@@ -115,29 +101,5 @@ public class Constants {
 		return screenHeight/standardHeight;
 	}
 	/************/
-	
-
-//	UP for deletion?
-//	public static float dpXToPx(float dp){
-//		float px = dp*(160*densityX/160);
-//		return px;
-//	}
-//	public static float dpYToPx(float dp){
-//		float px = dp*(160*densityY/160);
-//		return px;
-//	}
-//
-//	
-//	public static float pxXToDp(float px){
-//		float dp = px/(160*densityX/160);
-//		return dp;
-//	}
-//	
-//	public static float pxYToDp(float px){
-//		float dp = px/(160*densityY/160);
-//		return dp;
-//	}
-	
-	
 
 }
