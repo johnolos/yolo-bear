@@ -1,9 +1,26 @@
 ProgArk V2014 - Group no.13
 =========
 
+Table-of-Contents:
+------------------
+*	[Project priotiries](#project-priorities)
+	1.	[Non-implemented features](#non-implemented-features)
+		1.	[Key features](#key-features)
+		2.	[Non-key features](#non-key-features)
+	2.	[Implemented features](#implemented-features)
+	3.	[Buggy features](#buggy-features)
+*	[Setting up ADT project](#setting-up-adt-project)
+	1.	[Initial git commands](#initial-git-commands)
+	2.	[Commit sequence](#commit-sequence)
+	3.	[After being used first time](#after-being-used-first-time)
+	
+
 #Project priorities
+[[Back to top]](#table-of-contents)
 ## Non-implemented features
-Key-features:
+[[Back to top]](#table-of-contents)
+###Key features:
+[[Back to top]](#table-of-contents)
 *	Make adjustments in code to meet architectual description of our system.
 	1.	Are we doing proper MVC architecture.
 		1.	Board or BoardModel.java (does not exist) of Game should be it's own model class.
@@ -31,8 +48,8 @@ Key-features:
 		Image resources already available.
 	2. Remove duplicate bears at startup and bears not controlled by anyone.
 
-
-Non-key features:
+###Non-key features:
+[[Back to top]](#table-of-contents)
 *	Tool-assisted-movements
 	Hard to move in-game. Make it a little easier?
 *	Bomb.java
@@ -41,12 +58,14 @@ Non-key features:
 
 
 ## Implemented features
+[[Back to top]](#table-of-contents)
 *	Powerups:
 	1.	Place additional bombs.
 	2.	Increased player speed.
 
 
 ## Buggy features
+[[Back to top]](#table-of-contents)
 *	Powerups:
 	1.	Kick: Does not work as intended.
 	2.	Movements: Hard to navigate through game. Especially when having high movement speed.
@@ -55,6 +74,7 @@ Non-key features:
 		Reason: Java sockets give CorruptedSocketException because of trying to send over object before
 
 # Setting up ADT project
+[[Back to top]](#table-of-contents)
 ```
 File > New > Android Application Project
 Application Name: BomberMan
@@ -67,24 +87,23 @@ Delete MainActivity.java in bomberman.game.
 Install git bash. Go to BomberMan-folder and do commands written below.
 ```
 
-# Initial git commands.
+## Initial git commands.
+[[Back to top]](#table-of-contents)
 ```
-git init
-git pull https://github.com/johnolos/yolo-bear.git
-
-Alternatively:
 git clone https://github.com/johnolos/yolo-bear.git
 
 ```
 
-# Commit sequence
+## Commit sequence
+[[Back to top]](#table-of-contents)
 ```
 git add --all "folder"
 git add "path_to_file_and_filename"
 git commit -m "Message for commit"
-git push https://github.com/johnolos/yolo-bear.git (master)
+git push
 ```
-# After being used first time
+## After being used first time
+[[Back to top]](#table-of-contents)
 ```
 git pull
 git push
