@@ -14,7 +14,14 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		Game game = new Game(this, null);
-		game.pushState(new MainMenu());		
+		game.pushState(new MainMenu());
+		
+		
+
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+ 		Constants.screenHeight = dm.heightPixels;
+ 		Constants.screenWidth  = dm.widthPixels;
         
         System.out.println(Constants.screenHeight);
         System.out.println(Constants.screenWidth);
