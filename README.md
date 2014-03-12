@@ -70,6 +70,7 @@ Table-of-Contents:
 *	Powerups:
 	1.	~~Kick: Does not work as intended.~~
 	2.	Movements: Hard to navigate through game. Especially when having high movement speed.
+	3.	Sometimes a powerup appears where no crate is destoryed.
 *	Server:
 	1.	Currently, server does not assign colors to players connecting. Player figures are hard-coded.
 		Reason: Java sockets give CorruptedSocketException because of trying to send over object before

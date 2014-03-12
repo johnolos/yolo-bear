@@ -118,4 +118,28 @@ public class Bomb extends Sprite implements Collision{
 	public boolean initiated(){
 		return this.initiated;
 	}
+	
+	public int getColumn() {
+		return this.column;
+	}
+	
+	public void setColum(int column) {
+		this.column = column;
+		
+	}
+	
+	public int getRow() {
+		return this.row;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void updatePosition() {
+		float x = this.column*Constants.getHeight() + Constants.getPixelsOnSides();
+		float y = this.row*Constants.getHeight();
+		setPosition(x, y);
+	}
+	
 }

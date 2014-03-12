@@ -111,6 +111,7 @@ public class GameState extends State implements TouchListener{
 				for(Bomb bomb : this.bombs) {
 					if(bomb.collision(x1, y1) || bomb.collision(x2, y2)) {
 						bombThrown(bomb, player.getDirection());
+						return true;
 					}
 				}
 			}
@@ -513,7 +514,40 @@ public class GameState extends State implements TouchListener{
 	
 	
 	public void bombThrown(Bomb bomb, Direction direction) {
-		
+		int x = bomb.getColumn() + direction.getX();
+		int y = bomb.getRow() + direction.getY();
+		if(x == (Board.COLUMN_SIZE - 1)) {
+			x = 0;
+		}
+		else if(x == 0) {
+			x = Board.COLUMN_SIZE - 1;
+		}
+		if(y == (Board.ROW_SIZE - 1)) {
+			System.out.println("Shit got real");
+			y = 0;
+		}
+		else if(y == 0) {
+			y = Board.ROW_SIZE - 1;
+		}
+		Sprite sprite = spriteList.get(y).get(x);
+		if(sprite instanceof Empty) {
+			if(bombAtPosition(x, y)) {
+				System.out.println("This happens");
+				bomb.setColum(x);
+				bomb.setRow(y);
+				bomb.updatePosition();
+				bombThrown(bomb, direction);
+			} else {
+				bomb.setColum(x);
+				bomb.setRow(y);
+				bomb.updatePosition();
+			}
+		} else {
+			bomb.setColum(x);
+			bomb.setRow(y);
+			bomb.updatePosition();
+			bombThrown(bomb, direction);
+		}
 	}
 	
 	
@@ -643,10 +677,11 @@ public class GameState extends State implements TouchListener{
 				}
 			}
 		}
-		
 	}
 	
 	public boolean bombAtPosition(int x, int y) {
+		if(this.bombs.size() == 0)
+			return false;
 		for(Bomb bomb : this.bombs)
 			if(bomb.collision(x, y)){
 				return true;

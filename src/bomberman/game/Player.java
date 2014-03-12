@@ -15,9 +15,9 @@ public class Player extends Sprite {
 	private Direction direction = Direction.UP;
 	
 	/** Player power **/
-	private int numberOfBombs = 1;
+	private int numberOfBombs = 3;
 	private boolean kickBombs = false;
-	private boolean throwBombs = false;
+	private boolean throwBombs = true;
 	private float speedOfPlayer = 1.0f;
 	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
