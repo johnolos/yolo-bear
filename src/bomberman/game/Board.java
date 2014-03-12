@@ -90,7 +90,7 @@ public class Board {
 		Sprite oldValue = this.spriteList.get(row).remove(column);
 		sprite.setPosition(oldValue.getX(), oldValue.getY());
 		this.spriteList.get(row).add(column, sprite);
-		pcs.firePropertyChange("board", oldValue, sprite);
+		pcs.firePropertyChange("spriteList", oldValue, sprite);
 		
 	}
 	
