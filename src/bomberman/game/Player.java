@@ -18,7 +18,7 @@ public class Player extends Sprite {
 	private int numberOfBombs = 1;
 	private boolean kickBombs = false;
 	private boolean throwBombs = false;
-	private double speedOfPlayer = 1.0;
+	private float speedOfPlayer = 1.0f;
 	private int magnitudeOfBombs = 1;
 	private int scoreOfPlayer = 0;
 	
@@ -145,7 +145,7 @@ public class Player extends Sprite {
 		this.numberOfBombs = 1;
 		this.kickBombs = false;
 		this.throwBombs = false;
-		this.speedOfPlayer = 1.0;
+		this.speedOfPlayer = 1.0f;
 		this.magnitudeOfBombs = 2;
 	}
 	
@@ -250,7 +250,7 @@ public class Player extends Sprite {
 		return this.color;
 	}
 	
-	public double getPlayerSpeed() {
+	public float getPlayerSpeed() {
 		return this.speedOfPlayer;
 	}
 	

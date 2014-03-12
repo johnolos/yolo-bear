@@ -33,6 +33,7 @@ public class GameState extends State implements TouchListener{
 	private Buttons up, down, left, right, bombIcon;
 	private ArrayList<Bomb> bombs;
 	private ArrayList<PowerUp> powerups;
+	
 	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
@@ -83,19 +84,19 @@ public class GameState extends State implements TouchListener{
 	public boolean onTouchDown(MotionEvent event) {
 		if(up.getBounds().contains(event.getX(), event.getY())){
 			this.player.setDirection(Direction.UP);
-			player.setSpeed(0, -150*Constants.getReceivingXRatio());
+			player.setSpeed(0, -150*Constants.getReceivingXRatio()*player.getPlayerSpeed());
 		}
 		else if(down.getBounds().contains(event.getX(), event.getY())){
 			this.player.setDirection(Direction.DOWN);
-			player.setSpeed(0, 150*Constants.getReceivingXRatio());
+			player.setSpeed(0, 150*Constants.getReceivingXRatio()*player.getPlayerSpeed());
 		}
 		else if(left.getBounds().contains(event.getX(), event.getY())){
 			this.player.setDirection(Direction.LEFT);
-			player.setSpeed(-150*Constants.getReceivingXRatio(), 0);
+			player.setSpeed(-150*Constants.getReceivingXRatio()*player.getPlayerSpeed(), 0);
 		}
 		else if(right.getBounds().contains(event.getX(), event.getY())){
 			this.player.setDirection(Direction.RIGHT);
-			player.setSpeed(150*Constants.getReceivingXRatio(), 0);
+			player.setSpeed(150*Constants.getReceivingXRatio()*player.getPlayerSpeed(), 0);
 		}
 		else if(bombIcon.getBounds().contains(event.getX(), event.getY())){
 			if (this.player.canPlaceBomb()) {
@@ -129,6 +130,9 @@ public class GameState extends State implements TouchListener{
 		return (int) spriteList.get(gridY).get(gridX).getY();
 	}
 	
+	/**
+	 * Runs player collision detection in the direction the player is moving.
+	 */
 	public void playerCollision() {
 		if(!canPlayerMoveUp() && this.player.getDirection() == Direction.UP)
 			player.setSpeed(player.getSpeed().getX(), 0);
@@ -148,12 +152,20 @@ public class GameState extends State implements TouchListener{
 	 * @return
 	 */
 	public boolean canPlayerMoveUp() {
-		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) - 1).get(Constants.getPositionX(player.getMiddleX()));
-		if(player.canMoveY())
-			if( sprite instanceof Empty) return true;
+		int y = Constants.getPositionY(player.getMiddleY());
+		int x = Constants.getPositionX(player.getMiddleX());
+		Sprite sprite = spriteList.get(y - 1).get(x);
+		if(player.canMoveY()) {
+			if( sprite instanceof Empty) {
+				if (!bombAtPosition(x, y - 1)) return true;
+			}
+		}
 		float pixelsY = (player.getPosition().getY()) - (sprite.getPosition().getY() + Constants.getHeight());
-		if(pixelsY > 4.0f * Constants.getReceivingYRatio())
+		if(pixelsY > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
+		if(bombAtPosition(x,y-1)) {
+			kickBomb(x,y - 1,player.getDirection());
+		}
 		return false;
 	}
 	
@@ -162,12 +174,20 @@ public class GameState extends State implements TouchListener{
 	 * @return
 	 */
 	public boolean canPlayerMoveDown() {
-		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY()) + 1).get(Constants.getPositionX(player.getMiddleX()));
-		if(player.canMoveY())
-			if( sprite instanceof Empty) return true;
+		int y = Constants.getPositionY(player.getMiddleY());
+		int x = Constants.getPositionX(player.getMiddleX());
+		Sprite sprite = spriteList.get(y + 1).get(x);
+		if(player.canMoveY()) {
+			if( sprite instanceof Empty) {
+				if (!bombAtPosition(x, y + 1)) return true;
+			}
+		}
 		float pixelsY = sprite.getPosition().getY() - (player.getPosition().getY() + player.getImageHeight());
-		if(pixelsY > 4.0f * Constants.getReceivingYRatio())
+		if(pixelsY > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
+		if(bombAtPosition(x,y + 1)) {
+			kickBomb(x,y + 1,player.getDirection());
+		}
 		return false;
 	}
 	
@@ -176,12 +196,20 @@ public class GameState extends State implements TouchListener{
 	 * @return
 	 */
 	public boolean canPlayerMoveLeft() {
-		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) - 1);
-		if(player.canMoveX())
-			if( sprite instanceof Empty) return true;
+		int y = Constants.getPositionY(player.getMiddleY());
+		int x = Constants.getPositionX(player.getMiddleX());
+		Sprite sprite = spriteList.get(y).get(x - 1);
+		if(player.canMoveX()) {
+			if( sprite instanceof Empty) {
+				if (!bombAtPosition(x - 1, y)) return true;
+			}
+		}
 		float pixelsX = player.getPosition().getX() - (sprite.getPosition().getX() + Constants.getHeight());
-		if(pixelsX > 4.0f * Constants.getReceivingYRatio())
+		if(pixelsX > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
+		if(bombAtPosition(x-1,y)) {
+			kickBomb(x-1,y,player.getDirection());
+		}
 		return false;
 	}
 	
@@ -190,12 +218,20 @@ public class GameState extends State implements TouchListener{
 	 * @return
 	 */
 	public boolean canPlayerMoveRight() {
-		Sprite sprite = spriteList.get(Constants.getPositionY(player.getMiddleY())).get(Constants.getPositionX(player.getMiddleX()) + 1);
-		if(player.canMoveX())
-			if( sprite instanceof Empty) return true;
+		int y = Constants.getPositionY(player.getMiddleY());
+		int x = Constants.getPositionX(player.getMiddleX());
+		Sprite sprite = spriteList.get(y).get(x + 1);
+		if(player.canMoveX()) {
+			if( sprite instanceof Empty) {
+				if (!bombAtPosition(x + 1, y)) return true;
+			}
+		}
 		float pixelsX = sprite.getPosition().getX() - (player.getPosition().getX() + player.getImageHeight());
-		if(pixelsX > 4.0f * Constants.getReceivingYRatio())
+		if(pixelsX > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
 			return true;
+		if(bombAtPosition(x+1,y)) {
+			kickBomb(x+1,y,player.getDirection());
+		}
 		return false;
 	}
 	
@@ -253,7 +289,7 @@ public class GameState extends State implements TouchListener{
 			player.updatePosition();
 		}
 			
-		
+		collisionCheck();
 		up.update(dt);
 		down.update(dt);
 		left.update(dt);
@@ -440,13 +476,64 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
+	public void collisionCheck() {
+		if(this.powerups.size() == 0) {
+			return;
+		}
+		int x1 = Constants.getPositionX(player.getX());
+		int y1 = Constants.getPositionY(player.getY());
+		int x2 = Constants.getPositionX(player.getX() + player.getImageWidth());
+		int y2 = Constants.getPositionY(player.getY() + player.getImageHeight());
+		
+		Iterator<PowerUp> it = this.powerups.iterator();
+		while(it.hasNext()) {
+			PowerUp powerup = it.next();
+			if(powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
+				this.player.powerUp(powerup.getPowerUpType());
+				it.remove();
+			}
+		}
+	}
+	
+	
 	public void maybeCreatePowerUp(int x, int y) {
 		int p = randomGenerator.nextInt(10);
-		if(p >= 7) {
+		//TODO: Changed for testing purposes.
+		if(p >= 2) {
 			PowerUp powerup = new PowerUp(x, y);
 			powerups.add(powerup);
 			client.sendAll(new PeerObject(GameObject.POWERUP, x, y, powerup.getPowerUpType()));
+			System.out.println("X: " + x + " Y: " + y);
 		}
+	}
+	
+	public void kickBomb(int x, int y, Direction direction) {
+		System.out.println("Kick!");
+		for(Bomb bomb : this.bombs) {
+			if(bomb.collision(x, y)) {
+				switch(direction) {
+				case UP:
+					bomb.setSpeed(0, -150*Constants.getReceivingXRatio());
+					break;
+				case DOWN:
+					bomb.setSpeed(0, 150*Constants.getReceivingXRatio());
+					break;
+				case RIGHT:
+					bomb.setSpeed(150*Constants.getReceivingXRatio(), 0);
+					break;
+				case LEFT:
+					bomb.setSpeed(-150*Constants.getReceivingXRatio(), 0);
+					break;
+				}
+			}
+		}
+		
+	}
+	
+	public boolean bombAtPosition(int x, int y) {
+		for(Bomb bomb : this.bombs)
+			if(bomb.collision(x, y)) return true;
+		return false;
 	}
 
 	public void setPlayerColor(ColorObject obj) {

@@ -5,11 +5,14 @@ import sheep.graphics.Image;
 import android.graphics.Canvas;
 import bomberman.graphics.PowerUpType;
 
-public class PowerUp extends Sprite {
+public class PowerUp extends Sprite implements Collision{
 	private PowerUpType powerup;
 	private Image image;
+	int column, row;
 	
 	public PowerUp(int column, int row) {
+		this.column = column;
+		this.row = row;
 		float x = (float) (column * Constants.getHeight() + Constants.getPixelsOnSides());
 		float y = (float) (row * Constants.getHeight());
 		this.setPosition(x, y);
@@ -59,6 +62,10 @@ public class PowerUp extends Sprite {
 	
 	public void draw(Canvas canvas){
 		super.draw(canvas);
+	}
+
+	public boolean collision(int x, int y) {
+		return (this.column == x && this.row == y);
 	}
 
 }

@@ -14,6 +14,8 @@ public class Constants {
 	public static double horSize;
 	public static double verSize;
 	
+	public static float COLLSION_RANGE = 8.0f;
+	
 	
 	public static float getHeight(){
 		if(screenHeight==1600){
