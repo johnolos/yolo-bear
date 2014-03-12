@@ -3,5 +3,5 @@ package bomberman.game;
 import java.io.Serializable;
 
 public enum Direction implements Serializable {
-	UP, DOWN, LEFT, RIGHT;
+	UP, DOWN, LEFT, RIGHT, STOP;
 }
