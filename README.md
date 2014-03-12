@@ -13,7 +13,7 @@ Table-of-Contents:
 	1.	[Initial git commands](#initial-git-commands)
 	2.	[Commit sequence](#commit-sequence)
 	3.	[After being used first time](#after-being-used-first-time)
-	
+
 
 #Project priorities
 [[Back to top]](#table-of-contents)
@@ -62,12 +62,13 @@ Table-of-Contents:
 *	Powerups:
 	1.	Place additional bombs.
 	2.	Increased player speed.
+	3. 	Kick
 
 
 ## Buggy features
 [[Back to top]](#table-of-contents)
 *	Powerups:
-	1.	Kick: Does not work as intended.
+	1.	~~Kick: Does not work as intended.~~
 	2.	Movements: Hard to navigate through game. Especially when having high movement speed.
 *	Server:
 	1.	Currently, server does not assign colors to players connecting. Player figures are hard-coded.
