@@ -8,24 +8,24 @@ import sheep.gui.WidgetListener;
 
 public class SinglePlayerState extends State implements WidgetListener {
 	
-	private TextButton back = new TextButton(300, 600, "Back");
+	private TextButton start = new TextButton(300, 600, "Start");
 	
 	public SinglePlayerState(){
-		addTouchListener(back);
-		back.addWidgetListener(this);
+		addTouchListener(start);
+		start.addWidgetListener(this);
 		
 	}
 	public void update(float dt){
 		
 	}
 	public void draw(Canvas canvas){
-		back.draw(canvas);
+		start.draw(canvas);
 	}
 
 	@Override
 	public void actionPerformed(WidgetAction action) {
-		if(action.getSource() == back){
-			getGame().popState();
+		if(action.getSource() == start){
+			getGame().pushState(new GameState());
 		}
 		
 	}

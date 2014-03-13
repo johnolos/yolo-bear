@@ -28,7 +28,7 @@ public class Board {
 		pcs.removePropertyChangeListener(l);
 	}
 	
-	ArrayList<ArrayList<Sprite>> spriteList;
+	private ArrayList<ArrayList<Sprite>> spriteList;
 	
 	public static final int COLUMN_SIZE = 13;
 	public static final int ROW_SIZE = 13;

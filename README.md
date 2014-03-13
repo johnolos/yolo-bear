@@ -54,8 +54,8 @@ Table-of-Contents:
 *	Tool-assisted-movements
 	Hard to move in-game. Make it a little easier?
 *	Bomb.java
-	Images are loaded every time in each Bomb-objected created which is very resourceful.
-	Try make a static variables with the animations for Bomb's lifespan?
+	~~Images are loaded every time in each Bomb-objected created which is very resourceful.~~
+	~~Try make a static variables with the animations for Bomb's lifespan?~~
 
 
 ## Implemented features
