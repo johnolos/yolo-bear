@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import bomberman.connection.Client;
+import bomberman.game.AIBot;
 import bomberman.game.Board;
 import bomberman.game.Bomb;
 import bomberman.game.Constants;
@@ -37,17 +38,18 @@ public class GameState extends State implements TouchListener{
 	private ArrayList<PowerUp> powerups;
 	private ArrayList<Explosion> explosions;
 	
-	private ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
+	public static ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
 	private double startingY;
 	private ArrayList<Opponent> opponents;
+	private ArrayList<AIBot> bots;
 	private Client client =null;
 	private Random randomGenerator = new Random();
 	
 	int counter = 0;
 	
 	public GameState(){
-		this.player = new Player("Player1");
+		this.player = new Player("Player1",ColorObject.BROWN,this);
 		this.board = new Board();
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = 0.0f;
@@ -69,13 +71,21 @@ public class GameState extends State implements TouchListener{
 		bombs = new ArrayList<Bomb>();
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
-		opponents = new ArrayList<Opponent>();
+		bots = new ArrayList<AIBot>();
 		addSprites();
+		addBots();
 	}
 	
+	private void addBots() {
+		bots.add(new AIBot("adjkhasd", ColorObject.BLACK, this));
+		bots.add(new AIBot("adjkhasd", ColorObject.WHITE, this));
+		bots.add(new AIBot("adjkhasd", ColorObject.SWAG, this));
+		
+	}
+
 	public GameState (Client client){
 		this.client = client;
-		this.player = new Player("Player1");
+
 		this.board = new Board();
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = 0.0f;
@@ -94,6 +104,7 @@ public class GameState extends State implements TouchListener{
 		explosions = new ArrayList<Explosion>();
 		opponents = new ArrayList<Opponent>();
 		addSprites();
+		this.player = new Player("Player1", ColorObject.BROWN,this);
 	}
 	
 	@Override
@@ -336,12 +347,21 @@ public class GameState extends State implements TouchListener{
 			if(bomb.finished()) {
 				it.remove();
 				player.removeBomb(bomb);
+				if(this.bots != null){
+					for(AIBot bot: this.bots){
+						bot.removeBomb(bomb);
+					}
+				}
 			}
 		}
 		for (PowerUp powerup : this.powerups)
 			powerup.update(dt);
-		for (Opponent opp : this.opponents)
-			opp.update(dt);
+//		for (Opponent opp : this.opponents)
+//			opp.update(dt);
+		if(this.bots != null){
+			for (AIBot bot : this.bots)
+				bot.update(dt);
+		}
 		for (Explosion explosion : this.explosions)
 			explosion.update(dt);
 		for(ArrayList<Sprite> row : spriteList){
@@ -567,8 +587,13 @@ public class GameState extends State implements TouchListener{
 			Bomb bomb = it.next();
 			bomb.draw(canvas);
 		}
-		for (Opponent opp : this.opponents) {
-			opp.draw(canvas);
+//		for (Opponent opp : this.opponents) {
+//			opp.draw(canvas);
+//		}
+		if(this.bots !=null){
+			for (AIBot bot : this.bots) {
+				bot.draw(canvas);
+			}
 		}
 		for(PowerUp powerup : this.powerups)
 			powerup.draw(canvas);
@@ -639,7 +664,7 @@ public class GameState extends State implements TouchListener{
 	public void maybeCreatePowerUp(int x, int y) {
 		int p = randomGenerator.nextInt(10);
 		//TODO: Changed for testing purposes.
-		if(p >= 2) {
+		if(p >= 8) {
 			PowerUp powerup = new PowerUp(x, y);
 			powerups.add(powerup);
 			if(client != null){
@@ -685,5 +710,10 @@ public class GameState extends State implements TouchListener{
 
 	public void setPlayerColor(ColorObject obj) {
 		this.player.setColor(obj);
+	}
+
+	public void addBomb(Bomb bomb) {
+		this.bombs.add(bomb);
+		
 	}
 }

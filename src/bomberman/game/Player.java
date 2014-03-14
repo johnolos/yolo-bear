@@ -1,10 +1,12 @@
 package bomberman.game;
 
 import java.util.ArrayList;
+
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
 import bomberman.graphics.PowerUpType;
+import bomberman.states.GameState;
 
 public class Player extends Sprite {
 
@@ -13,6 +15,7 @@ public class Player extends Sprite {
 	private ArrayList<Image> playerImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
 	private ColorObject color;
 	private Direction direction = Direction.UP;
+	private GameState gameState;
 	
 	/** Player power **/
 	private int numberOfBombs = 3;
@@ -27,10 +30,11 @@ public class Player extends Sprite {
 	private ArrayList<Bomb> bombsPlaced;
 	
 	
-	public Player(String name) {
+	public Player(String name, ColorObject color, GameState gs) {
 		this.nameOfPlayer = name;
 		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
-		this.setColor(ColorObject.SWAG);
+		this.setColor(color);
+		this.gameState = gs;
 		bombsPlaced = new ArrayList<Bomb>();
 	}
 	
@@ -65,14 +69,14 @@ public class Player extends Sprite {
 				this.playerImages.add(new Image(R.drawable.brownbeardown));
 				this.playerImages.add(new Image(R.drawable.brownbearright));
 				this.playerImages.add(new Image(R.drawable.brownbearleft));
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.60f);
 				break;
 			case BLACK:
 				this.playerImages.add(new Image(R.drawable.blackbearup));
 				this.playerImages.add(new Image(R.drawable.blackbeardown));
 				this.playerImages.add(new Image(R.drawable.blackbearright));
 				this.playerImages.add(new Image(R.drawable.blackbearleft));
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.60f);
 				break;
 			case WHITE:
 				this.playerImages.add(new Image(R.drawable.whitebearup));
@@ -149,6 +153,8 @@ public class Player extends Sprite {
 	public void draw(Canvas canvas){
 		super.draw(canvas);
 	}
+	
+	
 	
 	/**
 	 * Checks if a player can move in Y-direction.
