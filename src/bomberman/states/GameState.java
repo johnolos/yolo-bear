@@ -175,21 +175,40 @@ public class GameState extends State implements TouchListener{
 		return (int) spriteList.get(gridY).get(gridX).getY();
 	}
 	
+	public void handleCollision(Direction dir,int y, int x, float posX, float posY){
+		Sprite sprite = spriteList.get(y+dir.getY()).get(x+dir.getX());
+		if(sprite instanceof Empty){
+			player.setPosition(posX, posY);
+		}
+		else{
+			player.setSpeed(0, 0);
+		}
+	}
+	
 	/**
 	 * Runs player collision detection in the direction the player is moving.
 	 */
 	public void playerCollision() {
+		int x = Constants.getPositionX(player.getMiddleX());
+		int y = Constants.getPositionY(player.getMiddleY());
+		float diff = (Constants.getHeight()-player.getImageHeight())/2;
+		Sprite thisSprite = spriteList.get(y).get(x);
+		float posX = thisSprite.getX()+diff;
+		float posY = thisSprite.getY()+diff;
 		if(!canPlayerMove(Direction.UP) && this.player.getDirection() == Direction.UP)
-			player.setSpeed(player.getSpeed().getX(), 0);
-		
+			handleCollision(Direction.UP, y, x, posX, posY);
+
 		if(!canPlayerMove(Direction.DOWN) && this.player.getDirection() == Direction.DOWN)
-			player.setSpeed(player.getSpeed().getX(), 0);
+			handleCollision(Direction.DOWN, y, x, posX, posY);
+//			player.setSpeed(player.getSpeed().getX(), 0);
 		
 		if(!canPlayerMove(Direction.LEFT) && this.player.getDirection() == Direction.LEFT)
-			player.setSpeed(0, player.getSpeed().getY());
+			handleCollision(Direction.LEFT, y, x, posX, posY);
+//			player.setSpeed(0, player.getSpeed().getY());
 		
 		if(!canPlayerMove(Direction.RIGHT) && this.player.getDirection() == Direction.RIGHT)
-			player.setSpeed(0, player.getSpeed().getY());
+			handleCollision(Direction.RIGHT, y, x, posX, posY);
+//			player.setSpeed(0, player.getSpeed().getY());
 	}
 	
 	public float getPixelsY(Direction dir,Sprite sprite){
