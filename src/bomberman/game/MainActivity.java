@@ -1,5 +1,6 @@
 package bomberman.game;
 
+import bomberman.graphics.BombImages;
 import bomberman.states.MainMenu;
 import sheep.game.Game;
 import android.os.Bundle;
@@ -16,30 +17,18 @@ public class MainActivity extends Activity {
 		Game game = new Game(this, null);
 		game.pushState(new MainMenu());
 		
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		
 		
 
-        Constants.screenHeight = dm.heightPixels;
-        Constants.screenWidth  = dm.widthPixels;
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+ 		Constants.screenHeight = dm.heightPixels;
+ 		Constants.screenWidth  = dm.widthPixels;
+ 		
+ 		BombImages.loadImages();
         
         System.out.println(Constants.screenHeight);
         System.out.println(Constants.screenWidth);
-        
-        Constants.densityX = Constants.screenWidth/Constants.standardXdp;
-        Constants.densityY = Constants.screenHeight/Constants.standardYdp;
 
-        
-        if(Constants.screenWidth == 2560){
-        	Constants.density = 2.0f;
-        }
-        else if(Constants.screenWidth == 1280){
-        	Constants.density = 1.0f;
-        }
-        else{
-        	Constants.density = 0.75f;
-        }
 		setContentView(game);
 	}
 	

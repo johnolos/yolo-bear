@@ -25,8 +25,8 @@ public class Buttons extends Sprite {
 			this.setView(up);
 			this.setShape(100,100);
 			this.setPosition(x,y);
-			float offsetX = 75*Constants.getReceivingXRatio();
-			float offsetY = 75*Constants.getReceivingYRatio();
+			float offsetX = 100*Constants.getReceivingXRatio();
+			float offsetY = 100*Constants.getReceivingYRatio();
 			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
 		}
 		else if(buttonID.equals("down")){
@@ -34,8 +34,8 @@ public class Buttons extends Sprite {
 			this.setView(down);
 			this.setShape(100,100);
 			this.setPosition(x, y);
-			float offsetX = 75*Constants.getReceivingXRatio();
-			float offsetY = 75*Constants.getReceivingYRatio();
+			float offsetX = 100*Constants.getReceivingXRatio();
+			float offsetY = 100*Constants.getReceivingYRatio();
 			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
 		}
 		else if(buttonID.equals("left")){
@@ -43,8 +43,8 @@ public class Buttons extends Sprite {
 			this.setView(left);
 			this.setShape(100,100);
 			this.setPosition(x, y);
-			float offsetX = 75*Constants.getReceivingXRatio();
-			float offsetY = 75*Constants.getReceivingYRatio();
+			float offsetX = 100*Constants.getReceivingXRatio();
+			float offsetY = 100*Constants.getReceivingYRatio();
 			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
 		}
 		else if(buttonID.equals("right")){
@@ -52,8 +52,8 @@ public class Buttons extends Sprite {
 			this.setView(right);
 			this.setShape(100,100);
 			this.setPosition(x, y);
-			float offsetX = 75*Constants.getReceivingXRatio();
-			float offsetY = 75*Constants.getReceivingYRatio();
+			float offsetX = 100*Constants.getReceivingXRatio();
+			float offsetY = 100*Constants.getReceivingYRatio();
 			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
 		}
 		else if(buttonID.equals("bomb")){

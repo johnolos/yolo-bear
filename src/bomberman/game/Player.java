@@ -1,10 +1,12 @@
 package bomberman.game;
 
 import java.util.ArrayList;
+
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
 import bomberman.graphics.PowerUpType;
+import bomberman.states.GameState;
 
 public class Player extends Sprite {
 
@@ -13,31 +15,26 @@ public class Player extends Sprite {
 	private ArrayList<Image> playerImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
 	private ColorObject color;
 	private Direction direction = Direction.UP;
+	private GameState gameState;
 	
 	/** Player power **/
-	private int numberOfBombs = 1;
+	private int numberOfBombs = 3;
 	private boolean kickBombs = false;
-	private boolean throwBombs = false;
-	private double speedOfPlayer = 1.0;
-	private int magnitudeOfBombs = 1;
+	private boolean throwBombs = true;
+	private float speedOfPlayer = 1.0f;
+	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
 	
 	private float previousX;
 	private float previousY;
 	private ArrayList<Bomb> bombsPlaced;
 	
-	// These are up for deletion.
-//	private int prevPosX;
-//	private int prevPosY;
-//	private int gridPosX;
-//	private int gridPosY;
-//	private boolean betweenCol;
-//	private boolean betweenRow;
 	
-	public Player(String name) {
+	public Player(String name, ColorObject color, GameState gs) {
 		this.nameOfPlayer = name;
 		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
-		this.setColor(ColorObject.SWAG);
+		this.setColor(color);
+		this.gameState = gs;
 		bombsPlaced = new ArrayList<Bomb>();
 	}
 	
@@ -72,14 +69,14 @@ public class Player extends Sprite {
 				this.playerImages.add(new Image(R.drawable.brownbeardown));
 				this.playerImages.add(new Image(R.drawable.brownbearright));
 				this.playerImages.add(new Image(R.drawable.brownbearleft));
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.60f);
 				break;
 			case BLACK:
 				this.playerImages.add(new Image(R.drawable.blackbearup));
 				this.playerImages.add(new Image(R.drawable.blackbeardown));
 				this.playerImages.add(new Image(R.drawable.blackbearright));
 				this.playerImages.add(new Image(R.drawable.blackbearleft));
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.60f);
 				break;
 			case WHITE:
 				this.playerImages.add(new Image(R.drawable.whitebearup));
@@ -145,7 +142,7 @@ public class Player extends Sprite {
 		this.numberOfBombs = 1;
 		this.kickBombs = false;
 		this.throwBombs = false;
-		this.speedOfPlayer = 1.0;
+		this.speedOfPlayer = 1.0f;
 		this.magnitudeOfBombs = 2;
 	}
 	
@@ -156,6 +153,8 @@ public class Player extends Sprite {
 	public void draw(Canvas canvas){
 		super.draw(canvas);
 	}
+	
+	
 	
 	/**
 	 * Checks if a player can move in Y-direction.
@@ -221,7 +220,7 @@ public class Player extends Sprite {
 			this.numberOfBombs++;
 			return;
 		case SPEED:
-			this.speedOfPlayer++;
+			this.speedOfPlayer+=0.2f;
 			return;
 		case THROW:
 			this.throwBombs = true;
@@ -250,7 +249,7 @@ public class Player extends Sprite {
 		return this.color;
 	}
 	
-	public double getPlayerSpeed() {
+	public float getPlayerSpeed() {
 		return this.speedOfPlayer;
 	}
 	

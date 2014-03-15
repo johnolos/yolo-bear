@@ -5,7 +5,7 @@ import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
 
-public class Bomb extends Sprite{
+public class Bomb extends Sprite implements Collision{
 	
 	private int blastRadius; //the "length" of the explosion
 	private Image bomb;
@@ -16,8 +16,13 @@ public class Bomb extends Sprite{
 	private boolean finished = false;
 	private GameState gs;
 	private Image[] explodeImages;
+	private int column, row;
+	private Direction direction;
+	private boolean initiated = false;
 	
 	public Bomb(int x, int y, int blastRadius, GameState gs){
+		this.column = Constants.getPositionX(x);
+		this.row = Constants.getPositionY(y);
 		this.setPosition(x, y);
 		explodeImages = new Image[4];
 		this.blastRadius = blastRadius;
@@ -34,11 +39,13 @@ public class Bomb extends Sprite{
 			this.bomb = new Image(R.drawable.bomb);
 			this.setShape(40,40);
 		}
+		this.direction = Direction.STOP;
 		this.setView(bomb);
 	}
 	
 	public void bombAnimation(){
 		if(System.currentTimeMillis() - time >= 2000 && !this.exploded && !this.phase2){
+			initiated = true;
 			bomb = new Image(R.drawable.bombphase2);
 			setView(bomb);
 			phase2 = true;
@@ -94,4 +101,45 @@ public class Bomb extends Sprite{
 	public int getBlastRadius() {
 		return this.blastRadius;
 	}
+
+	@Override
+	public boolean collision(int x, int y) {
+		return (this.column == x && this.row == y);
+	}
+	
+	public void setDirection(Direction dir){
+		this.direction = dir;
+	}
+	
+	public Direction getDirection(){
+		return this.direction;
+	}
+	
+	public boolean initiated(){
+		return this.initiated;
+	}
+	
+	public int getColumn() {
+		return this.column;
+	}
+	
+	public void setColum(int column) {
+		this.column = column;
+		
+	}
+	
+	public int getRow() {
+		return this.row;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void updatePosition() {
+		float x = this.column*Constants.getHeight() + Constants.getPixelsOnSides();
+		float y = this.row*Constants.getHeight();
+		setPosition(x, y);
+	}
+	
 }
