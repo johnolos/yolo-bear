@@ -1,45 +1,55 @@
 package bomberman.states;
 
 import android.graphics.Canvas;
+import android.graphics.Rect;
+import bomberman.game.Constants;
 import bomberman.game.R;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import sheep.gui.TextButton;
 import sheep.gui.WidgetAction;
 import sheep.gui.WidgetListener;
+import sheep.math.BoundingBox;
 
-public class MainMenuWithGraphics extends Sprite implements WidgetListener{
-//	private Image singlePlayer; 
-//	private Image multiPlayer;
-	private TextButton singlePlayer2 = new TextButton(200,200,"SinglePlayer");
-	private TextButton multiPlayer2 = new TextButton(200,200,"Multiplayer");
+public class MainMenuWithGraphics extends Sprite {
+	private Image singlePlayer; 
+	private Image multiPlayer;
+	private BoundingBox box;
 	
 	/**
-	 * The constructor where the widgetListener is added to the singleplayer and multiplayer
-	 * textbuttons is added.
+	 * The constructor 
 	 */
-	public MainMenuWithGraphics() {
-//		singlePlayer = new Image(R.drawable.singleplayer);
-//		multiPlayer = new Image(R.drawable.multiplayer);
-		singlePlayer2.addWidgetListener(this);
-		multiPlayer2.addWidgetListener(this);
+	public MainMenuWithGraphics(String buttonID, int x, int y) {
+		Rect bounds = null;
+		if(buttonID.equals("Single")) {
+			singlePlayer = new Image(R.drawable.singleplayer);
+			this.setView(singlePlayer);
+			this.setShape(100, 100); //DENNE Må ENDRES
+			this.setPosition(x, y);
+			float offsetX = 100*Constants.getReceivingXRatio();
+			float offsetY = 100*Constants.getReceivingYRatio();
+			bounds = new Rect((int)(x-offsetX),(int)(y-offsetY),(int)(x+offsetX),(int)(y+offsetY));
+		} else if(buttonID.equals("Multi")) {
+			multiPlayer = new Image(R.drawable.multiplayer);
+			this.setShape(100, 100); //DENNE Må ENDRES
+			this.setPosition(x, y);
+			float offsetX = 100*Constants.getReceivingXRatio();
+			float offsetY = 100*Constants.getReceivingYRatio();
+			bounds = new Rect((int)(x-offsetX),(int)(y-offsetY),(int)(x+offsetX),(int)(y+offsetY));
+		}
+		this.box = new BoundingBox(bounds);
 	}
 	
 	public void draw(Canvas canvas) {
+		super.draw(canvas);
 		
 	}
 	
 	public void update(float dt) {
-		
+		super.update(dt);
 	}
-
-	@Override
-	public void actionPerformed(WidgetAction action) {
-		if(action.getSource()==singlePlayer2) {
-			//DO SHIT
-		} else if(action.getSource()== multiPlayer2) {
-			//DO SHIT
-		}
-		
+	
+	public BoundingBox getBounds() {
+		return this.box;
 	}
 }

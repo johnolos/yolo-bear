@@ -45,6 +45,7 @@ public class GameState extends State implements TouchListener{
 	private ArrayList<AIBot> bots;
 	private Client client =null;
 	private Random randomGenerator = new Random();
+//	private MainMenuWithGraphics single, multi;
 	
 	int counter = 0;
 	
@@ -85,6 +86,8 @@ public class GameState extends State implements TouchListener{
 
 	public GameState (Client client){
 		this.client = client;
+//		this.single = new MainMenuWithGraphics("single", 100, 100);
+//		this.multi = new MainMenuWithGraphics("multi", 100, 200);
 
 		this.board = new Board();
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
