@@ -81,7 +81,14 @@ public class GameState extends State implements TouchListener{
 		bots.add(new AIBot("adjkhasd", ColorObject.BLACK, this));
 		bots.add(new AIBot("adjkhasd", ColorObject.WHITE, this));
 		bots.add(new AIBot("adjkhasd", ColorObject.SWAG, this));
-		
+		ArrayList<Player> opponents = new ArrayList<Player>();
+		opponents.add(player);
+		for(AIBot bot : bots){
+			opponents.add(bot);
+		}
+		for(AIBot bot : bots){
+			bot.addAllBots(opponents);
+		}
 	}
 
 	public GameState (Client client){
@@ -429,6 +436,7 @@ public class GameState extends State implements TouchListener{
 				break;
 			}
 			else if(sprite instanceof Empty){
+				checkPlayerHit(xPixel, yPixel);
 				if(spriteList.get(y).get(column-1) instanceof Wall){
 					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndLeft));
 				}
@@ -458,6 +466,7 @@ public class GameState extends State implements TouchListener{
 				break;
 			}
 			else if(sprite instanceof Empty){
+				checkPlayerHit(xPixel, yPixel);
 				if(spriteList.get(y).get(column+1) instanceof Wall){
 					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndRight));
 				}
@@ -487,6 +496,7 @@ public class GameState extends State implements TouchListener{
 				break;
 			}
 			else if(sprite instanceof Empty){
+				checkPlayerHit(xPixel, yPixel);
 				if(spriteList.get(row-1).get(x) instanceof Wall){
 					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndUp));
 				}
@@ -516,6 +526,7 @@ public class GameState extends State implements TouchListener{
 				break;
 			}
 			else if(sprite instanceof Empty){
+				checkPlayerHit(xPixel, yPixel);
 				if(spriteList.get(row+1).get(x) instanceof Wall){
 					explosions.add(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndDown));
 				}
@@ -528,6 +539,14 @@ public class GameState extends State implements TouchListener{
 	}
 	
 	
+	private void checkPlayerHit(float xPixel, float yPixel) {
+		this.player.checkGotHit(xPixel, yPixel);
+		for(AIBot bot : bots){
+			bot.checkGotHit(xPixel, yPixel);
+		}
+		
+	}
+
 	public void bombThrown(Bomb bomb, Direction direction) {
 		int x = bomb.getColumn() + direction.getX();
 		int y = bomb.getRow() + direction.getY();

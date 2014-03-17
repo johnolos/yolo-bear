@@ -19,6 +19,7 @@ public class Player extends Sprite {
 	
 	/** Player power **/
 	private int numberOfBombs = 3;
+	private int health =3;
 	private boolean kickBombs = false;
 	private boolean throwBombs = true;
 	private float speedOfPlayer = 1.0f;
@@ -28,6 +29,7 @@ public class Player extends Sprite {
 	private float previousX;
 	private float previousY;
 	private ArrayList<Bomb> bombsPlaced;
+	private boolean dead = false;
 	
 	
 	public Player(String name, ColorObject color, GameState gs) {
@@ -44,6 +46,29 @@ public class Player extends Sprite {
 	 */
 	public float getMiddleX(){
 		return this.getX() + this.getImageWidth() / 2;
+	}
+	
+	public void gotHit(){
+		this.health = this.health - 1;
+		if(this.health == 0){
+			this.setView(null);
+			this.dead  = true;
+			this.setSpeed(0, 0);
+		}
+	}
+	
+	public boolean getDead(){
+		return this.dead;
+	}
+	
+	public void checkGotHit(float xPixel, float yPixel){
+		int x = Constants.getPositionX(xPixel);
+		int y = Constants.getPositionY(yPixel);
+		int playerX = Constants.getPositionX(getMiddleX());
+		int playerY = Constants.getPositionY(getMiddleY());
+		if(x == playerX && y == playerY){
+			this.gotHit();
+		}
 	}
 	
 	/**
@@ -144,10 +169,13 @@ public class Player extends Sprite {
 		this.throwBombs = false;
 		this.speedOfPlayer = 1.0f;
 		this.magnitudeOfBombs = 2;
+		this.dead = false;
 	}
 	
 	public void update(float dt){
-		super.update(dt);
+		if(!this.dead){
+			super.update(dt);
+		}
 	}
 	
 	public void draw(Canvas canvas){

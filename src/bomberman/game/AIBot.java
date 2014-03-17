@@ -12,14 +12,21 @@ public class AIBot extends Player {
 	private GameState gameState;
 	private long placedBomb;
 	private Random random;
+	private ArrayList<Player> opponents;
 	
 	private boolean changedRow = false;
 	private boolean changedColumn = false;
+	private int posX= 0;
+	private int posY = 0;
 
 	public AIBot(String name, ColorObject color, GameState gs) {
 		super(name, color, gs);
 		this.gameState = gs;
 		this.random = new Random();
+	}
+	
+	public void addAllBots(ArrayList<Player> opponents){
+		this.opponents = opponents;
 	}
 
 	public void evadeBomb() {
@@ -38,9 +45,6 @@ public class AIBot extends Player {
 					possibleDir.add(direction);
 				}
 			}
-		}
-		for (Direction direction : possibleDir) {
-			System.out.println(direction);
 		}
 		Direction dir = possibleDir.get(random.nextInt(possibleDir.size()));
 		if(changeingRow(dir)){
@@ -61,9 +65,6 @@ public class AIBot extends Player {
 				}
 			}
 			if(possibleDir.size() != 0){
-				for (Direction direction : possibleDir) {
-					System.out.println(direction);
-				}
 				Direction dir = possibleDir.get(random.nextInt(possibleDir.size()));
 				changedRow = true;
 				startMove(dir);
@@ -79,17 +80,11 @@ public class AIBot extends Player {
 				}
 			}
 			if(possibleDir.size() != 0){
-				for (Direction direction : possibleDir) {
-					System.out.println(direction);
-				}
 				Direction dir = possibleDir.get(random.nextInt(possibleDir.size()));
 				changedColumn = true;
 				startMove(dir);
 			}
 		}
-		System.out.println("ChangedRow: " + changedRow);
-		System.out.println("ChangedColumn: " + changedColumn);
-
 	}
 
 	private boolean changeingColumn(Direction direction) {
@@ -116,6 +111,9 @@ public class AIBot extends Player {
 		} else if (notMoving()) {
 			findMove();
 		}
+		else{
+			setGridPos();
+		}
 	}
 
 	private boolean notMoving() {
@@ -128,13 +126,28 @@ public class AIBot extends Player {
 		for (Direction direction : Direction.values()) {
 			Sprite sprite = GameState.spriteList.get(y + direction.getY()).get(
 					x + direction.getX());
-			if (sprite instanceof Crate) {
+			if (sprite instanceof Crate || opponentNear()) {
 				placeBomb(x, y);
 				break;
 			}
 			findMove();
 
 		}
+	}
+
+	private boolean opponentNear() {
+		int myPosX = Constants.getPositionX(this.getMiddleX());
+		int myPosY = Constants.getPositionY(this.getMiddleY());
+		for(Player opponent : opponents){
+			if(opponent != this){
+				int oppX = Constants.getPositionX(opponent.getMiddleX());
+				int oppY = Constants.getPositionY(opponent.getMiddleY());
+				if(myPosX == oppX && Math.abs(myPosY-oppY) <this.getMagnitude()  || myPosY == oppY && Math.abs(myPosX -oppX) < this.getMagnitude()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private void findMove() {
@@ -200,9 +213,44 @@ public class AIBot extends Player {
 	}
 
 	public void update(float dt) {
-		selectNextMove();
-		playerCollision();
-		super.update(dt);
+		if(!this.getDead()){
+			selectNextMove();
+			playerCollision();
+			super.update(dt);
+		}
+	}
+
+	private void setGridPos() {
+		int newPosX = Constants.getPositionX(this.getMiddleX());
+		int newPosY = Constants.getPositionY(this.getMiddleY());
+		if(newPosX != this.posX || newPosY != this.posY){
+			turn();
+			this.posX = newPosX;
+			this.posY = newPosY;
+		}
+		
+	}
+
+	private void turn() {
+		int x = Constants.getPositionX(this.getMiddleX());
+		int y = Constants.getPositionY(this.getMiddleY());
+		ArrayList<Direction> directions = new ArrayList<Direction>();
+		for (Direction direction : Direction.values()) {
+			if (direction != Direction.STOP) {
+				Sprite sprite = GameState.spriteList.get(
+						y + direction.getY()).get(x + direction.getX());
+				if (sprite instanceof Empty && direction != getOppositeDirection(getDirection())) {
+					directions.add(direction);
+				}
+			}
+		}
+		if(!directions.isEmpty()){
+			int index = random.nextInt(directions.size());
+			startMove(directions.get(index));
+		}
+		if(opponentNear()){
+			placeBomb(x, y);
+		}
 	}
 
 	private boolean needToEvade() {
@@ -244,15 +292,12 @@ public class AIBot extends Player {
 
 		if(!canPlayerMove(Direction.DOWN) && getDirection() == Direction.DOWN)
 			handleCollision(Direction.DOWN, y, x, posX, posY);
-//			player.setSpeed(player.getSpeed().getX(), 0);
 		
 		if(!canPlayerMove(Direction.LEFT) && getDirection() == Direction.LEFT)
 			handleCollision(Direction.LEFT, y, x, posX, posY);
-//			player.setSpeed(0, player.getSpeed().getY());
 		
 		if(!canPlayerMove(Direction.RIGHT) && getDirection() == Direction.RIGHT)
 			handleCollision(Direction.RIGHT, y, x, posX, posY);
-//			player.setSpeed(0, player.getSpeed().getY());
 	}
 	
 	public float getPixelsY(Direction dir,Sprite sprite){
