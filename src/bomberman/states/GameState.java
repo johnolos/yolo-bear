@@ -44,6 +44,7 @@ public class GameState extends State implements TouchListener{
 	private ArrayList<Opponent> opponents;
 	private ArrayList<AIBot> bots;
 	private Client client =null;
+	private ArrayList<Player> allPlayers;
 	private Random randomGenerator = new Random();
 //	private MainMenuWithGraphics single, multi;
 	
@@ -81,13 +82,13 @@ public class GameState extends State implements TouchListener{
 		bots.add(new AIBot("adjkhasd", ColorObject.BLACK, this));
 		bots.add(new AIBot("adjkhasd", ColorObject.WHITE, this));
 		bots.add(new AIBot("adjkhasd", ColorObject.SWAG, this));
-		ArrayList<Player> opponents = new ArrayList<Player>();
-		opponents.add(player);
+		allPlayers = new ArrayList<Player>();
+		allPlayers.add(player);
 		for(AIBot bot : bots){
-			opponents.add(bot);
+			allPlayers.add(bot);
 		}
 		for(AIBot bot : bots){
-			bot.addAllBots(opponents);
+			bot.addAllBots(allPlayers);
 		}
 	}
 
@@ -667,17 +668,19 @@ public class GameState extends State implements TouchListener{
 		if(this.powerups.size() == 0) {
 			return;
 		}
-		int x1 = Constants.getPositionX(player.getX());
-		int y1 = Constants.getPositionY(player.getY());
-		int x2 = Constants.getPositionX(player.getX() + player.getImageWidth());
-		int y2 = Constants.getPositionY(player.getY() + player.getImageHeight());
+		for(Player player : allPlayers){
+			int x1 = Constants.getPositionX(player.getX());
+			int y1 = Constants.getPositionY(player.getY());
+			int x2 = Constants.getPositionX(player.getX() + player.getImageWidth());
+			int y2 = Constants.getPositionY(player.getY() + player.getImageHeight());
 		
-		Iterator<PowerUp> it = this.powerups.iterator();
-		while(it.hasNext()) {
-			PowerUp powerup = it.next();
-			if(powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
-				this.player.powerUp(powerup.getPowerUpType());
-				it.remove();
+			Iterator<PowerUp> it = this.powerups.iterator();
+			while(it.hasNext()) {
+				PowerUp powerup = it.next();
+				if(powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
+					player.powerUp(powerup.getPowerUpType());
+					it.remove();
+				}
 			}
 		}
 	}

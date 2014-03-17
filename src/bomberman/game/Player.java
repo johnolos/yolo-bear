@@ -52,6 +52,7 @@ public class Player extends Sprite {
 		this.health = this.health - 1;
 		if(this.health == 0){
 			this.setView(null);
+			this.setPosition(0, 0);
 			this.dead  = true;
 			this.setSpeed(0, 0);
 		}
