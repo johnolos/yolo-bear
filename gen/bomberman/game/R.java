@@ -10,16 +10,6 @@ package bomberman.game;
 public final class R {
     public static final class attr {
     }
-    public static final class dimen {
-        /**  Default screen margins, per the Android Design guidelines. 
-
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-    
-         */
-        public static final int activity_horizontal_margin=0x7f040000;
-        public static final int activity_vertical_margin=0x7f040001;
-    }
     public static final class drawable {
         public static final int blackbeardlight=0x7f020000;
         public static final int blackbeardown=0x7f020001;
@@ -33,82 +23,80 @@ public final class R {
         public static final int bombendright=0x7f020009;
         public static final int bombendup=0x7f02000a;
         public static final int bombicon=0x7f02000b;
-        public static final int bombiconsmall=0x7f02000c;
-        public static final int bomblarge=0x7f02000d;
-        public static final int bombmiddledown=0x7f02000e;
-        public static final int bombmiddleleft=0x7f02000f;
-        public static final int bombmiddleright=0x7f020010;
-        public static final int bombmiddleup=0x7f020011;
-        public static final int bombphase2=0x7f020012;
-        public static final int brownbeardown=0x7f020013;
-        public static final int brownbearleft=0x7f020014;
-        public static final int brownbearright=0x7f020015;
-        public static final int brownbearup=0x7f020016;
-        public static final int crate=0x7f020017;
-        public static final int cratelarge=0x7f020018;
-        public static final int down=0x7f020019;
-        public static final int empty=0x7f02001a;
-        public static final int emptylarge=0x7f02001b;
-        public static final int explode=0x7f02001c;
-        public static final int explode2=0x7f02001d;
-        public static final int explode3=0x7f02001e;
-        public static final int explode4=0x7f02001f;
-        public static final int ic_launcher=0x7f020020;
-        public static final int left=0x7f020021;
-        public static final int multiplayer=0x7f020022;
-        public static final int playerred=0x7f020023;
-        public static final int playerredlarge=0x7f020024;
-        public static final int right=0x7f020025;
-        public static final int singleplayer=0x7f020026;
-        public static final int smallblackbeardown=0x7f020027;
-        public static final int smallblackbearleft=0x7f020028;
-        public static final int smallblackbearright=0x7f020029;
-        public static final int smallblackbearup=0x7f02002a;
-        public static final int smallbombcenter=0x7f02002b;
-        public static final int smallbombenddown=0x7f02002c;
-        public static final int smallbombendleft=0x7f02002d;
-        public static final int smallbombendright=0x7f02002e;
-        public static final int smallbombendup=0x7f02002f;
-        public static final int smallbombmiddledown=0x7f020030;
-        public static final int smallbombmiddleleft=0x7f020031;
-        public static final int smallbombmiddleright=0x7f020032;
-        public static final int smallbombmiddleup=0x7f020033;
-        public static final int smallbrownbeardown=0x7f020034;
-        public static final int smallbrownbearleft=0x7f020035;
-        public static final int smallbrownbearright=0x7f020036;
-        public static final int smallbrownbearup=0x7f020037;
-        public static final int smallswaggybeardown=0x7f020038;
-        public static final int smallswaggybearleft=0x7f020039;
-        public static final int smallswaggybearright=0x7f02003a;
-        public static final int smallswaggybearup=0x7f02003b;
-        public static final int smallupgrade=0x7f02003c;
-        public static final int smallwhitebeardown=0x7f02003d;
-        public static final int smallwhitebearleft=0x7f02003e;
-        public static final int smallwhitebearright=0x7f02003f;
-        public static final int smallwhitebearup=0x7f020040;
-        public static final int swaggybeardown=0x7f020041;
-        public static final int swaggybearleft=0x7f020042;
-        public static final int swaggybearright=0x7f020043;
-        public static final int swaggybearup=0x7f020044;
-        public static final int up=0x7f020045;
-        public static final int upgrade=0x7f020046;
-        public static final int wall=0x7f020047;
-        public static final int walllarge=0x7f020048;
-        public static final int whitebeardown=0x7f020049;
-        public static final int whitebearleft=0x7f02004a;
-        public static final int whitebearright=0x7f02004b;
-        public static final int whitebearup=0x7f02004c;
-    }
-    public static final class layout {
-        public static final int activity_main=0x7f030000;
+        public static final int bombicon1=0x7f02000c;
+        public static final int bombiconsmall=0x7f02000d;
+        public static final int bomblarge=0x7f02000e;
+        public static final int bomblarge1=0x7f02000f;
+        public static final int bombmiddledown=0x7f020010;
+        public static final int bombmiddleleft=0x7f020011;
+        public static final int bombmiddleright=0x7f020012;
+        public static final int bombmiddleup=0x7f020013;
+        public static final int bombphase2=0x7f020014;
+        public static final int bombphase21=0x7f020015;
+        public static final int brownbeardown=0x7f020016;
+        public static final int brownbearleft=0x7f020017;
+        public static final int brownbearright=0x7f020018;
+        public static final int brownbearup=0x7f020019;
+        public static final int crate=0x7f02001a;
+        public static final int cratelarge=0x7f02001b;
+        public static final int down=0x7f02001c;
+        public static final int empty=0x7f02001d;
+        public static final int emptylarge=0x7f02001e;
+        public static final int explode=0x7f02001f;
+        public static final int explode2=0x7f020020;
+        public static final int explode3=0x7f020021;
+        public static final int explode4=0x7f020022;
+        public static final int ic_launcher=0x7f020023;
+        public static final int left=0x7f020024;
+        public static final int multiplayer=0x7f020025;
+        public static final int playerred=0x7f020026;
+        public static final int playerredlarge=0x7f020027;
+        public static final int right=0x7f020028;
+        public static final int singleplayer=0x7f020029;
+        public static final int smallblackbeardown=0x7f02002a;
+        public static final int smallblackbearleft=0x7f02002b;
+        public static final int smallblackbearright=0x7f02002c;
+        public static final int smallblackbearup=0x7f02002d;
+        public static final int smallbombcenter=0x7f02002e;
+        public static final int smallbombenddown=0x7f02002f;
+        public static final int smallbombendleft=0x7f020030;
+        public static final int smallbombendright=0x7f020031;
+        public static final int smallbombendup=0x7f020032;
+        public static final int smallbombmiddledown=0x7f020033;
+        public static final int smallbombmiddleleft=0x7f020034;
+        public static final int smallbombmiddleright=0x7f020035;
+        public static final int smallbombmiddleup=0x7f020036;
+        public static final int smallbrownbeardown=0x7f020037;
+        public static final int smallbrownbearleft=0x7f020038;
+        public static final int smallbrownbearright=0x7f020039;
+        public static final int smallbrownbearup=0x7f02003a;
+        public static final int smallswaggybeardown=0x7f02003b;
+        public static final int smallswaggybearleft=0x7f02003c;
+        public static final int smallswaggybearright=0x7f02003d;
+        public static final int smallswaggybearup=0x7f02003e;
+        public static final int smallupgrade=0x7f02003f;
+        public static final int smallwhitebeardown=0x7f020040;
+        public static final int smallwhitebearleft=0x7f020041;
+        public static final int smallwhitebearright=0x7f020042;
+        public static final int smallwhitebearup=0x7f020043;
+        public static final int swaggybeardown=0x7f020044;
+        public static final int swaggybearleft=0x7f020045;
+        public static final int swaggybearright=0x7f020046;
+        public static final int swaggybearup=0x7f020047;
+        public static final int up=0x7f020048;
+        public static final int upgrade=0x7f020049;
+        public static final int wall=0x7f02004a;
+        public static final int walllarge=0x7f02004b;
+        public static final int whitebeardown=0x7f02004c;
+        public static final int whitebearleft=0x7f02004d;
+        public static final int whitebearright=0x7f02004e;
+        public static final int whitebearup=0x7f02004f;
     }
     public static final class menu {
-        public static final int main=0x7f070000;
+        public static final int main=0x7f050000;
     }
     public static final class string {
-        public static final int action_settings=0x7f050001;
-        public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050002;
+        public static final int app_name=0x7f030000;
     }
     public static final class style {
         /** 
@@ -132,10 +120,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f040000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f040001;
     }
 }
