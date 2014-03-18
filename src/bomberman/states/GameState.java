@@ -51,7 +51,9 @@ public class GameState extends State implements TouchListener{
 	int counter = 0;
 	
 	public GameState(){
+		// Board class now handles creating the actual gameBoard,
 		this.board = new Board();
+		
 		this.player = new Player("Player1",ColorObject.BROWN,this);
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
 		this.startingY = 0.0f;
@@ -74,7 +76,6 @@ public class GameState extends State implements TouchListener{
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
 		bots = new ArrayList<AIBot>();
-//		addSprites();
 		addBots();
 	}
 	
@@ -113,7 +114,6 @@ public class GameState extends State implements TouchListener{
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
 		opponents = new ArrayList<Opponent>();
-//		addSprites();
 		this.player = new Player("Player1", ColorObject.BROWN,this);
 	}
 	
@@ -211,32 +211,6 @@ public class GameState extends State implements TouchListener{
 		return this.board.getSpriteBoard();
 	}
 	
-	
-	//This adds all board objects to an Array of Sprites. This Array is used when the board is drawn and will also used for player detection.
-	public void addSprites(){
-		spriteList = new ArrayList<ArrayList<Sprite>>();
-		for(int i =0; i<board.getBoard().length;i++){
-			ArrayList<Sprite> row = new ArrayList<Sprite>();
-			for(int j=0; j<board.getBoard()[1].length;j++){
-				if(board.getBoard()[i][j]==1){
-					Wall boardPiece = new Wall();
-					boardPiece.setPosition((float) (this.startingX+Constants.getHeight()*j), (float) (this.startingY+Constants.getHeight()*i));
-					row.add(boardPiece);
-				}
-				if(board.getBoard()[i][j]==0){
-					Empty boardPiece = new Empty();
-					boardPiece.setPosition((float) (this.startingX+Constants.getHeight()*j), (float) (this.startingY+Constants.getHeight()*i));
-					row.add(boardPiece);
-				}
-				if(board.getBoard()[i][j]==2){
-					Crate boardPiece = new Crate();
-					boardPiece.setPosition((float) (this.startingX+Constants.getHeight()*j), (float) (this.startingY+Constants.getHeight()*i));
-					row.add(boardPiece);
-				}	
-			}
-			spriteList.add(row);
-		}
-	}
 	
 	/**
 	 * Called every game tic. All sprites needs to be updated here.
