@@ -18,6 +18,7 @@ public class AIBot extends Player {
 	private boolean changedColumn = false;
 	private int posX= 0;
 	private int posY = 0;
+	private long turnWait = 0;
 
 	public AIBot(String name, ColorObject color, GameState gs) {
 		super(name, color, gs);
@@ -230,26 +231,40 @@ public class AIBot extends Player {
 		
 	}
 
-	private void turn() {
-		int x = Constants.getPositionX(this.getMiddleX());
-		int y = Constants.getPositionY(this.getMiddleY());
-		ArrayList<Direction> directions = new ArrayList<Direction>();
-		for (Direction direction : Direction.values()) {
-			if (direction != Direction.STOP) {
-				Sprite sprite = gameState.getSpriteBoard().get(
-						y + direction.getY()).get(x + direction.getX());
-				if (sprite instanceof Empty && direction != getOppositeDirection(getDirection())) {
-					directions.add(direction);
+	private void turn(){
+		int randomNr = random.nextInt(10);
+		if(System.currentTimeMillis()-turnWait  > 2000){
+			int x = Constants.getPositionX(this.getMiddleX());
+			int y = Constants.getPositionY(this.getMiddleY());
+			ArrayList<Direction> directions = new ArrayList<Direction>();
+			for (Direction direction : Direction.values()) {
+				if (direction != Direction.STOP) {
+					Sprite sprite = gameState.getSpriteBoard().get(
+							y + direction.getY()).get(x + direction.getX());
+					if (sprite instanceof Empty && direction != getOppositeDirection(getDirection())) {
+						directions.add(direction);
+					}
 				}
 			}
+			if(!directions.isEmpty()){
+				int index = random.nextInt(directions.size());
+				startMove(directions.get(index));
+				turnWait = System.currentTimeMillis();
+			}
+			if(opponentNear() || createNear(x, y)){
+				placeBomb(x, y);
+			}
 		}
-		if(!directions.isEmpty()){
-			int index = random.nextInt(directions.size());
-			startMove(directions.get(index));
+	}
+
+	private boolean createNear(int x, int y) {
+		for(Direction direction : Direction.values()){
+			Sprite sprite = gameState.getSpriteBoard().get(y+ direction.getY()).get(x+direction.getX());
+			if(sprite instanceof Crate){
+				return true;
+			}
 		}
-		if(opponentNear()){
-			placeBomb(x, y);
-		}
+		return false;
 	}
 
 	private boolean needToEvade() {
