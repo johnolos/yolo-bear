@@ -57,6 +57,10 @@ public class Board {
 		return this.board;
 	}
 	
+	public ArrayList<ArrayList<Sprite>> getSpriteBoard(){
+		return this.spriteList;
+	}
+	
 	/** OPPRINELIG addSprites i GameState.java ***/
 	public void initiateBoard(int[][] board){
 		float x = Constants.getPixelsOnSides();
@@ -87,10 +91,11 @@ public class Board {
 	
 	
 	public void setSprite(int column, int row, Sprite sprite) {
-		Sprite oldValue = this.spriteList.get(row).remove(column);
-		sprite.setPosition(oldValue.getX(), oldValue.getY());
+		Sprite oldSprite = this.spriteList.get(row).get(column);
+		this.spriteList.get(row).remove(oldSprite);
+		sprite.setPosition(oldSprite.getX(), oldSprite.getY());
 		this.spriteList.get(row).add(column, sprite);
-		pcs.firePropertyChange("spriteList", oldValue, sprite);
+//		pcs.firePropertyChange("spriteList", oldValue, sprite);
 		
 	}
 	

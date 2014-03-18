@@ -39,7 +39,7 @@ public class AIBot extends Player {
 		if(!changedColumn && !changedRow){
 		for (Direction direction : Direction.values()) {
 			if (direction != Direction.STOP) {
-				Sprite sprite = GameState.spriteList.get(y + direction.getY())
+				Sprite sprite = gameState.getSpriteBoard().get(y + direction.getY())
 						.get(x + direction.getX());
 				if (sprite instanceof Empty) {
 					possibleDir.add(direction);
@@ -58,7 +58,7 @@ public class AIBot extends Player {
 		else if(changedColumn){
 			for(Direction direction : Direction.values()){
 				if(changeingRow(direction)){
-					Sprite sprite = GameState.spriteList.get(y + direction.getY()).get(x + direction.getX());
+					Sprite sprite = gameState.getSpriteBoard().get(y + direction.getY()).get(x + direction.getX());
 					if (sprite instanceof Empty) {
 						possibleDir.add(direction);
 					}	
@@ -73,7 +73,7 @@ public class AIBot extends Player {
 		else{
 			for(Direction direction : Direction.values()){
 				if(changeingColumn(direction)){
-					Sprite sprite = GameState.spriteList.get(y + direction.getY()).get(x + direction.getX());
+					Sprite sprite = gameState.getSpriteBoard().get(y + direction.getY()).get(x + direction.getX());
 					if (sprite instanceof Empty) {
 						possibleDir.add(direction);
 					}	
@@ -124,7 +124,7 @@ public class AIBot extends Player {
 		int x = Constants.getPositionX(this.getMiddleX());
 		int y = Constants.getPositionY(this.getMiddleY());
 		for (Direction direction : Direction.values()) {
-			Sprite sprite = GameState.spriteList.get(y + direction.getY()).get(
+			Sprite sprite = gameState.getSpriteBoard().get(y + direction.getY()).get(
 					x + direction.getX());
 			if (sprite instanceof Crate || opponentNear()) {
 				placeBomb(x, y);
@@ -156,7 +156,7 @@ public class AIBot extends Player {
 			int y = Constants.getPositionY(this.getMiddleY());
 			for (Direction direction : Direction.values()) {
 				if (direction != Direction.STOP) {
-					Sprite sprite = GameState.spriteList.get(
+					Sprite sprite = gameState.getSpriteBoard().get(
 							y + direction.getY()).get(x + direction.getX());
 					if (sprite instanceof Empty && direction != getOppositeDirection(getDirection())) {
 						startMove(direction);
@@ -191,8 +191,8 @@ public class AIBot extends Player {
 	}
 
 	private void placeBomb(int x, int y) {
-		int posX = (int)GameState.spriteList.get(y).get(x).getPosition().getX();
-		int posY = (int)GameState.spriteList.get(y).get(x).getPosition().getY();
+		int posX = (int)gameState.getSpriteBoard().get(y).get(x).getPosition().getX();
+		int posY = (int)gameState.getSpriteBoard().get(y).get(x).getPosition().getY();
 		if (this.canPlaceBomb()) {
 			Bomb bomb = new Bomb(posX, posY, this.getMagnitude(), this.gameState);
 			this.gameState.addBomb(bomb);
@@ -215,7 +215,6 @@ public class AIBot extends Player {
 	public void update(float dt) {
 		if(!this.getDead()){
 			selectNextMove();
-			playerCollision();
 			super.update(dt);
 		}
 	}
@@ -237,7 +236,7 @@ public class AIBot extends Player {
 		ArrayList<Direction> directions = new ArrayList<Direction>();
 		for (Direction direction : Direction.values()) {
 			if (direction != Direction.STOP) {
-				Sprite sprite = GameState.spriteList.get(
+				Sprite sprite = gameState.getSpriteBoard().get(
 						y + direction.getY()).get(x + direction.getX());
 				if (sprite instanceof Empty && direction != getOppositeDirection(getDirection())) {
 					directions.add(direction);
@@ -267,7 +266,7 @@ public class AIBot extends Player {
 	}
 	
 	public void handleCollision(Direction dir,int y, int x, float posX, float posY){
-		Sprite sprite = this.gameState.spriteList.get(y+dir.getY()).get(x+dir.getX());
+		Sprite sprite = gameState.getSpriteBoard().get(y+dir.getY()).get(x+dir.getX());
 		if(sprite instanceof Empty){
 			setPosition(posX, posY);
 		}
@@ -284,7 +283,7 @@ public class AIBot extends Player {
 		int x = Constants.getPositionX(getMiddleX());
 		int y = Constants.getPositionY(getMiddleY());
 		float diff = (Constants.getHeight()-getImageHeight())/2;
-		Sprite thisSprite = this.gameState.spriteList.get(y).get(x);
+		Sprite thisSprite = gameState.getSpriteBoard().get(y).get(x);
 		float posX = thisSprite.getX()+diff;
 		float posY = thisSprite.getY()+diff;
 		if(!canPlayerMove(Direction.UP) && getDirection() == Direction.UP)
@@ -326,7 +325,7 @@ public class AIBot extends Player {
 	public boolean canPlayerMove(Direction dir){
 		int y = Constants.getPositionY(getMiddleY());
 		int x = Constants.getPositionX(getMiddleX());
-		Sprite sprite = this.gameState.spriteList.get(y+dir.getY()).get(x+dir.getX());
+		Sprite sprite = gameState.getSpriteBoard().get(y+dir.getY()).get(x+dir.getX());
 		if(dir == Direction.DOWN || dir == Direction.UP){
 			if(canMoveY()){
 				if(sprite instanceof Empty){

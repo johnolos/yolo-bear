@@ -175,6 +175,7 @@ public class Player extends Sprite {
 	
 	public void update(float dt){
 		if(!this.dead){
+			playerCollision();
 			super.update(dt);
 		}
 	}
@@ -319,4 +320,94 @@ public class Player extends Sprite {
 		this.bombsPlaced.remove(bomb);
 	}
 	
+	public void handleCollision(Direction dir,int y, int x, float posX, float posY){
+		Sprite sprite = gameState.getSpriteBoard().get(y+dir.getY()).get(x+dir.getX());
+		if(sprite instanceof Empty){
+			setPosition(posX, posY);
+		}
+		else{
+			setSpeed(0, 0);
+		}
+	}
+	
+	/**
+	 * Runs player collision detection in the direction the player is moving.
+	 */
+	public void playerCollision() {
+		int x = Constants.getPositionX(getMiddleX());
+		int y = Constants.getPositionY(getMiddleY());
+		float diff = (Constants.getHeight()-getImageHeight())/2;
+		Sprite thisSprite = gameState.getSpriteBoard().get(y).get(x);
+		float posX = thisSprite.getX()+diff;
+		float posY = thisSprite.getY()+diff;
+		if(!canPlayerMove(Direction.UP) && getDirection() == Direction.UP)
+			handleCollision(Direction.UP, y, x, posX, posY);
+
+		if(!canPlayerMove(Direction.DOWN) && getDirection() == Direction.DOWN)
+			handleCollision(Direction.DOWN, y, x, posX, posY);
+		
+		if(!canPlayerMove(Direction.LEFT) && getDirection() == Direction.LEFT)
+			handleCollision(Direction.LEFT, y, x, posX, posY);
+		
+		if(!canPlayerMove(Direction.RIGHT) && getDirection() == Direction.RIGHT)
+			handleCollision(Direction.RIGHT, y, x, posX, posY);
+	}
+	
+	public float getPixelsY(Direction dir,Sprite sprite){
+		if(dir == Direction.DOWN){
+			return sprite.getPosition().getY() - (getPosition().getY() + getImageHeight());
+		}
+		else{
+			return getPosition().getY() - (sprite.getPosition().getY() + Constants.getHeight());
+		}
+	}
+	
+	public float getPixelsX(Direction dir,Sprite sprite){
+		if(dir == Direction.RIGHT){
+			return sprite.getPosition().getX() - (getPosition().getX() + getImageHeight());
+		}
+		else{
+			return getPosition().getX() - (sprite.getPosition().getX() + Constants.getHeight());
+		}
+	}
+	
+	/**
+	 * Returns true if a player can move to the given direction.
+	 * @return
+	 */
+
+	public boolean canPlayerMove(Direction dir){
+		int y = Constants.getPositionY(getMiddleY());
+		int x = Constants.getPositionX(getMiddleX());
+		Sprite sprite = gameState.getSpriteBoard().get(y+dir.getY()).get(x+dir.getX());
+		if(dir == Direction.DOWN || dir == Direction.UP){
+			if(canMoveY()){
+				if(sprite instanceof Empty){
+					if(!gameState.bombAtPosition(x+dir.getX(), y+dir.getY())) return true;
+				}
+			}
+			float pixelsY = getPixelsY(dir, sprite);
+			if(pixelsY > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
+				return true;
+			if(gameState.bombAtPosition(x+dir.getX(),y+dir.getY())&& getDirection() == dir) {
+				gameState.kickBomb(x +dir.getX(),y +dir.getY(),getDirection());
+			}
+			return false;
+		}
+		else{
+			if(canMoveX()){
+				if(sprite instanceof Empty){
+					if(!gameState.bombAtPosition(x+dir.getX(), y+dir.getY())) return true;
+				}
+			}
+			float pixelsX = getPixelsX(dir, sprite);
+			if(pixelsX > Constants.COLLSION_RANGE * Constants.getReceivingYRatio())
+				return true;
+			if(gameState.bombAtPosition(x+dir.getX(),y+dir.getY()) && getDirection()==dir) {
+				gameState.kickBomb(x+dir.getX(),y+dir.getY(),getDirection());
+			}
+			return false;
+		}
+
+	}
 }
