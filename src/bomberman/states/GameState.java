@@ -49,10 +49,14 @@ public class GameState extends State implements TouchListener{
 //	private MainMenuWithGraphics single, multi;
 	
 	int counter = 0;
+	private long gameStarted;
+	private boolean suddenDeathInitiated = false;
 	
 	public GameState(){
 		// Board class now handles creating the actual gameBoard,
 		this.board = new Board();
+		
+		this.gameStarted = System.currentTimeMillis();
 		
 		this.player = new Player("Player1",ColorObject.BROWN,this);
 		this.startingX = Constants.screenWidth/2 - Constants.getHeight()*6.5;
@@ -217,6 +221,12 @@ public class GameState extends State implements TouchListener{
 	 */
 	public void update(float dt){
 		//Sending player location to all other players.
+		if(! this.suddenDeathInitiated) {
+			board.initiateSuddenDeath(System.currentTimeMillis());
+			this.suddenDeathInitiated = true;
+		}
+		
+		
 		++counter;
 		if(counter % 3 == 0 && this.player.hasMovedSince()) {
 			if(client != null){
@@ -229,8 +239,18 @@ public class GameState extends State implements TouchListener{
 			player.updatePosition();
 		}
 			
+		if(this.suddenDeathInitiated) {
+			if(!(board.getWallX() == 6 && board.getWallY() == 6)){
+				if(board.timeToPlaceWall(System.currentTimeMillis())) {
+					board.placeSuddenDeathWall(board.getXSuddenDeathWall(), board.getYSuddenDeathWall());	
+				}
+			}
+		}
+		
+		
 		collisionCheck();
 		removeExplosions();
+//		checkTimer();
 		up.update(dt);
 		down.update(dt);
 		left.update(dt);
@@ -267,6 +287,14 @@ public class GameState extends State implements TouchListener{
 		}
 	}
 	
+//	private void checkTimer() {
+//		if(System.currentTimeMillis()- gameStarted > 2000 && !suddenDeathInitiated){
+//			board.initiateSuddenDeath();
+//			suddenDeathInitiated  = true;
+//		}
+//		
+//	}
+
 	private void removeExplosions() {
 		for(Iterator<Explosion> it = explosions.iterator(); it.hasNext();){
 			Explosion explosion = it.next();

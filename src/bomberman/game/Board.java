@@ -30,8 +30,16 @@ public class Board {
 	
 	private ArrayList<ArrayList<Sprite>> spriteList;
 	
+	private long timeSinceLastWallplaced;
+	
+	private int boundaryX, boundaryY;
+	private int wallX, wallY;
+	private boolean UP, DOWN, RIGHT, LEFT;
+
+	
 	public static final int COLUMN_SIZE = 13;
 	public static final int ROW_SIZE = 13;
+	public static final long TIMEBETWEENWALLS = 500;
 	
 	public static final int[][] board = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -98,5 +106,103 @@ public class Board {
 //		pcs.firePropertyChange("spriteList", oldValue, sprite);
 		
 	}
+	
+	public void initiateSuddenDeath(long dt){
+		this.timeSinceLastWallplaced = dt;
+		this.boundaryX = 1;
+		this.boundaryY = 1;
+		this.wallX = boundaryX;
+		this.wallY = boundaryY;
+		this.UP = false;
+		this.DOWN = false;
+		this.LEFT = false;
+		this.RIGHT = true;
+		
+	}
+	
+	public void placeSuddenDeathWall(int x, int y){
+		Wall wall = new Wall();
+		setSprite(x, y, wall);
+	}
+	
+	public boolean timeToPlaceWall(long dt){
+		System.out.println(dt);
+		if(dt >= (this.timeSinceLastWallplaced + TIMEBETWEENWALLS) ) {
+			System.out.println("ShitNOW!");
+			this.timeSinceLastWallplaced += TIMEBETWEENWALLS;
+			return true;
+		}
+		return false;
+	}
+	
+	public int getXSuddenDeathWall() {
+		if(this.DOWN || this.UP) {
+			return wallX;
+		}
+		if(this.RIGHT) {
+			if(wallX == COLUMN_SIZE - 1 - boundaryX) {
+				this.RIGHT = false;
+				this.DOWN = true;
+				return wallX;
+			}
+			return wallX++;
+		}
+		if(this.LEFT) {
+			if(wallX == boundaryX) {
+				this.LEFT = false;
+				this.UP = true;
+				boundaryY++;
+				return wallX;
+			}
+			return wallX--;
+		}
+		return -1;
+	}
+	
+	public int getYSuddenDeathWall() {
+		if(this.LEFT || this.RIGHT) {
+			return wallY;
+		}
+		if(this.DOWN) {
+			if(wallY == ROW_SIZE - 1 - boundaryY) {
+				this.LEFT = true;
+				this.DOWN = false;
+				wallX--;
+				return wallY;
+			}
+			return wallY++;
+		}
+		if(this.UP) {
+			if(wallY == boundaryY) {
+				this.RIGHT = true;
+				this.UP = false;
+				boundaryX++;
+				wallX++;
+				return wallY;
+			}
+			return wallY--;
+		}
+		return -1;
+	}
+	public int getWallY() {
+		return this.wallY;
+	}
+	public int getWallX() {
+		return this.wallX;
+	}
+	
+	
+
+//	public static void main(String[] args) {
+//		Board board = new Board();
+//		board.initiateSuddenDeath(0);
+//		int n = 0;
+//		while(n < 121) {
+//			System.out.println("X: " + board.getXSuddenDeathWall());
+//			System.out.println("Y: " + board.getYSuddenDeathWall());
+//			System.out.println("----------");
+//			n++;
+//		}
+//	}
 	
 }

@@ -47,14 +47,16 @@ public class AIBot extends Player {
 				}
 			}
 		}
-		Direction dir = possibleDir.get(random.nextInt(possibleDir.size()));
-		if(changeingRow(dir)){
-			changedRow = true;
-		}
-		else{
-			changedColumn = true;
-		}
+		if(!possibleDir.isEmpty()){
+			Direction dir = possibleDir.get(random.nextInt(possibleDir.size()));
+				if(changeingRow(dir)){
+					changedRow = true;
+				}
+				else{
+					changedColumn = true;
+				}
 		startMove(dir);
+		}
 		}
 		else if(changedColumn){
 			for(Direction direction : Direction.values()){
@@ -232,7 +234,6 @@ public class AIBot extends Player {
 	}
 
 	private void turn(){
-		int randomNr = random.nextInt(10);
 		if(System.currentTimeMillis()-turnWait  > 2000){
 			int x = Constants.getPositionX(this.getMiddleX());
 			int y = Constants.getPositionY(this.getMiddleY());
