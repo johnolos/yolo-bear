@@ -4,6 +4,7 @@ import bomberman.connection.Client;
 import bomberman.game.Constants;
 import bomberman.graphics.MultiPlayer;
 import bomberman.graphics.SinglePlayer;
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 import sheep.game.State;
 import sheep.gui.WidgetAction;
@@ -44,5 +45,13 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	public boolean onTouchUp(MotionEvent event) {
 		// TODO Auto-generated method stub
 		return super.onTouchUp(event);
+	}
+	
+	public void update(float dt) {
+		super.update(dt);
+	}
+	
+	public void draw(Canvas canvas) {
+		super.draw(canvas);
 	}
 }
