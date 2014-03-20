@@ -238,20 +238,22 @@ public class Player extends Sprite {
 	 * @param direction
 	 */
 	public void setDirection(Direction direction) {
-		this.direction = direction;
-		switch(direction) {
-		case UP:
-			this.setView(this.playerImages.get(0));
-			break;
-		case DOWN:
-			this.setView(this.playerImages.get(1));
-			break;
-		case RIGHT:
-			this.setView(this.playerImages.get(2));
-			break;
-		case LEFT:
-			this.setView(this.playerImages.get(3));
-			break;
+		if(!getDead()){
+			this.direction = direction;
+			switch(direction) {
+			case UP:
+				this.setView(this.playerImages.get(0));
+				break;
+			case DOWN:
+				this.setView(this.playerImages.get(1));
+				break;
+			case RIGHT:
+				this.setView(this.playerImages.get(2));
+				break;
+			case LEFT:
+				this.setView(this.playerImages.get(3));
+				break;
+			}
 		}
 	}
 	

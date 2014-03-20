@@ -35,7 +35,7 @@ public class GameFinished extends State implements WidgetListener{
 			resultSprite.setPosition(Constants.getScreenWidth()/2-win.getWidth()/2, Constants.getScreenHeight()/2 - win.getHeight()/2);
 		}
 		else{
-			Image lose = new Image(R.drawable.winner);
+			Image lose = new Image(R.drawable.loser);
 			resultSprite.setView(lose);
 			resultSprite.setPosition(Constants.getScreenWidth()/2-lose.getWidth()/2, Constants.getScreenHeight()/2 - lose.getHeight()/2);
 		}
@@ -67,7 +67,7 @@ public class GameFinished extends State implements WidgetListener{
 	public void actionPerformed(WidgetAction action) {
 		if(action.getSource() == newGame){
 			gs.resetGame();
-			getGame().popState();
+			getGame().popState(2);
 		}
 		
 	}
