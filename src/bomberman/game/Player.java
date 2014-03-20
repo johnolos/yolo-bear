@@ -32,6 +32,7 @@ public class Player extends Sprite {
 	private boolean dead = false;
 	private float startPosX;
 	private float startPosY;
+	private long timeStamp;
 	
 	
 	public Player(String name, ColorObject color, GameState gs) {
@@ -55,7 +56,7 @@ public class Player extends Sprite {
 		if(this.health == 0){
 			this.setView(null);
 			this.setPosition(0, 0);
-			this.dead  = true;
+			this.setDead();
 			this.setSpeed(0, 0);
 		}
 	}
@@ -189,6 +190,7 @@ public class Player extends Sprite {
 		this.speedOfPlayer = 1.0f;
 		this.magnitudeOfBombs = 2;
 		this.dead = false;
+		this.timeStamp = 0;
 		this.health = 3;
 		this.setPosition(startPosX, startPosY);
 		this.setView(playerImages.get(0));
@@ -374,11 +376,14 @@ public class Player extends Sprite {
 			handleCollision(Direction.RIGHT, y, x, posX, posY);
 		if(gameState.getSpriteBoard().get(y).get(x) instanceof Wall){
 			this.health = 0;
-			this.dead = true;
+			this.setDead();
 			setView(null);
 		}
 	}
-	
+	public void setDead(){
+		this.dead = true;
+		this.timeStamp = System.currentTimeMillis();
+	}
 	public float getPixelsY(Direction dir,Sprite sprite){
 		if(dir == Direction.DOWN){
 			return sprite.getPosition().getY() - (getPosition().getY() + getImageHeight());
@@ -435,5 +440,9 @@ public class Player extends Sprite {
 			return false;
 		}
 
+	}
+
+	public long getTimeStamp() {
+		return this.timeStamp;
 	}
 }

@@ -14,10 +14,10 @@ public class MultiPlayer extends Sprite {
 	
 	public MultiPlayer(String Id, float x, float y) {
 		Rect bounds = null;
-		if(Id.equals("multi")) {
+		if(Id.equals("Multiplayer")) {
 			multiPlayer = new Image(R.drawable.multiplayer);
 			this.setView(multiPlayer);
-			this.setShape(100,100);
+//			this.setShape(400,100);
 			this.setPosition(x,y);
 			float offsetX = 100*Constants.getReceivingXRatio();
 			float offsetY = 100*Constants.getReceivingYRatio();

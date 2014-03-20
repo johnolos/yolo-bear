@@ -12,18 +12,18 @@ import sheep.gui.WidgetListener;
 import sheep.input.TouchListener;
 
 public class MainMenuWithGraphics extends State implements TouchListener {
-	private Client client;
+	private Client client = null;
 	private SinglePlayer singlePlayer;
 	private MultiPlayer multiPlayer;
 	
 	public MainMenuWithGraphics() {
 		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
-		this.multiPlayer = new MultiPlayer("multiplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.500f));
+		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.500f));
 	}
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
-			
+			getGame().pushState(new GameState());
 		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
 			if(this.client == null) {
 				this.client = new Client();
@@ -48,10 +48,13 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	}
 	
 	public void update(float dt) {
-		super.update(dt);
+		System.out.println(singlePlayer.getPosition());
+		singlePlayer.update(dt);
+		multiPlayer.update(dt);
 	}
 	
 	public void draw(Canvas canvas) {
-		super.draw(canvas);
+		singlePlayer.draw(canvas);
+		multiPlayer.draw(canvas);
 	}
 }
