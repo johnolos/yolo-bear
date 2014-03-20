@@ -4,13 +4,16 @@ import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
 import bomberman.graphics.PowerUpType;
+import bomberman.states.GameState;
 
 public class PowerUp extends Sprite implements Collision{
 	private PowerUpType powerup;
 	private Image image;
 	int column, row;
+	private GameState gs;
 	
-	public PowerUp(int column, int row) {
+	public PowerUp(int column, int row, GameState gs) {
+		this.gs = gs;
 		this.column = column;
 		this.row = row;
 		float x = (float) (column * Constants.getHeight() + Constants.getPixelsOnSides());
@@ -58,6 +61,10 @@ public class PowerUp extends Sprite implements Collision{
 
 	public void update(float dt){
 		super.update(dt);
+		if(gs.getSpriteBoard().get(row).get(column) instanceof Wall){
+			this.setView(null);
+		}
+		
 	}
 	
 	public void draw(Canvas canvas){

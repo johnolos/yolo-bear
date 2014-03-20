@@ -87,8 +87,19 @@ public class Bomb extends Sprite implements Collision{
 	public void update(float dt){
 		super.update(dt);
 		bombAnimation();
+		checkWallCollision();
 	}
 	
+	private void checkWallCollision() {
+		int x = Constants.getPositionX(this.getX());
+		int y = Constants.getPositionY(this.getY());
+		if(gs.getSpriteBoard().get(y).get(x) instanceof Wall){
+			this.finished = true;
+			setView(null);
+		}
+		
+	}
+
 	public void draw(Canvas canvas){
 		super.draw(canvas);
 	}
