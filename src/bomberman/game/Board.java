@@ -17,6 +17,7 @@ public class Board {
 	 * Kommentar: Mulig 1.ikke fungerer da spillerens bevegelser vil
 	 * festes på skjermen om vi ikke tenger nye sprites over. Brage?
 	 * 
+	 *
 	 * Dessuten saa brukte vi PCL og PCS i MMI for MVC struktur.
 	 */
 	
@@ -39,7 +40,7 @@ public class Board {
 	
 	public static final int COLUMN_SIZE = 13;
 	public static final int ROW_SIZE = 13;
-	public static final long TIMEBETWEENWALLS = 500;
+	public static final long TIMEBETWEENWALLS = 50;
 	
 	public static final int[][] board = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -71,6 +72,8 @@ public class Board {
 	
 	/** OPPRINELIG addSprites i GameState.java ***/
 	public void initiateBoard(int[][] board){
+		this.wallX = 0;
+		this.wallY = 0;
 		float x = Constants.getPixelsOnSides();
 		float y = 0.0f;
 		spriteList = new ArrayList<ArrayList<Sprite>>();
@@ -123,10 +126,11 @@ public class Board {
 	public void placeSuddenDeathWall(int x, int y){
 		Wall wall = new Wall();
 		setSprite(x, y, wall);
+		
 	}
 	
 	public boolean timeToPlaceWall(long dt){
-		System.out.println(dt);
+
 		if(dt >= (this.timeSinceLastWallplaced + TIMEBETWEENWALLS) ) {
 			System.out.println("ShitNOW!");
 			this.timeSinceLastWallplaced += TIMEBETWEENWALLS;
@@ -190,19 +194,19 @@ public class Board {
 	public int getWallX() {
 		return this.wallX;
 	}
-	
-	
-
-//	public static void main(String[] args) {
-//		Board board = new Board();
-//		board.initiateSuddenDeath(0);
-//		int n = 0;
-//		while(n < 121) {
-//			System.out.println("X: " + board.getXSuddenDeathWall());
-//			System.out.println("Y: " + board.getYSuddenDeathWall());
-//			System.out.println("----------");
-//			n++;
-//		}
-//	}
+	/**
+	 * Return true if game is finished
+	 * @return
+	 */
+	public boolean lastWall(){
+		if(this.getWallX() == 6 && this.getWallY() == 6){
+			return true;
+		}
+		return false;
+	}
+	public void reset() {
+		this.spriteList.clear();
+		initiateBoard(board);
+	}
 	
 }

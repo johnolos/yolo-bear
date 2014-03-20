@@ -30,6 +30,8 @@ public class Player extends Sprite {
 	private float previousY;
 	private ArrayList<Bomb> bombsPlaced;
 	private boolean dead = false;
+	private float startPosX;
+	private float startPosY;
 	
 	
 	public Player(String name, ColorObject color, GameState gs) {
@@ -95,28 +97,36 @@ public class Player extends Sprite {
 				this.playerImages.add(new Image(R.drawable.brownbeardown));
 				this.playerImages.add(new Image(R.drawable.brownbearright));
 				this.playerImages.add(new Image(R.drawable.brownbearleft));
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.60f);
+				this.startPosX = (float)Constants.screenWidth/2-Constants.getHeight()*5.4f;
+				this.startPosY = (float) Constants.screenHeight/2 -Constants.getHeight()*5.60f;
+				this.setPosition(this.startPosX,this.startPosY);
 				break;
 			case BLACK:
 				this.playerImages.add(new Image(R.drawable.blackbearup));
 				this.playerImages.add(new Image(R.drawable.blackbeardown));
 				this.playerImages.add(new Image(R.drawable.blackbearright));
 				this.playerImages.add(new Image(R.drawable.blackbearleft));
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.60f);
+				this.startPosX = (float)Constants.screenWidth/2+Constants.getHeight()*4.60f;
+				this.startPosY = (float) Constants.screenHeight/2 -Constants.getHeight()*5.60f;
+				this.setPosition(this.startPosX,this.startPosY);
 				break;
 			case WHITE:
 				this.playerImages.add(new Image(R.drawable.whitebearup));
 				this.playerImages.add(new Image(R.drawable.whitebeardown));
 				this.playerImages.add(new Image(R.drawable.whitebearright));
 				this.playerImages.add(new Image(R.drawable.whitebearleft));
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				this.startPosX = (float)Constants.screenWidth/2-Constants.getHeight()*5.40f;
+				this.startPosY = (float) Constants.screenHeight/2 +Constants.getHeight()*4.60f;
+				this.setPosition(this.startPosX,this.startPosY);
 				break;
 			case SWAG:
 				this.playerImages.add(new Image(R.drawable.swaggybearup));
 				this.playerImages.add(new Image(R.drawable.swaggybeardown));
 				this.playerImages.add(new Image(R.drawable.swaggybearright));
 				this.playerImages.add(new Image(R.drawable.swaggybearleft));
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				this.startPosX = (float)Constants.screenWidth/2+Constants.getHeight()*4.60f;
+				this.startPosY = (float) Constants.screenHeight/2 +Constants.getHeight()*4.60f;
+				this.setPosition(this.startPosX,this.startPosY);
 				break;
 
 			default:
@@ -130,28 +140,36 @@ public class Player extends Sprite {
 				this.playerImages.add(new Image(R.drawable.smallbrownbeardown));
 				this.playerImages.add(new Image(R.drawable.smallbrownbearright));
 				this.playerImages.add(new Image(R.drawable.smallbrownbearleft));
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.4f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				this.startPosX = (float)Constants.screenWidth/2-Constants.getHeight()*5.4f;
+				this.startPosY = (float) Constants.screenHeight/2 -Constants.getHeight()*5.40f;
+				this.setPosition(startPosX,startPosY);
 				break;
 			case BLACK:
 				this.playerImages.add(new Image(R.drawable.smallblackbearup));
 				this.playerImages.add(new Image(R.drawable.smallblackbeardown));
 				this.playerImages.add(new Image(R.drawable.smallblackbearright));
 				this.playerImages.add(new Image(R.drawable.smallblackbearleft));
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 -Constants.getHeight()*5.40f);
+				this.startPosX = (float)Constants.screenWidth/2+Constants.getHeight()*4.60f;
+				this.startPosY = (float) Constants.screenHeight/2 -Constants.getHeight()*5.40f;
+				this.setPosition(startPosX,startPosY);
 				break;
 			case WHITE:
 				this.playerImages.add(new Image(R.drawable.smallwhitebearup));
 				this.playerImages.add(new Image(R.drawable.smallwhitebeardown));
 				this.playerImages.add(new Image(R.drawable.smallwhitebearright));
 				this.playerImages.add(new Image(R.drawable.smallwhitebearleft));
-				this.setPosition((float)Constants.screenWidth/2-Constants.getHeight()*5.40f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				this.startPosX = (float)Constants.screenWidth/2-Constants.getHeight()*5.40f;
+				this.startPosY = (float) Constants.screenHeight/2 +Constants.getHeight()*4.60f;
+				this.setPosition(startPosX,startPosY);
 				break;
 			case SWAG:
 				this.playerImages.add(new Image(R.drawable.smallswaggybearup));
 				this.playerImages.add(new Image(R.drawable.smallswaggybeardown));
 				this.playerImages.add(new Image(R.drawable.smallswaggybearright));
 				this.playerImages.add(new Image(R.drawable.smallswaggybearleft));
-				this.setPosition((float)Constants.screenWidth/2+Constants.getHeight()*4.60f,(float) Constants.screenHeight/2 +Constants.getHeight()*4.60f);
+				this.startPosX = (float)Constants.screenWidth/2+Constants.getHeight()*4.60f;
+				this.startPosY = (float) Constants.screenHeight/2 +Constants.getHeight()*4.60f;
+				this.setPosition(startPosX,startPosY);
 				break;
 
 			default:
@@ -171,6 +189,9 @@ public class Player extends Sprite {
 		this.speedOfPlayer = 1.0f;
 		this.magnitudeOfBombs = 2;
 		this.dead = false;
+		this.health = 3;
+		this.setPosition(startPosX, startPosY);
+		this.setView(playerImages.get(0));
 	}
 	
 	public void update(float dt){
@@ -351,6 +372,11 @@ public class Player extends Sprite {
 		
 		if(!canPlayerMove(Direction.RIGHT) && getDirection() == Direction.RIGHT)
 			handleCollision(Direction.RIGHT, y, x, posX, posY);
+		if(gameState.getSpriteBoard().get(y).get(x) instanceof Wall){
+			this.health = 0;
+			this.dead = true;
+			setView(null);
+		}
 	}
 	
 	public float getPixelsY(Direction dir,Sprite sprite){
