@@ -21,7 +21,7 @@ public class SinglePlayer extends Sprite {
 			this.setView(singlePlayer);
 			float offsetX = 100*Constants.getReceivingXRatio();
 			float offsetY = 100*Constants.getReceivingYRatio();
-			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
+			bounds  = new Rect((int)x,(int)y,(int)(x+singlePlayer.getWidth()),(int)(y+singlePlayer.getHeight()));
 		}
 		box = new BoundingBox(bounds);
 	}
