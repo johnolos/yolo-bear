@@ -62,7 +62,7 @@ public class Buttons extends Sprite {
 				this.setShape(200,200);
 			}
 			else {
-				bombIcon = new Image(R.drawable.bombiconsmall);
+				bombIcon = new Image(R.drawable.smallbombicon);
 				this.setShape(100,100);
 			}
 			this.setView(bombIcon);

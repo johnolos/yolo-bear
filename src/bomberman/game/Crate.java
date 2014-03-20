@@ -10,17 +10,17 @@ public class Crate extends Sprite {
 	
 	public Crate(){
 		if(Constants.screenHeight == 1600){
-			this.crate = new Image(R.drawable.cratelarge);
+			this.crate = new Image(R.drawable.crate);
 			this.setView(crate);
 			this.setShape(120,120);
 		}
 		else if(Constants.screenHeight == 752) {
-			this.crate = new Image(R.drawable.cratelarge);
+			this.crate = new Image(R.drawable.crate);
 			this.setView(crate);
 			this.setShape(60,60);
 		}
 		else{
-			this.crate = new Image(R.drawable.crate);
+			this.crate = new Image(R.drawable.smallcrate);
 			this.setView(crate);
 			this.setShape(40,40);
 		}
