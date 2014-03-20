@@ -2,6 +2,7 @@ package bomberman.states;
 
 import bomberman.connection.Client;
 import bomberman.game.Constants;
+import bomberman.graphics.MainMenuStartImage;
 import bomberman.graphics.MultiPlayer;
 import bomberman.graphics.SinglePlayer;
 import android.graphics.Canvas;
@@ -15,10 +16,12 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	private Client client = null;
 	private SinglePlayer singlePlayer;
 	private MultiPlayer multiPlayer;
+	private MainMenuStartImage main;
 	
 	public MainMenuWithGraphics() {
-		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
+		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
 		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.500f));
+		this.main = new MainMenuStartImage();
 	}
 	@Override
 	public boolean onTouchDown(MotionEvent event) {

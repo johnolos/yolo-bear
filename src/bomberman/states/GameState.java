@@ -344,7 +344,7 @@ public class GameState extends State implements TouchListener {
 	}
 
 	private void checkTimer() {
-		if ((System.currentTimeMillis() - gameStarted > 1000
+		if ((System.currentTimeMillis() - gameStarted > 100000
 				&& !suddenDeathInitiated )) {
 			board.initiateSuddenDeath(System.currentTimeMillis());
 			suddenDeathInitiated = true;

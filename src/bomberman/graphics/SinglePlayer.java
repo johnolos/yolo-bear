@@ -16,11 +16,8 @@ public class SinglePlayer extends Sprite {
 		Rect bounds = null;
 		if(Id.equals("Singleplayer")) {
 			singlePlayer = new Image(R.drawable.singleplayer);
-			this.setShape(100,100);
-			this.setPosition(x,y);
+			this.setPosition(x-(singlePlayer.getWidth()/2),y-(singlePlayer.getHeight()));
 			this.setView(singlePlayer);
-			float offsetX = 100*Constants.getReceivingXRatio();
-			float offsetY = 100*Constants.getReceivingYRatio();
 			bounds  = new Rect((int)x,(int)y,(int)(x+singlePlayer.getWidth()),(int)(y+singlePlayer.getHeight()));
 		}
 		box = new BoundingBox(bounds);
