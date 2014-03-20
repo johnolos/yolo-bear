@@ -1,55 +1,48 @@
 package bomberman.states;
 
-import android.graphics.Canvas;
-import android.graphics.Rect;
+import bomberman.connection.Client;
 import bomberman.game.Constants;
-import bomberman.game.R;
-import sheep.game.Sprite;
-import sheep.graphics.Image;
-import sheep.gui.TextButton;
+import bomberman.graphics.MultiPlayer;
+import bomberman.graphics.SinglePlayer;
+import android.view.MotionEvent;
+import sheep.game.State;
 import sheep.gui.WidgetAction;
 import sheep.gui.WidgetListener;
-import sheep.math.BoundingBox;
+import sheep.input.TouchListener;
 
-public class MainMenuWithGraphics extends Sprite {
-	private Image singlePlayer; 
-	private Image multiPlayer;
-	private BoundingBox box;
+public class MainMenuWithGraphics extends State implements TouchListener {
+	private Client client;
+	private SinglePlayer singlePlayer;
+	private MultiPlayer multiPlayer;
 	
-	/**
-	 * The constructor 
-	 */
-	public MainMenuWithGraphics(String buttonID, int x, int y) {
-		Rect bounds = null;
-		if(buttonID.equals("Single")) {
-			singlePlayer = new Image(R.drawable.singleplayer);
-			this.setView(singlePlayer);
-			this.setShape(100, 100); //DENNE Må ENDRES
-			this.setPosition(x, y);
-			float offsetX = 100*Constants.getReceivingXRatio();
-			float offsetY = 100*Constants.getReceivingYRatio();
-			bounds = new Rect((int)(x-offsetX),(int)(y-offsetY),(int)(x+offsetX),(int)(y+offsetY));
-		} else if(buttonID.equals("Multi")) {
-			multiPlayer = new Image(R.drawable.multiplayer);
-			this.setShape(100, 100); //DENNE Må ENDRES
-			this.setPosition(x, y);
-			float offsetX = 100*Constants.getReceivingXRatio();
-			float offsetY = 100*Constants.getReceivingYRatio();
-			bounds = new Rect((int)(x-offsetX),(int)(y-offsetY),(int)(x+offsetX),(int)(y+offsetY));
+	public MainMenuWithGraphics() {
+		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.3125f));
+		this.multiPlayer = new MultiPlayer("multiplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.500f));
+	}
+	@Override
+	public boolean onTouchDown(MotionEvent event) {
+		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
+			
+		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
+			if(this.client == null) {
+				this.client = new Client();
+				Thread clientThread = new Thread(this.client);
+				clientThread.start();
+				GameState gameState = new GameState(this.client);
+				getGame().pushState(gameState);
+				this.client.setGameState(gameState);
+			}
 		}
-		this.box = new BoundingBox(bounds);
+		return false;
 	}
-	
-	public void draw(Canvas canvas) {
-		super.draw(canvas);
-		
+	@Override
+	public boolean onTouchMove(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return super.onTouchMove(event);
 	}
-	
-	public void update(float dt) {
-		super.update(dt);
-	}
-	
-	public BoundingBox getBounds() {
-		return this.box;
+	@Override
+	public boolean onTouchUp(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return super.onTouchUp(event);
 	}
 }

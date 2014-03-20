@@ -2,6 +2,7 @@ package bomberman.game;
 
 import bomberman.graphics.BombImages;
 import bomberman.states.MainMenu;
+import bomberman.states.MainMenuWithGraphics;
 import sheep.game.Game;
 import android.os.Bundle;
 import android.app.Activity;
@@ -15,7 +16,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		Game game = new Game(this, null);
-		game.pushState(new MainMenu());
+		game.pushState(new MainMenuWithGraphics());
 		
 		
 

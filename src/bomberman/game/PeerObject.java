@@ -17,6 +17,13 @@ public class PeerObject  implements Serializable{
 	private PowerUpType powerType;
 	private float xPosition,yPosition;
 	
+	public PeerObject(GameObject gameObject, float x, float y, Direction direction) {
+		this.gObj = gameObject;
+		this.xPosition = x;
+		this.yPosition = y;
+		this.direction = direction;
+	}
+	
 	public PeerObject(ColorObject color, GameObject gObject, float x, float y, Direction direction) {
 		this.color = color;
 		this.gObj = gObject;

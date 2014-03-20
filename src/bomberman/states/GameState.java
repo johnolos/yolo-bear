@@ -3,7 +3,6 @@ package bomberman.states;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -190,6 +189,7 @@ public class GameState extends State implements TouchListener {
 				for (Bomb bomb : this.bombs) {
 					if (bomb.collision(x1, y1) || bomb.collision(x2, y2)) {
 						bomb.bombThrown(player.getDirection());
+						this.client.sendAll(new PeerObject(GameObject.THROW, bomb.getColumn(), bomb.getRow(), player.getDirection()));
 						return true;
 					}
 				}
@@ -467,6 +467,34 @@ public class GameState extends State implements TouchListener {
 				}
 			}
 			break;
+		case KICK:
+			int x = (int) obj.getX();
+			int y = (int) obj.getY();
+			Direction kickDirection = obj.getDirection();
+			for(Bomb bomb : this.bombs) {
+				if(bomb.getColumn() == x && bomb.getRow() == y)
+					bomb.bombKicked(kickDirection);
+			}
+			break;
+		case THROW:
+			int x1 = (int) obj.getX();
+			int y1 = (int) obj.getY();
+			Direction throwDirection = obj.getDirection();
+			for(Bomb bomb : this.bombs) {
+				if(bomb.getColumn() == x1 && bomb.getRow() == y1)
+					bomb.bombKicked(throwDirection);
+			} 
+			break;
+		case POWERUP_CONSUMED:
+			int x2 = (int)obj.getX();
+			int y2 = (int)obj.getY();
+			for (PowerUp powerup : this.powerups) {
+				if(powerup.getColumn() == x2 && powerup.getRow() == y2) {
+					this.powerups.remove(powerup);
+					break;
+				}
+			}
+			break;
 		case POWERUP:
 			PowerUp powerup = new PowerUp((int) obj.getX(), (int) obj.getY(),
 					obj.getPowerUpType());
@@ -494,6 +522,7 @@ public class GameState extends State implements TouchListener {
 				PowerUp powerup = it.next();
 				if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
 					player.powerUp(powerup.getPowerUpType());
+					client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
 					it.remove();
 				}
 			}
@@ -517,6 +546,7 @@ public class GameState extends State implements TouchListener {
 		for (Bomb bomb : this.bombs) {
 			if (bomb.collision(x, y) && !bomb.initiated()) {
 				bomb.bombKicked(direction);
+				client.sendAll(new PeerObject(GameObject.KICK, x, y, direction));
 			}
 		}
 	}

@@ -19,7 +19,7 @@ public class BombImages {
 	
 	public static void loadImages(){
 		if(Constants.screenHeight >= 752){
-			bombPhase1 = new Image(R.drawable.bomblarge);
+			bombPhase1 = new Image(R.drawable.bomb);
 			bombPhase2 = new Image(R.drawable.bombphase2);
 			bombExplosionCenter = new Image(R.drawable.bombcenter);
 			bombExplosionMidLeft = new Image(R.drawable.bombmiddleleft);
@@ -32,7 +32,7 @@ public class BombImages {
 			bombExplosionEndDown = new Image(R.drawable.bombenddown);
 		}
 		else{
-			bombPhase1 = new Image(R.drawable.bomb);
+			bombPhase1 = new Image(R.drawable.smallbomb);
 			bombPhase2 = new Image(R.drawable.bombphase2);
 			bombExplosionCenter = new Image(R.drawable.smallbombcenter);
 			bombExplosionMidLeft = new Image(R.drawable.smallbombmiddleleft);

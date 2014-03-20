@@ -10,18 +10,18 @@ public class Empty extends Sprite{
 	
 	public Empty(){
 		if(Constants.screenHeight  == 1600){
-			this.empty = new Image(R.drawable.emptylarge);
+			this.empty = new Image(R.drawable.empty);
 			this.setView(empty);
 			this.setShape(120,120);
 		}
 		else if(Constants.screenHeight == 752) {
-			this.empty = new Image(R.drawable.emptylarge);
+			this.empty = new Image(R.drawable.empty);
 			this.setView(empty);
 			this.setShape(70,70);
 			
 		}
 		else{
-			this.empty = new Image(R.drawable.empty);
+			this.empty = new Image(R.drawable.smallempty);
 			this.setView(empty);
 			this.setShape(40,40);
 		}
