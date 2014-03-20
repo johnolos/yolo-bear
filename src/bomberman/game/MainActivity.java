@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		Game game = new Game(this, null);
-		game.pushState(new MainMenu());
+		game.pushState(new MainMenuWithGraphics());
 		
 		
 

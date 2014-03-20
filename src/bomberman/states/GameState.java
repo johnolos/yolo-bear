@@ -3,7 +3,6 @@ package bomberman.states;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;

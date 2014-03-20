@@ -18,6 +18,7 @@ public class SinglePlayerState extends State implements WidgetListener {
 	public void update(float dt){
 		
 	}
+	
 	public void draw(Canvas canvas){
 		start.draw(canvas);
 	}
