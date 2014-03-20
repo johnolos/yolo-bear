@@ -1,6 +1,7 @@
 package bomberman.game;
 
 import bomberman.graphics.BombImages;
+import bomberman.graphics.UpgradeImages;
 import bomberman.states.MainMenu;
 import bomberman.states.MainMenuWithGraphics;
 import sheep.game.Game;
@@ -16,7 +17,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		Game game = new Game(this, null);
-		game.pushState(new MainMenuWithGraphics());
+		
 		
 		
 
@@ -26,10 +27,11 @@ public class MainActivity extends Activity {
  		Constants.screenWidth  = dm.widthPixels;
  		
  		BombImages.loadImages();
+ 		UpgradeImages.loadImages();
         
         System.out.println(Constants.screenHeight);
         System.out.println(Constants.screenWidth);
-
+        game.pushState(new MainMenuWithGraphics());
 		setContentView(game);
 	}
 	

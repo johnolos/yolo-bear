@@ -53,17 +53,16 @@ public class Bomb extends Sprite implements Collision{
 			setView(bomb);
 			phase2 = true;
 		}
-//		else if(System.currentTimeMillis() - time >= 3000 && !this.exploded){
-//			bomb = new Image(R.drawable.explode);
-//			setView(bomb);
-//			exploded = true;
-//			phase2 = false;
-//			bombImpact();
-//			explodedTime = System.currentTimeMillis();
-//		}
-//		else if(System.currentTimeMillis() - time < 4000 && this.exploded){
-//			explodeAnimation();
-//		}
+		else if(System.currentTimeMillis() - time >= 3000 && !this.exploded){
+			setView(bomb);
+			exploded = true;
+			phase2 = false;
+			bombImpact();
+			explodedTime = System.currentTimeMillis();
+		}
+		else if(System.currentTimeMillis() - time < 4000 && this.exploded){
+			explodeAnimation();
+		}
 		else if(System.currentTimeMillis() - time >= 5000)
 			this.finished = true;
 //			gs.getBombs().remove(this);

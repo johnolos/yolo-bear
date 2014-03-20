@@ -4,6 +4,7 @@ import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
 import bomberman.graphics.PowerUpType;
+import bomberman.graphics.UpgradeImages;
 import bomberman.states.GameState;
 
 public class PowerUp extends Sprite implements Collision{
@@ -37,19 +38,19 @@ public class PowerUp extends Sprite implements Collision{
 	private void assignPowerUpImage() {
 		switch(this.powerup) {
 		case BOMB:
-			this.image = new Image(R.drawable.upgrade);
+			this.image = UpgradeImages.BOMB_COUNT;
 			break;
 		case KICK:
-			this.image = new Image(R.drawable.upgrade);
+			this.image = UpgradeImages.KICK_ABILITY;
 			break;
 		case MAGNITUDE:
-			this.image = new Image(R.drawable.upgrade);
+			this.image = UpgradeImages.BIGGER_BOMB;
 			break;
 		case SPEED:
-			this.image = new Image(R.drawable.upgrade);
+			this.image = UpgradeImages.SPEED;
 			break;
 		case THROW:
-			this.image = new Image(R.drawable.upgrade);
+			this.image = UpgradeImages.THROW_ABILITY;
 			break;
 		}
 	}

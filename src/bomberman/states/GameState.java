@@ -109,6 +109,7 @@ public class GameState extends State implements TouchListener {
 	public GameState(Client client) {
 		this.board = new Board();
 		this.client = client;
+		this.gameStarted = System.currentTimeMillis();
 		// this.single = new MainMenuWithGraphics("single", 100, 100);
 		// this.multi = new MainMenuWithGraphics("multi", 100, 200);
 		this.startingX = Constants.screenWidth / 2 - Constants.getHeight()
@@ -163,23 +164,23 @@ public class GameState extends State implements TouchListener {
 			player.setSpeed(
 					0,
 					-150 * Constants.getReceivingXRatio()
-							* player.getPlayerSpeed());
+					* player.getPlayerSpeed());
 		} else if (down.getBounds().contains(event.getX(), event.getY())) {
 			this.player.setDirection(Direction.DOWN);
 			player.setSpeed(
 					0,
 					150 * Constants.getReceivingXRatio()
-							* player.getPlayerSpeed());
+					* player.getPlayerSpeed());
 		} else if (left.getBounds().contains(event.getX(), event.getY())) {
 			this.player.setDirection(Direction.LEFT);
 			player.setSpeed(
 					-150 * Constants.getReceivingXRatio()
-							* player.getPlayerSpeed(), 0);
+					* player.getPlayerSpeed(), 0);
 		} else if (right.getBounds().contains(event.getX(), event.getY())) {
 			this.player.setDirection(Direction.RIGHT);
 			player.setSpeed(
 					150 * Constants.getReceivingXRatio()
-							* player.getPlayerSpeed(), 0);
+					* player.getPlayerSpeed(), 0);
 		} else if (bombIcon.getBounds().contains(event.getX(), event.getY())) {
 			if (this.player.canThrowBomb()) {
 				int x1 = Constants.getPositionX(player.getMiddleX());
@@ -189,7 +190,7 @@ public class GameState extends State implements TouchListener {
 				for (Bomb bomb : this.bombs) {
 					if (bomb.collision(x1, y1) || bomb.collision(x2, y2)) {
 						bomb.bombThrown(player.getDirection());
-						this.client.sendAll(new PeerObject(GameObject.THROW, bomb.getColumn(), bomb.getRow(), player.getDirection()));
+//						this.client.sendAll(new PeerObject(GameObject.THROW, bomb.getColumn(), bomb.getRow(), player.getDirection()));
 						return true;
 					}
 				}
@@ -204,7 +205,7 @@ public class GameState extends State implements TouchListener {
 				if (client != null) {
 					client.sendAll(new PeerObject(this.player.getColor(),
 							GameObject.BOMB, Constants
-									.getPositionX(getTilePositionX()),
+							.getPositionX(getTilePositionX()),
 							Constants.getPositionY(getTilePositionY()),
 							Direction.UP));
 				}
@@ -268,11 +269,11 @@ public class GameState extends State implements TouchListener {
 				if (client != null) {
 					client.sendAll(new PeerObject(this.player.getColor(),
 							GameObject.PLAYER, Constants
-									.getUniversalXPosition(this.player
-											.getMiddleX()), Constants
+							.getUniversalXPosition(this.player
+									.getMiddleX()), Constants
 									.getUniversalYPosition(this.player
 											.getMiddleY()), this.player
-									.getDirection()));
+											.getDirection()));
 				}
 				player.updatePosition();
 			}
@@ -326,7 +327,7 @@ public class GameState extends State implements TouchListener {
 
 		} else {
 			System.out.println("hei");
-			getGame().pushState(new GameFinished(this.allPlayers, this));
+			getGame().pushState(new GameFinished(this.allPlayers,this.player, this));
 		}
 	}
 
@@ -343,7 +344,7 @@ public class GameState extends State implements TouchListener {
 	}
 
 	private void checkTimer() {
-		if ((System.currentTimeMillis() - gameStarted > 100000
+		if ((System.currentTimeMillis() - gameStarted > 1000
 				&& !suddenDeathInitiated )) {
 			board.initiateSuddenDeath(System.currentTimeMillis());
 			suddenDeathInitiated = true;
@@ -362,9 +363,11 @@ public class GameState extends State implements TouchListener {
 
 	private boolean allPlayersDead() {
 		int nrDead = 0 ;
-		for(Player player : this.allPlayers){
-			if(player.getDead()){
-				nrDead++;
+		if(allPlayers != null){
+			for(Player player : this.allPlayers){
+				if(player.getDead()){
+					nrDead++;
+				}
 			}
 		}
 		return nrDead > 2? true:false;
@@ -509,21 +512,23 @@ public class GameState extends State implements TouchListener {
 		if (this.powerups.size() == 0) {
 			return;
 		}
-		for (Player player : allPlayers) {
-			int x1 = Constants.getPositionX(player.getX());
-			int y1 = Constants.getPositionY(player.getY());
-			int x2 = Constants.getPositionX(player.getX()
-					+ player.getImageWidth());
-			int y2 = Constants.getPositionY(player.getY()
-					+ player.getImageHeight());
+		if(allPlayers!= null){
+			for (Player player : allPlayers) {
+				int x1 = Constants.getPositionX(player.getX());
+				int y1 = Constants.getPositionY(player.getY());
+				int x2 = Constants.getPositionX(player.getX()
+						+ player.getImageWidth());
+				int y2 = Constants.getPositionY(player.getY()
+						+ player.getImageHeight());
 
-			Iterator<PowerUp> it = this.powerups.iterator();
-			while (it.hasNext()) {
-				PowerUp powerup = it.next();
-				if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
-					player.powerUp(powerup.getPowerUpType());
-					client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
-					it.remove();
+				Iterator<PowerUp> it = this.powerups.iterator();
+				while (it.hasNext()) {
+					PowerUp powerup = it.next();
+					if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
+						player.powerUp(powerup.getPowerUpType());
+//						client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
+						it.remove();
+					}
 				}
 			}
 		}
@@ -546,7 +551,7 @@ public class GameState extends State implements TouchListener {
 		for (Bomb bomb : this.bombs) {
 			if (bomb.collision(x, y) && !bomb.initiated()) {
 				bomb.bombKicked(direction);
-				client.sendAll(new PeerObject(GameObject.KICK, x, y, direction));
+//				client.sendAll(new PeerObject(GameObject.KICK, x, y, direction));
 			}
 		}
 	}

@@ -9,16 +9,16 @@ import bomberman.game.Constants;
 import bomberman.game.R;
 
 public class SinglePlayer extends Sprite {
-	private Image multiPlayer;
+	private Image singlePlayer;
 	private BoundingBox box;
 	
 	public SinglePlayer(String Id, float x, float y) {
 		Rect bounds = null;
-		if(Id.equals("multi")) {
-			multiPlayer = new Image(R.drawable.multiplayer);
-			this.setView(multiPlayer);
+		if(Id.equals("Singleplayer")) {
+			singlePlayer = new Image(R.drawable.singleplayer);
 			this.setShape(100,100);
 			this.setPosition(x,y);
+			this.setView(singlePlayer);
 			float offsetX = 100*Constants.getReceivingXRatio();
 			float offsetY = 100*Constants.getReceivingYRatio();
 			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
