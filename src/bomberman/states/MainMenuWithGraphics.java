@@ -5,6 +5,7 @@ import bomberman.game.Constants;
 import bomberman.graphics.MainMenuStartImage;
 import bomberman.graphics.MultiPlayer;
 import bomberman.graphics.SinglePlayer;
+import bomberman.graphics.Tutorial;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import sheep.game.State;
@@ -16,12 +17,14 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	private Client client = null;
 	private SinglePlayer singlePlayer;
 	private MultiPlayer multiPlayer;
+	private Tutorial tutorial;
 	private MainMenuStartImage main;
 	
 	public MainMenuWithGraphics() {
-		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
-		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth*0.888f), (int) (Constants.screenHeight*0.500f));
+		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+90);
+		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+150);
 		this.main = new MainMenuStartImage();
+		this.tutorial = new Tutorial("Tutorial", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+200);
 	}
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
@@ -36,27 +39,23 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 				getGame().pushState(gameState);
 				this.client.setGameState(gameState);
 			}
+		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
+			System.out.println("Tutorial startup");
 		}
 		return false;
-	}
-	@Override
-	public boolean onTouchMove(MotionEvent event) {
-		// TODO Auto-generated method stub
-		return super.onTouchMove(event);
-	}
-	@Override
-	public boolean onTouchUp(MotionEvent event) {
-		// TODO Auto-generated method stub
-		return super.onTouchUp(event);
 	}
 	
 	public void update(float dt) {
 		System.out.println(singlePlayer.getPosition());
+		main.update(dt);
 		singlePlayer.update(dt);
 		multiPlayer.update(dt);
+		tutorial.update(dt);
 	}
 	
 	public void draw(Canvas canvas) {
+		tutorial.draw(canvas);
+		main.draw(canvas);
 		singlePlayer.draw(canvas);
 		multiPlayer.draw(canvas);
 	}
