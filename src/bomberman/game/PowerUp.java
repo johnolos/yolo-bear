@@ -51,6 +51,14 @@ public class PowerUp extends Sprite implements Collision{
 		}
 	}
 	
+	public int getColumn() {
+		return this.column;
+	}
+	
+	public int getRow() {
+		return this.row;
+	}
+	
 	public PowerUpType getPowerUpType() {
 		return this.powerup;
 	}
