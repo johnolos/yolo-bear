@@ -26,24 +26,21 @@ public class Bomb extends Sprite implements Collision{
 	public Bomb(int x, int y, int blastRadius, GameState gs){
 		this.column = Constants.getPositionX(x);
 		this.row = Constants.getPositionY(y);
-		this.setPosition(x, y);
 		explodeImages = new Image[4];
 		this.blastRadius = blastRadius;
 		this.gs = gs;
 		if(Constants.screenHeight == 1600){
 			this.bomb = new Image(R.drawable.bomb);
-			this.setShape(120,120);
 		}
 		else if(Constants.screenHeight == 752){
 			this.bomb = new Image(R.drawable.bomb);
-			this.setShape(60,60);
 		}
 		else{
 			this.bomb = new Image(R.drawable.smallbomb);
-			this.setShape(40,40);
 		}
 		this.direction = Direction.STOP;
 		this.setView(bomb);
+		this.setPosition(x, y);
 	}
 	
 	public void bombAnimation(){
@@ -54,7 +51,6 @@ public class Bomb extends Sprite implements Collision{
 			phase2 = true;
 		}
 		else if(System.currentTimeMillis() - time >= 3000 && !this.exploded){
-			setView(bomb);
 			exploded = true;
 			phase2 = false;
 			bombImpact();
@@ -84,9 +80,9 @@ public class Bomb extends Sprite implements Collision{
 	}	
 	
 	public void update(float dt){
-		super.update(dt);
 		bombAnimation();
 		checkWallCollision();
+		super.update(dt);
 	}
 	
 	private void checkWallCollision() {
