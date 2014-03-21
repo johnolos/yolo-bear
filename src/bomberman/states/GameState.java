@@ -352,10 +352,12 @@ public class GameState extends State implements TouchListener {
 		if(allPlayersDead()){
 			if(!suddenDeathInitiated){
 				board.initiateSuddenDeath(System.currentTimeMillis());
+				board.SpeedUpSD();
 				suddenDeathInitiated = true;
 			}
 			else{
 				suddenDeathInitiated = true;
+				board.SpeedUpSD();
 			}
 		}
 
@@ -370,7 +372,7 @@ public class GameState extends State implements TouchListener {
 				}
 			}
 		}
-		return nrDead > 2? true:false;
+		return nrDead > 0? true:false;
 	}
 
 	private void removeExplosions() {

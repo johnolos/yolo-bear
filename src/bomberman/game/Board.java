@@ -40,7 +40,7 @@ public class Board {
 	
 	public static final int COLUMN_SIZE = 13;
 	public static final int ROW_SIZE = 13;
-	public static final long TIMEBETWEENWALLS = 50;
+	public long TIMEBETWEENWALLS = 1000;
 	
 	public static final int[][] board = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -206,7 +206,12 @@ public class Board {
 	}
 	public void reset() {
 		this.spriteList.clear();
+		this.TIMEBETWEENWALLS = 1000;
 		initiateBoard(board);
+	}
+	public void SpeedUpSD() {
+		this.TIMEBETWEENWALLS = 50;
+		
 	}
 	
 }
