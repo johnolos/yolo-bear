@@ -9,6 +9,7 @@ import sheep.math.BoundingBox;
 
 public class MultiPlayer extends Sprite {
 	private Image multiPlayer;
+	private Image pressedMultiplayer;
 	private BoundingBox box;
 	
 	public MultiPlayer(String Id, float x, float y) {
@@ -20,6 +21,7 @@ public class MultiPlayer extends Sprite {
 			bounds  = new Rect((int)(x-multiPlayer.getWidth()),(int)(y-multiPlayer.getWidth()),(int)(x+multiPlayer.getWidth()),(int)(y+multiPlayer.getHeight()));
 		}
 		box = new BoundingBox(bounds);
+		pressedMultiplayer = new Image(R.drawable.pressedmultiplayerbutton);
 	}
 	
 	public void update(float dt){
@@ -32,5 +34,9 @@ public class MultiPlayer extends Sprite {
 	
 	public BoundingBox getBounds() {
 		return this.box;
+	}
+	
+	public void changeImageShow() {
+		this.setView(pressedMultiplayer);
 	}
 }
