@@ -47,6 +47,12 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		return false;
 	}
 	
+	@Override
+	public boolean onTouchUp(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return super.onTouchUp(event);
+	}
+	
 	public void update(float dt) {
 		System.out.println(singlePlayer.getPosition());
 		main.update(dt);
