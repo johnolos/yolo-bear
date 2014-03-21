@@ -2,18 +2,22 @@ package bomberman.game;
 
 import java.util.ArrayList;
 
+import bomberman.states.GameState;
 import android.graphics.Canvas;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 
-public class Opponent extends Sprite {
+public class Opponent extends Player {
 	
 	private ArrayList<Image> opponentImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
 	private ColorObject myColor;
 	private Direction direction = Direction.UP;
 	private int magnitude=1;
+	private GameState gs;
 
-	public Opponent(ColorObject color) {
+	public Opponent(ColorObject color, GameState gs) {
+		super(" ", color,gs);
+		this.gs = gs;
 		this.myColor = color;
 		if (Constants.screenHeight >750) {
 			switch (color) {

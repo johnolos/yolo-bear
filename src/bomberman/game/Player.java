@@ -61,7 +61,7 @@ public class Player extends Sprite {
 		}
 	}
 	
-	public boolean getDead(){
+	public boolean isDead(){
 		return this.dead;
 	}
 	
@@ -197,10 +197,11 @@ public class Player extends Sprite {
 	}
 	
 	public void update(float dt){
-		if(!this.dead){
+		if((!this.dead && !gameState.isMultiplayer())|| gameState.getThisPlayer()==this){
 			playerCollision();
-			super.update(dt);
 		}
+		super.update(dt);
+
 	}
 	
 	public void draw(Canvas canvas){
@@ -238,7 +239,7 @@ public class Player extends Sprite {
 	 * @param direction
 	 */
 	public void setDirection(Direction direction) {
-		if(!getDead()){
+		if(!isDead()){
 			this.direction = direction;
 			switch(direction) {
 			case UP:
@@ -412,6 +413,7 @@ public class Player extends Sprite {
 	public boolean canPlayerMove(Direction dir){
 		int y = Constants.getPositionY(getMiddleY());
 		int x = Constants.getPositionX(getMiddleX());
+		System.out.println(x + " og vi har  "+ y );
 		Sprite sprite = gameState.getSpriteBoard().get(y+dir.getY()).get(x+dir.getX());
 		if(dir == Direction.DOWN || dir == Direction.UP){
 			if(canMoveY()){

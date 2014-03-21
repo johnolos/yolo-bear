@@ -216,7 +216,7 @@ public class AIBot extends Player {
 	}
 
 	public void update(float dt) {
-		if(!this.getDead()){
+		if(!this.isDead()){
 			selectNextMove();
 			super.update(dt);
 		}

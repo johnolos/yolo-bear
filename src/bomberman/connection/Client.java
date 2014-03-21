@@ -26,6 +26,9 @@ public class Client extends Thread {
 	public Client() {
 		clients = new ArrayList<Connection>();
 	}
+	public int getClientConnectionCount(){
+		return this.clients.size();
+	}
 	
 	public void run() {
 		System.out.println("Trying to connect to server!");

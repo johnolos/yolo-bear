@@ -4,28 +4,42 @@ import java.util.ArrayList;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.MotionEvent;
 import bomberman.game.Constants;
 import bomberman.game.Player;
 import bomberman.game.R;
+import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.gui.TextButton;
 import sheep.gui.WidgetAction;
 import sheep.gui.WidgetListener;
+import sheep.input.TouchListener;
 
-public class GameFinished extends State implements WidgetListener{
+public class GameFinished extends State implements TouchListener{
 	
-	private TextButton newGame = new TextButton(100, 100,"Start new game");
+	private Buttons newRound,backMenu;
+	private Image newRoundImage,backMenuImage;
+	private float x,y;
 	private GameState gs;
 	private ArrayList<Player> players;
 	private Sprite resultSprite;
 	
 	public GameFinished(ArrayList<Player> allPlayers,Player player, GameState gs){
 		this.gs = gs;
-		addTouchListener(newGame);
+		newRoundImage = new Image(R.drawable.newgamebutton);
+		x = (float) (Constants.screenWidth/2 - newRoundImage.getWidth()*1.5);
+		y = Constants.screenHeight/2 - newRoundImage.getHeight()*4;
+		newRound = new Buttons(newRoundImage,(int)x,(int)y);
 		
-		newGame.addWidgetListener(this);
+		backMenuImage = new Image(R.drawable.mainmenubutton);
+		x = (float) (Constants.screenWidth/2 + backMenuImage.getWidth()*0.5);
+		y = Constants.screenHeight/2 - backMenuImage.getHeight()*4;
+		backMenu = new Buttons(backMenuImage,(int)x,(int)y);
+		
+		
+
 		
 		resultSprite = new Sprite();
 		
@@ -53,23 +67,37 @@ public class GameFinished extends State implements WidgetListener{
 	
 	public void update(float dt){
 		resultSprite.update(dt);
+		newRound.update(dt);
+		backMenu.update(dt);
 	}
 	
 	
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		resultSprite.draw(canvas);
-		newGame.draw(canvas);
+		newRound.draw(canvas);
+		backMenu.draw(canvas);
 	}
-
-
 	@Override
-	public void actionPerformed(WidgetAction action) {
-		if(action.getSource() == newGame){
+	public boolean onTouchUp(MotionEvent event) {
+		if (newRound.getBounds().contains(event.getX(), event.getY())) {
 			gs.resetGame();
+			getGame().popState();
+		}
+		else if (backMenu.getBounds().contains(event.getX(), event.getY())) {
 			getGame().popState(4);
 		}
-		
+		return false;
 	}
+
+
+//	@Override
+//	public void actionPerformed(WidgetAction action) {
+//		if(action.getSource() == newRound){
+//			gs.resetGame();
+//			getGame().popState(4);
+//		}
+//		
+//	}
 
 }

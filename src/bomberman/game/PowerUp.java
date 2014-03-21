@@ -25,7 +25,8 @@ public class PowerUp extends Sprite implements Collision{
 		setView(image);
 	}
 	
-	public PowerUp(int column, int row, PowerUpType type) {
+	public PowerUp(int column, int row, PowerUpType type,GameState gs) {
+		this.gs = gs;
 		float x = (float) (column * Constants.getHeight() + Constants.getPixelsOnSides());
 		float y = (float) (row * Constants.getHeight());
 		this.setPosition(x, y);

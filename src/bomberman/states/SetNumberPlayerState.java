@@ -16,14 +16,19 @@ import sheep.input.TouchListener;
 public class SetNumberPlayerState extends State implements TouchListener {
 
 	private ColorObject color;
-	private Buttons one, two, three;
-	private Image oneImage, twoImage, threeImage;
+	private Buttons one, two, three,textS;
+	private Image oneImage, twoImage, threeImage,text;
 	private float x, y;
 
 	public SetNumberPlayerState(ColorObject color) {
 		this.color = color;
 		
-		
+		//text
+		text = new Image(R.drawable.chooseoponents);
+		x = (Constants.getScreenWidth() / 2 - text.getWidth() / 2);
+		y = (Constants.getHeight() / 6);
+		textS = new Buttons(text, (int)x, (int)y);
+		textS.setPosition(x, y);
 		//Buttons
 		// One
 		oneImage = new Image(R.drawable.fireone);
@@ -48,6 +53,7 @@ public class SetNumberPlayerState extends State implements TouchListener {
 		one.update(dt);
 		two.update(dt);
 		three.update(dt);
+		textS.update(dt);
 	}
 
 	public void draw(Canvas canvas) {
@@ -55,6 +61,7 @@ public class SetNumberPlayerState extends State implements TouchListener {
 		one.draw(canvas);
 		two.draw(canvas);
 		three.draw(canvas);
+		textS.draw(canvas);
 	}
 
 	// public boolean onTouchDown(MotionEvent event) {

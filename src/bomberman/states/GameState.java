@@ -3,6 +3,8 @@ package bomberman.states;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.jar.Attributes;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -21,11 +23,13 @@ import bomberman.game.PeerObject;
 import bomberman.game.Player;
 import bomberman.game.ColorObject;
 import bomberman.game.PowerUp;
+import bomberman.game.R;
 import bomberman.game.Wall;
 import bomberman.graphics.BombImages;
 import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
+import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
 public class GameState extends State implements TouchListener {
@@ -36,6 +40,7 @@ public class GameState extends State implements TouchListener {
 	private ArrayList<Bomb> bombs;
 	private ArrayList<PowerUp> powerups;
 	private ArrayList<Explosion> explosions;
+	private boolean isMultiplayer = false;
 
 	public static ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private double startingX;
@@ -110,11 +115,11 @@ public class GameState extends State implements TouchListener {
 	}
 
 	public GameState(Client client) {
+		this.isMultiplayer= true;
 		this.board = new Board();
 		this.client = client;
 		this.gameStarted = System.currentTimeMillis();
-		// this.single = new MainMenuWithGraphics("single", 100, 100);
-		// this.multi = new MainMenuWithGraphics("multi", 100, 200);
+		
 		this.startingX = Constants.screenWidth / 2 - Constants.getHeight()
 				* 6.5;
 		this.startingY = 0.0f;
@@ -129,6 +134,7 @@ public class GameState extends State implements TouchListener {
 				(int) (Constants.screenHeight * 0.375f));
 		this.left = new Buttons("left", (int) (Constants.screenWidth * 0.81f),
 				(int) (Constants.screenHeight * 0.375f));
+		
 		if (Constants.screenHeight > 752)
 			this.bombIcon = new Buttons("bomb",
 					(int) (Constants.screenWidth * 0.08f),
@@ -140,10 +146,10 @@ public class GameState extends State implements TouchListener {
 		bombs = new ArrayList<Bomb>();
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
-		opponents = new ArrayList<Opponent>();
+		allPlayers = new ArrayList<Player>();
 		this.player = new Player("Player1", ColorObject.BROWN, this);
 	}
-
+	
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		player.setSpeed(0, 0);
@@ -193,7 +199,9 @@ public class GameState extends State implements TouchListener {
 				for (Bomb bomb : this.bombs) {
 					if (bomb.collision(x1, y1) || bomb.collision(x2, y2)) {
 						bomb.bombThrown(player.getDirection());
-//						this.client.sendAll(new PeerObject(GameObject.THROW, bomb.getColumn(), bomb.getRow(), player.getDirection()));
+						if(isMultiplayer){
+							this.client.sendAll(new PeerObject(GameObject.THROW, bomb.getColumn(), bomb.getRow(), player.getDirection()));
+							}
 						return true;
 					}
 				}
@@ -205,7 +213,8 @@ public class GameState extends State implements TouchListener {
 						player.getMagnitude(), this);
 				bombs.add(bomb);
 				this.player.addBomb(bomb);
-				if (client != null) {
+				
+				if (isMultiplayer) {
 					client.sendAll(new PeerObject(this.player.getColor(),
 							GameObject.BOMB, Constants
 							.getPositionX(getTilePositionX()),
@@ -243,9 +252,9 @@ public class GameState extends State implements TouchListener {
 	 * This method adds the correct number of opponents to the game when
 	 * started.
 	 */
-	public void addOpponent(Opponent opponent) {
-		opponents.add(opponent);
-	}
+//	public void addOpponent(Opponent opponent) {
+//		opponents.add(opponent);
+//	}
 
 	public void setSprite(int column, int row, Sprite sprite) {
 		this.board.setSprite(column, row, sprite);
@@ -259,17 +268,12 @@ public class GameState extends State implements TouchListener {
 	 * Called every game tic. All sprites needs to be updated here.
 	 */
 	public void update(float dt) {
-
-		// Sending player location to all other players.
-		// if(! this.suddenDeathInitiated) {
-		// board.initiateSuddenDeath(System.currentTimeMillis());
-		// this.suddenDeathInitiated = true;
-		// }
-
+		
 		if (!(board.lastWall())) {
 			++counter;
 			if (counter % 3 == 0 && this.player.hasMovedSince()) {
-				if (client != null) {
+				if (isMultiplayer) {
+					//Sends position to player
 					client.sendAll(new PeerObject(this.player.getColor(),
 							GameObject.PLAYER, Constants
 							.getUniversalXPosition(this.player
@@ -306,7 +310,7 @@ public class GameState extends State implements TouchListener {
 				if (bomb.finished()) {
 					it.remove();
 					player.removeBomb(bomb);
-					if (this.bots != null) {
+					if (!isMultiplayer) {
 						for (AIBot bot : this.bots) {
 							bot.removeBomb(bomb);
 						}
@@ -315,9 +319,13 @@ public class GameState extends State implements TouchListener {
 			}
 			for (PowerUp powerup : this.powerups)
 				powerup.update(dt);
-			// for (Opponent opp : this.opponents)
-			// opp.update(dt);
-			if (this.bots != null) {
+			if(isMultiplayer){
+				for (Player opp : this.allPlayers){
+					 opp.update(dt);
+				}
+			}
+		
+			if (!isMultiplayer) {
 				for (AIBot bot : this.bots)
 					bot.update(dt);
 			}
@@ -329,7 +337,6 @@ public class GameState extends State implements TouchListener {
 			}
 
 		} else {
-			System.out.println("hei");
 			getGame().pushState(new GameFinished(this.allPlayers,this.player, this));
 		}
 	}
@@ -347,35 +354,39 @@ public class GameState extends State implements TouchListener {
 	}
 
 	private void checkTimer() {
-		if ((System.currentTimeMillis() - gameStarted > 1000
+		if ((System.currentTimeMillis() - gameStarted > 150000
 				&& !suddenDeathInitiated )) {
 			board.initiateSuddenDeath(System.currentTimeMillis());
 			suddenDeathInitiated = true;
 		}
-		if(allPlayersDead()){
-			if(!suddenDeathInitiated){
-				board.initiateSuddenDeath(System.currentTimeMillis());
-				board.SpeedUpSD();
-				suddenDeathInitiated = true;
-			}
-			else{
-				suddenDeathInitiated = true;
-				board.SpeedUpSD();
-			}
-		}
+//		if(gameOver()){
+//			if(!suddenDeathInitiated){
+//				board.initiateSuddenDeath(System.currentTimeMillis());
+//				board.SpeedUpSD();
+//				suddenDeathInitiated = true;
+//			}
+//			else{
+//				suddenDeathInitiated = true;
+//				board.SpeedUpSD();
+//			}
+//		}
+		
 
 	}
 
-	private boolean allPlayersDead() {
+	private boolean gameOver() {
+		if(this.player.isDead()){
+			return true;
+		}
 		int nrDead = 0 ;
 		if(allPlayers != null){
 			for(Player player : this.allPlayers){
-				if(player.getDead()){
+				if(player.isDead()){
 					nrDead++;
 				}
 			}
 		}
-		return nrDead > 0? true:false;
+		return nrDead > allPlayers.size()-2? true:false;
 	}
 
 	private void removeExplosions() {
@@ -395,8 +406,10 @@ public class GameState extends State implements TouchListener {
 
 	public void checkPlayerHit(float xPixel, float yPixel) {
 		this.player.checkGotHit(xPixel, yPixel);
-		for (AIBot bot : bots) {
-			bot.checkGotHit(xPixel, yPixel);
+		if(!isMultiplayer){
+			for (AIBot bot : bots) {
+				bot.checkGotHit(xPixel, yPixel);
+			}
 		}
 
 	}
@@ -425,9 +438,12 @@ public class GameState extends State implements TouchListener {
 			Bomb bomb = it.next();
 			bomb.draw(canvas);
 		}
-		// for (Opponent opp : this.opponents) {
-		// opp.draw(canvas);
-		// }
+		if(isMultiplayer){
+			for (Player opp : this.allPlayers) {
+				opp.draw(canvas);
+		 
+			}
+		}
 		if (this.bots != null) {
 			for (AIBot bot : this.bots) {
 				bot.draw(canvas);
@@ -449,10 +465,15 @@ public class GameState extends State implements TouchListener {
 	 *            GAME ELEMENTS
 	 */
 	public void updateGame(PeerObject obj) {
+		
+		
 		switch (obj.getgObj()) {
 		case PLAYER:
 			ColorObject color = obj.getColor();
-			for (Opponent opponent : opponents) {
+			if(allPlayers.isEmpty()){
+				allPlayers.add(new Opponent(color, this));
+			}
+			for (Player opponent : allPlayers) {
 				if (opponent.getColor() == color) {
 					float x = obj.getX();
 					float y = obj.getY();
@@ -463,10 +484,14 @@ public class GameState extends State implements TouchListener {
 					opponent.setPosition(x, y);
 					opponent.setDirection(obj.getDirection());
 				}
+				else{
+					System.out.println("legger til" + color);
+					allPlayers.add(new Opponent(color, this));
+				}
 			}
 			break;
 		case BOMB:
-			for (Opponent opponent : opponents) {
+			for (Player opponent : allPlayers) {
 				if (opponent.getColor() == obj.getColor()) {
 					Sprite sprite = getSpriteBoard().get((int) obj.getY()).get(
 							(int) obj.getX());
@@ -505,7 +530,7 @@ public class GameState extends State implements TouchListener {
 			break;
 		case POWERUP:
 			PowerUp powerup = new PowerUp((int) obj.getX(), (int) obj.getY(),
-					obj.getPowerUpType());
+					obj.getPowerUpType(),this);
 			this.powerups.add(powerup);
 			break;
 		default:
@@ -517,23 +542,42 @@ public class GameState extends State implements TouchListener {
 		if (this.powerups.size() == 0) {
 			return;
 		}
-		if(allPlayers!= null){
-			for (Player player : allPlayers) {
-				int x1 = Constants.getPositionX(player.getX());
-				int y1 = Constants.getPositionY(player.getY());
-				int x2 = Constants.getPositionX(player.getX()
-						+ player.getImageWidth());
-				int y2 = Constants.getPositionY(player.getY()
-						+ player.getImageHeight());
+		if(!isMultiplayer){
+			if(allPlayers!= null){
+				for (Player player : allPlayers) {
+					int x1 = Constants.getPositionX(player.getX());
+					int y1 = Constants.getPositionY(player.getY());
+					int x2 = Constants.getPositionX(player.getX()
+							+ player.getImageWidth());
+					int y2 = Constants.getPositionY(player.getY()
+							+ player.getImageHeight());
 
-				Iterator<PowerUp> it = this.powerups.iterator();
-				while (it.hasNext()) {
-					PowerUp powerup = it.next();
-					if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
-						player.powerUp(powerup.getPowerUpType());
-//						client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
-						it.remove();
+					Iterator<PowerUp> it = this.powerups.iterator();
+					while (it.hasNext()) {
+						PowerUp powerup = it.next();
+						if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
+							player.powerUp(powerup.getPowerUpType());
+							it.remove();
+						}
 					}
+				}
+			}
+		}
+		//Player picked up powerUp
+		else{
+			int x1 = Constants.getPositionX(player.getX());
+			int y1 = Constants.getPositionY(player.getY());
+			int x2 = Constants.getPositionX(player.getX()
+					+ player.getImageWidth());
+			int y2 = Constants.getPositionY(player.getY()
+					+ player.getImageHeight());
+			Iterator<PowerUp> it = this.powerups.iterator();
+			while (it.hasNext()) {
+				PowerUp powerup = it.next();
+				if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
+					player.powerUp(powerup.getPowerUpType());
+					client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
+					it.remove();
 				}
 			}
 		}
@@ -545,7 +589,7 @@ public class GameState extends State implements TouchListener {
 		if (p >= 8) {
 			PowerUp powerup = new PowerUp(x, y, this);
 			powerups.add(powerup);
-			if (client != null) {
+			if (isMultiplayer) {
 				client.sendAll(new PeerObject(GameObject.POWERUP, x, y, powerup
 						.getPowerUpType()));
 			}
@@ -556,7 +600,9 @@ public class GameState extends State implements TouchListener {
 		for (Bomb bomb : this.bombs) {
 			if (bomb.collision(x, y) && !bomb.initiated()) {
 				bomb.bombKicked(direction);
-//				client.sendAll(new PeerObject(GameObject.KICK, x, y, direction));
+				if(isMultiplayer){
+					client.sendAll(new PeerObject(GameObject.KICK, x, y, direction));
+				}
 			}
 		}
 	}
@@ -578,5 +624,13 @@ public class GameState extends State implements TouchListener {
 	public void addBomb(Bomb bomb) {
 		this.bombs.add(bomb);
 
+	}
+
+	public boolean isMultiplayer() {
+		return this.isMultiplayer;
+	}
+
+	public Player getThisPlayer() {
+		return this.player;
 	}
 }

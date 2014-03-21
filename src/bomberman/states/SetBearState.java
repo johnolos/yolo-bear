@@ -9,18 +9,24 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.widget.Button;
+import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.gui.WidgetListener;
 import sheep.input.TouchListener;
 
 public class SetBearState extends State implements TouchListener{
-	Buttons brown,black,white,swag;
-	Image brownImage,blackImage,whiteImage,swagImage;
+	Buttons brown,black,white,swag,textS;
+	Image brownImage,blackImage,whiteImage,swagImage,text;
 	private float x,y;
 
 	
 	public SetBearState(){
+		//text
+		text = new Image(R.drawable.chooseplayer);
+		x = (Constants.getScreenWidth() / 2 - text.getWidth() / 2);
+		y = (Constants.getHeight() / 6);
+		textS = new Buttons(text,(int) x,(int) y);
 		//Brown
 		brownImage = new Image(R.drawable.playerbrownbear);
 		x =  (float) (Constants.getScreenWidth()/2-brownImage.getWidth()*1.2);
@@ -102,6 +108,7 @@ public class SetBearState extends State implements TouchListener{
 		brown.update(dt);
 		white.update(dt);
 		swag.update(dt);
+		textS.update(dt);
 	}
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
@@ -109,7 +116,7 @@ public class SetBearState extends State implements TouchListener{
 		brown.draw(canvas);
 		white.draw(canvas);
 		swag.draw(canvas);
-		
+		textS.draw(canvas);
 	}
 
 }

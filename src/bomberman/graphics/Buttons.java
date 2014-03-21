@@ -20,7 +20,9 @@ public class Buttons extends Sprite {
 	private Image one,two,three;
 	private Image buttonImage;
 	
-	
+	/*
+	 * New constructor - x and y values is calculated inside before sending them
+	 */
 	public Buttons(Image image,int x, int y){
 		this.buttonImage = image;
 		this.setView(buttonImage);

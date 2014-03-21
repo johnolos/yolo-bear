@@ -5,11 +5,14 @@ import bomberman.buttons.SinglePlayer;
 import bomberman.buttons.TutorialButton;
 import bomberman.connection.Client;
 import bomberman.game.Constants;
+import bomberman.game.R;
+import bomberman.graphics.Buttons;
 import bomberman.graphics.MainMenuStartImage;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import sheep.game.State;
+import sheep.graphics.Image;
 import sheep.gui.WidgetAction;
 import sheep.gui.WidgetListener;
 import sheep.input.TouchListener;
@@ -20,8 +23,10 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	private MultiPlayer multiPlayer;
 	private TutorialButton tutorial;
 	private MainMenuStartImage main;
+	private Image singlePlayerImage;
 	
 	public MainMenuWithGraphics() {
+		singlePlayerImage = new Image(R.drawable.singleplayerbutton);
 		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
 		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
 		this.main = new MainMenuStartImage();
@@ -48,14 +53,15 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
 			getGame().pushState(new SetBearState());
 		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
-			if(this.client == null) {
-				this.client = new Client();
-				Thread clientThread = new Thread(this.client);
-				clientThread.start();
-				GameState gameState = new GameState(this.client);
-				getGame().pushState(gameState);
-				this.client.setGameState(gameState);
-			}
+			getGame().pushState(new loadingMultiplayer());
+//			if(this.client == null) {
+//				this.client = new Client();
+//				Thread clientThread = new Thread(this.client);
+//				clientThread.start();
+//				GameState gameState = new GameState(this.client);
+//				getGame().pushState(gameState);
+//				this.client.setGameState(gameState);
+//			}
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
 			TutorialState tutorial = new TutorialState();
 			getGame().pushState(tutorial);

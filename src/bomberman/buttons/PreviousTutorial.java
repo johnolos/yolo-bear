@@ -14,7 +14,7 @@ public class PreviousTutorial extends Sprite {
 	public PreviousTutorial(String Id, float x, float y) {
 		Rect bounds = null;
 		if(Id.equals("prev")) {
-			prevTutorial = new Image(R.drawable.previous);
+			prevTutorial = new Image(R.drawable.previousbutton);
 			this.setView(prevTutorial);
 			this.setPosition(x,y);
 			//needs updating
