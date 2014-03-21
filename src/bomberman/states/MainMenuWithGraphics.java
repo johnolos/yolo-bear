@@ -40,6 +40,8 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 				this.client.setGameState(gameState);
 			}
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
+//			TutorialState tutorial = new TutorialState();
+//			getGame().pushState(tutorial);
 			System.out.println("Tutorial startup");
 		}
 		return false;
@@ -54,9 +56,9 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	}
 	
 	public void draw(Canvas canvas) {
+		main.draw(canvas);
 		singlePlayer.draw(canvas);
 		multiPlayer.draw(canvas);
-		main.draw(canvas);
 		tutorial.draw(canvas);
 	}
 }
