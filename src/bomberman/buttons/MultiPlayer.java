@@ -18,6 +18,7 @@ public class MultiPlayer extends Sprite {
 			multiPlayer = new Image(R.drawable.multiplayerbutton);
 			this.setView(multiPlayer);
 			this.setPosition(x-(multiPlayer.getWidth()/2),(float)(y+(multiPlayer.getHeight()*1.25)));
+			//needs updating
 			bounds  = new Rect((int)(x-multiPlayer.getWidth()),(int)(y-multiPlayer.getWidth()),(int)(x+multiPlayer.getWidth()),(int)(y+multiPlayer.getHeight()));
 		}
 		box = new BoundingBox(bounds);
