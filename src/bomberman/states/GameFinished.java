@@ -67,7 +67,7 @@ public class GameFinished extends State implements WidgetListener{
 	public void actionPerformed(WidgetAction action) {
 		if(action.getSource() == newGame){
 			gs.resetGame();
-			getGame().popState();
+			getGame().popState(4);
 		}
 		
 	}

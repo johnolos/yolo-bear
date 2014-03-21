@@ -7,6 +7,7 @@ import bomberman.connection.Client;
 import bomberman.game.Constants;
 import bomberman.graphics.MainMenuStartImage;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.MotionEvent;
 import sheep.game.State;
 import sheep.gui.WidgetAction;
@@ -78,6 +79,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	}
 	
 	public void draw(Canvas canvas) {
+		canvas.drawColor(Color.BLACK);
 		main.draw(canvas);
 		singlePlayer.draw(canvas);
 		multiPlayer.draw(canvas);
