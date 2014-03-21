@@ -5,7 +5,7 @@ import bomberman.game.Constants;
 import bomberman.graphics.MainMenuStartImage;
 import bomberman.graphics.MultiPlayer;
 import bomberman.graphics.SinglePlayer;
-import bomberman.graphics.Tutorial;
+import bomberman.graphics.TutorialButton;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import sheep.game.State;
@@ -17,14 +17,14 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	private Client client = null;
 	private SinglePlayer singlePlayer;
 	private MultiPlayer multiPlayer;
-	private Tutorial tutorial;
+	private TutorialButton tutorial;
 	private MainMenuStartImage main;
 	
 	public MainMenuWithGraphics() {
 		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+90);
 		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+150);
 		this.main = new MainMenuStartImage();
-		this.tutorial = new Tutorial("Tutorial", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+200);
+		this.tutorial = new TutorialButton("Tutorial", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+250);
 	}
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
@@ -54,9 +54,9 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	}
 	
 	public void draw(Canvas canvas) {
-		tutorial.draw(canvas);
-		main.draw(canvas);
 		singlePlayer.draw(canvas);
 		multiPlayer.draw(canvas);
+		main.draw(canvas);
+		tutorial.draw(canvas);
 	}
 }

@@ -7,11 +7,11 @@ import sheep.game.Sprite;
 import sheep.graphics.Image;
 import sheep.math.BoundingBox;
 
-public class Tutorial extends Sprite {
+public class TutorialButton extends Sprite {
 	private Image tutorial;
 	private BoundingBox box;
 	
-	public Tutorial(String id, float x, float y) {
+	public TutorialButton(String id, float x, float y) {
 		Rect bounds = null;
 		if(id.equals("Tutorial")) {
 			tutorial = new Image(R.drawable.tutorial);
