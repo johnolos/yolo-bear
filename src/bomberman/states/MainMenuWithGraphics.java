@@ -59,8 +59,8 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 			}
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
 			tutorial.changeImageShow(0);
-//			TutorialState tutorial = new TutorialState();
-//			getGame().pushState(tutorial);
+			TutorialState tutorial = new TutorialState();
+			getGame().pushState(tutorial);
 			System.out.println("Tutorial startup");
 		}
 		return false;
