@@ -45,10 +45,8 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
-			singlePlayer.changeImageShow(0);
-			getGame().pushState(new GameState());
+			getGame().pushState(new SetBearState());
 		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
-			multiPlayer.changeImageShow(0);
 			if(this.client == null) {
 				this.client = new Client();
 				Thread clientThread = new Thread(this.client);
@@ -58,11 +56,13 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 				this.client.setGameState(gameState);
 			}
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
-			tutorial.changeImageShow(0);
 //			TutorialState tutorial = new TutorialState();
 //			getGame().pushState(tutorial);
 			System.out.println("Tutorial startup");
 		}
+		singlePlayer.changeImageShow(0);
+		multiPlayer.changeImageShow(0);
+		tutorial.changeImageShow(0);
 		return false;
 	}
 	
