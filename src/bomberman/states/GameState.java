@@ -93,9 +93,12 @@ public class GameState extends State implements TouchListener {
 	}
 
 	private void addBots(int opponentNumber) {
-		bots.add(new AIBot("adjkhasd", ColorObject.BLACK, this));
-		bots.add(new AIBot("adjkhasd", ColorObject.WHITE, this));
-		bots.add(new AIBot("adjkhasd", ColorObject.SWAG, this));
+		
+		for (ColorObject color : ColorObject.values()) {
+			if(!color.equals(this.player.getColor()) && bots.size()<opponentNumber){
+				bots.add(new AIBot("adjkhasd", color, this));
+			}
+		}
 		allPlayers = new ArrayList<Player>();
 		allPlayers.add(player);
 		for (AIBot bot : bots) {
