@@ -1,4 +1,4 @@
-package bomberman.graphics;
+package bomberman.buttons;
 
 import bomberman.game.R;
 import android.graphics.Canvas;

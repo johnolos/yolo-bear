@@ -1,4 +1,4 @@
-package bomberman.graphics;
+package bomberman.buttons;
 
 import sheep.game.Sprite;
 import sheep.graphics.Image;
