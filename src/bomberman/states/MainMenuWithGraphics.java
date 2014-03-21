@@ -21,25 +21,19 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	private MainMenuStartImage main;
 	
 	public MainMenuWithGraphics() {
-		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+90);
-		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+150);
+		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
+		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
 		this.main = new MainMenuStartImage();
-		this.tutorial = new TutorialButton("Tutorial", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2)+250);
+		this.tutorial = new TutorialButton("Tutorial", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
 	}
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
-			singlePlayer.changeImageShow();
+			singlePlayer.changeImageShow(1);
 		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
-			if(this.client == null) {
-				this.client = new Client();
-				Thread clientThread = new Thread(this.client);
-				clientThread.start();
-				GameState gameState = new GameState(this.client);
-				getGame().pushState(gameState);
-				this.client.setGameState(gameState);
-			}
+			multiPlayer.changeImageShow(1);
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
+			tutorial.changeImageShow(1);
 //			TutorialState tutorial = new TutorialState();
 //			getGame().pushState(tutorial);
 			System.out.println("Tutorial startup");
@@ -51,8 +45,10 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
+			singlePlayer.changeImageShow(0);
 			getGame().pushState(new GameState());
 		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
+			multiPlayer.changeImageShow(0);
 			if(this.client == null) {
 				this.client = new Client();
 				Thread clientThread = new Thread(this.client);
@@ -62,6 +58,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 				this.client.setGameState(gameState);
 			}
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
+			tutorial.changeImageShow(0);
 //			TutorialState tutorial = new TutorialState();
 //			getGame().pushState(tutorial);
 			System.out.println("Tutorial startup");

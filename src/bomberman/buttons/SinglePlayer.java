@@ -16,7 +16,7 @@ public class SinglePlayer extends Sprite {
 		Rect bounds = null;
 		if(Id.equals("Singleplayer")) {
 			this.singlePlayer = new Image(R.drawable.singleplayerbutton);
-			this.setPosition(x-(singlePlayer.getWidth()/2),y-(singlePlayer.getHeight()));
+			this.setPosition(x-(singlePlayer.getWidth()/2),y);
 			this.setView(singlePlayer);
 			bounds  = new Rect((int)(x-singlePlayer.getWidth()),(int)(y-singlePlayer.getWidth()),(int)(x+singlePlayer.getWidth()),(int)(y+singlePlayer.getHeight()));
 		}
@@ -36,7 +36,11 @@ public class SinglePlayer extends Sprite {
 		return this.box;
 	}
 	
-	public void changeImageShow() {
-		this.setView(pressedSingelPlayer);
+	public void changeImageShow(int n) {
+		if(n==1) {
+			this.setView(pressedSingelPlayer);
+		} else {
+			this.setView(singlePlayer);
+		}
 	}
 }
