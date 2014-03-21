@@ -9,6 +9,7 @@ import bomberman.game.R;
 
 public class SinglePlayer extends Sprite {
 	private Image singlePlayer;
+	private Image pressedSingelPlayer;
 	private BoundingBox box;
 	
 	public SinglePlayer(String Id, float x, float y) {
@@ -20,6 +21,7 @@ public class SinglePlayer extends Sprite {
 			bounds  = new Rect((int)(x-singlePlayer.getWidth()),(int)(y-singlePlayer.getWidth()),(int)(x+singlePlayer.getWidth()),(int)(y+singlePlayer.getHeight()));
 		}
 		box = new BoundingBox(bounds);
+		pressedSingelPlayer = new Image(R.drawable.pressedsingleplayerbutton);
 	}
 	
 	public void update(float dt){
@@ -32,5 +34,9 @@ public class SinglePlayer extends Sprite {
 	
 	public BoundingBox getBounds() {
 		return this.box;
+	}
+	
+	public void changeImageShow() {
+		this.setView(pressedSingelPlayer);
 	}
 }
