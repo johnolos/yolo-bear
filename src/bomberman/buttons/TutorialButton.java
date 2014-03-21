@@ -17,9 +17,11 @@ public class TutorialButton extends Sprite {
 		if(id.equals("Tutorial")) {
 			tutorial = new Image(R.drawable.tutorialbutton);
 			this.setView(tutorial);
-			this.setPosition(x-(tutorial.getWidth()/2),(float)(y+(tutorial.getHeight()*2.5)));
+			float posX = x-(tutorial.getWidth()/2);
+			float posY =  (float) (y+(tutorial.getHeight()*2.5));
+			this.setPosition(posX,posY);
 			//needs updating
-			bounds  = new Rect((int)(x-tutorial.getWidth()),(int)(y-tutorial.getWidth()),(int)(x+tutorial.getWidth()),(int)(y+tutorial.getHeight()));
+			bounds  = new Rect((int)(posX),(int)(posY),(int)(posX+tutorial.getWidth()),(int)(posY+tutorial.getHeight()));
 		}
 		box = new BoundingBox(bounds);
 		pressedTutorial = new Image(R.drawable.pressedtutorialbutton);

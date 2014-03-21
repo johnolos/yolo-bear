@@ -51,13 +51,13 @@ public class GameState extends State implements TouchListener {
 	private long gameStarted;
 	private boolean suddenDeathInitiated = false;
 
-	public GameState() {
+	public GameState(ColorObject color, int opponentNumber) {
 		// Board class now handles creating the actual gameBoard,
 		this.board = new Board();
 
 		this.gameStarted = System.currentTimeMillis();
 
-		this.player = new Player("Player1", ColorObject.BROWN, this);
+		this.player = new Player("Player1", color, this);
 		this.startingX = Constants.screenWidth / 2 - Constants.getHeight()
 				* 6.5;
 		this.startingY = 0.0f;
@@ -89,10 +89,10 @@ public class GameState extends State implements TouchListener {
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
 		bots = new ArrayList<AIBot>();
-		addBots();
+		addBots(opponentNumber);
 	}
 
-	private void addBots() {
+	private void addBots(int opponentNumber) {
 		bots.add(new AIBot("adjkhasd", ColorObject.BLACK, this));
 		bots.add(new AIBot("adjkhasd", ColorObject.WHITE, this));
 		bots.add(new AIBot("adjkhasd", ColorObject.SWAG, this));

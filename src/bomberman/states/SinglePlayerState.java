@@ -26,7 +26,7 @@ public class SinglePlayerState extends State implements WidgetListener {
 	@Override
 	public void actionPerformed(WidgetAction action) {
 		if(action.getSource() == start){
-			getGame().pushState(new GameState());
+//			getGame().pushState(new GameState());
 		}
 		
 	}
