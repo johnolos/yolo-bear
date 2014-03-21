@@ -1,4 +1,4 @@
-package bomberman.graphics;
+package bomberman.buttons;
 
 import sheep.game.Sprite;
 import sheep.graphics.Image;
@@ -14,7 +14,7 @@ public class SinglePlayer extends Sprite {
 	public SinglePlayer(String Id, float x, float y) {
 		Rect bounds = null;
 		if(Id.equals("Singleplayer")) {
-			this.singlePlayer = new Image(R.drawable.singleplayer);
+			this.singlePlayer = new Image(R.drawable.singleplayerbutton);
 			this.setPosition(x-(singlePlayer.getWidth()/2),y-(singlePlayer.getHeight()));
 			this.setView(singlePlayer);
 			bounds  = new Rect((int)(x-singlePlayer.getWidth()),(int)(y-singlePlayer.getWidth()),(int)(x+singlePlayer.getWidth()),(int)(y+singlePlayer.getHeight()));

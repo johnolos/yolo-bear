@@ -1,4 +1,4 @@
-package bomberman.graphics;
+package bomberman.buttons;
 
 import bomberman.game.R;
 import android.graphics.Canvas;
@@ -14,7 +14,7 @@ public class MultiPlayer extends Sprite {
 	public MultiPlayer(String Id, float x, float y) {
 		Rect bounds = null;
 		if(Id.equals("Multiplayer")) {
-			multiPlayer = new Image(R.drawable.multiplayer);
+			multiPlayer = new Image(R.drawable.multiplayerbutton);
 			this.setView(multiPlayer);
 			this.setPosition(x-(multiPlayer.getWidth()/2),y-(multiPlayer.getHeight()));
 			bounds  = new Rect((int)(x-multiPlayer.getWidth()),(int)(y-multiPlayer.getWidth()),(int)(x+multiPlayer.getWidth()),(int)(y+multiPlayer.getHeight()));

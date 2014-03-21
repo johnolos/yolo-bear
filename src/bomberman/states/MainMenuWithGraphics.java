@@ -1,11 +1,11 @@
 package bomberman.states;
 
+import bomberman.buttons.MultiPlayer;
+import bomberman.buttons.SinglePlayer;
+import bomberman.buttons.TutorialButton;
 import bomberman.connection.Client;
 import bomberman.game.Constants;
 import bomberman.graphics.MainMenuStartImage;
-import bomberman.graphics.MultiPlayer;
-import bomberman.graphics.SinglePlayer;
-import bomberman.graphics.TutorialButton;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import sheep.game.State;
@@ -40,9 +40,17 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 				this.client.setGameState(gameState);
 			}
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
+//			TutorialState tutorial = new TutorialState();
+//			getGame().pushState(tutorial);
 			System.out.println("Tutorial startup");
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean onTouchUp(MotionEvent event) {
+		// TODO Auto-generated method stub
+		return super.onTouchUp(event);
 	}
 	
 	public void update(float dt) {
@@ -54,9 +62,9 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	}
 	
 	public void draw(Canvas canvas) {
+		main.draw(canvas);
 		singlePlayer.draw(canvas);
 		multiPlayer.draw(canvas);
-		main.draw(canvas);
 		tutorial.draw(canvas);
 	}
 }
