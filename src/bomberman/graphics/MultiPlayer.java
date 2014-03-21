@@ -1,6 +1,5 @@
 package bomberman.graphics;
 
-import bomberman.game.Constants;
 import bomberman.game.R;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -17,11 +16,8 @@ public class MultiPlayer extends Sprite {
 		if(Id.equals("Multiplayer")) {
 			multiPlayer = new Image(R.drawable.multiplayer);
 			this.setView(multiPlayer);
-//			this.setShape(400,100);
-			this.setPosition(x,y);
-			float offsetX = 100*Constants.getReceivingXRatio();
-			float offsetY = 100*Constants.getReceivingYRatio();
-			bounds  = new Rect((int)(x-offsetX),(int) (y-offsetY), (int)(x+offsetX), (int)(y+offsetY));
+			this.setPosition(x-(multiPlayer.getWidth()/2),y-(multiPlayer.getHeight()));
+			bounds  = new Rect((int)(x-multiPlayer.getWidth()),(int)(y-multiPlayer.getWidth()),(int)(x+multiPlayer.getWidth()),(int)(y+multiPlayer.getHeight()));
 		}
 		box = new BoundingBox(bounds);
 	}
