@@ -18,10 +18,10 @@ public class Player extends Sprite {
 	private GameState gameState;
 	
 	/** Player power **/
-	private int numberOfBombs = 3;
+	private int numberOfBombs = 1;
 	private int health =3;
 	private boolean kickBombs = false;
-	private boolean throwBombs = true;
+	private boolean throwBombs = false;
 	private float speedOfPlayer = 1.0f;
 	private int magnitudeOfBombs = 2;
 	private int scoreOfPlayer = 0;
@@ -197,7 +197,7 @@ public class Player extends Sprite {
 	}
 	
 	public void update(float dt){
-		if((!this.dead && !gameState.isMultiplayer())|| gameState.getThisPlayer()==this){
+		if((!this.dead && !gameState.isMultiplayer())|| (gameState.getThisPlayer()==this && !this.dead)){
 			playerCollision();
 		}
 		super.update(dt);

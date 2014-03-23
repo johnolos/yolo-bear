@@ -1,5 +1,8 @@
 package bomberman.game;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import bomberman.graphics.BombImages;
 import bomberman.graphics.UpgradeImages;
 import bomberman.states.MainMenu;
@@ -19,7 +22,7 @@ public class MainActivity extends Activity {
 		Game game = new Game(this, null);
 		
 		
-		
+
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);

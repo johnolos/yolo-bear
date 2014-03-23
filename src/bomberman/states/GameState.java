@@ -1,5 +1,7 @@
 package bomberman.states;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -58,6 +60,8 @@ public class GameState extends State implements TouchListener {
 
 	public GameState(ColorObject color, int opponentNumber) {
 		// Board class now handles creating the actual gameBoard,
+		
+
 		this.board = new Board();
 
 		this.gameStarted = System.currentTimeMillis();
@@ -359,17 +363,17 @@ public class GameState extends State implements TouchListener {
 			board.initiateSuddenDeath(System.currentTimeMillis());
 			suddenDeathInitiated = true;
 		}
-//		if(gameOver()){
-//			if(!suddenDeathInitiated){
-//				board.initiateSuddenDeath(System.currentTimeMillis());
-//				board.SpeedUpSD();
-//				suddenDeathInitiated = true;
-//			}
-//			else{
-//				suddenDeathInitiated = true;
-//				board.SpeedUpSD();
-//			}
-//		}
+		if(gameOver()){
+			if(!suddenDeathInitiated){
+				board.initiateSuddenDeath(System.currentTimeMillis());
+				board.SpeedUpSD();
+				suddenDeathInitiated = true;
+			}
+			else{
+				suddenDeathInitiated = true;
+				board.SpeedUpSD();
+			}
+		}
 		
 
 	}
@@ -586,7 +590,7 @@ public class GameState extends State implements TouchListener {
 	public void maybeCreatePowerUp(int x, int y) {
 		int p = randomGenerator.nextInt(10);
 		// TODO: Changed for testing purposes.
-		if (p >= 8) {
+		if (p >= 7) {
 			PowerUp powerup = new PowerUp(x, y, this);
 			powerups.add(powerup);
 			if (isMultiplayer) {

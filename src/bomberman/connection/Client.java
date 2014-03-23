@@ -6,14 +6,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
 import bomberman.game.ColorObject;
 import bomberman.game.PeerObject;
 import bomberman.states.GameState;
+import bomberman.states.loadingMultiplayer;
 
 public class Client extends Thread {
 	/** Peer-to-peer client **/
@@ -21,6 +28,7 @@ public class Client extends Thread {
 	ArrayList<Connection> clients;
 	ClientPeer peerConnection;
 	private GameState game;
+	private loadingMultiplayer loadingScreen;
 	
 	
 	public Client() {
@@ -34,8 +42,11 @@ public class Client extends Thread {
 		System.out.println("Trying to connect to server!");
 		Socket serverConnection;
 		try {
+			String androidIp = getLocalIpAddress();
+//			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
+//			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
 			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
-			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
+			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(androidIp));
 			this.peerConnection = new ClientPeer(peerSocket, this);
 			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
@@ -71,8 +82,8 @@ public class Client extends Thread {
 	 * @param obj
 	 */
 	protected void receive(Object obj) {
-		if(obj instanceof String) {
-			System.out.println((String)obj);
+		if(obj instanceof LobbyInformation) {
+			loadingScreen.receiveLobbyInformation((LobbyInformation)obj);
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo)obj;
 			Connection peerClient = new Connection(peer.getInetAddress(), this);
@@ -153,7 +164,26 @@ public class Client extends Thread {
 
 	public void setGameState(GameState gameState) {
 		this.game = gameState;
-		
+	}
+	
+	public void setLoadingMultiplayer(loadingMultiplayer loadingScreen) {
+		this.loadingScreen = loadingScreen;
+	}
+	
+	public String getLocalIpAddress() {
+		try {
+			for (Enumeration en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+				NetworkInterface intf = (NetworkInterface) en.nextElement();
+				for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+					InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
+					if (!inetAddress.isLoopbackAddress()) {
+						return inetAddress.getHostAddress().toString();
+					}
+				}
+			}
+		} catch (SocketException ex) {
+		}
+		return null;
 	}
 	
 }

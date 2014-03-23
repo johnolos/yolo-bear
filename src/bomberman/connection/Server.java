@@ -71,7 +71,10 @@ public class Server {
 		default:
 			break;
 		}
-		send(color,this.clients.get(clientNumber));
+		if(clientNumber == 0) {
+			send(new LobbyInformation(GameLobby.HOST,clientNumber),clients.get(clientNumber));
+		}
+//		send(color,this.clients.get(clientNumber));
 	}
 	
 	public void sendAll(Object obj) {
@@ -149,6 +152,7 @@ public class Server {
 						e.printStackTrace();
 					}
 				}
+				this.connection.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
