@@ -15,6 +15,8 @@ import bomberman.game.ColorObject;
 public class Server {
 	
 	private ArrayList<ClientConnection> clients;
+	
+	private int numberOfPlayers = -1;
 
 	public Server() {
 		clients = new ArrayList<ClientConnection>();
@@ -58,23 +60,27 @@ public class Server {
 		switch(clientNumber){
 		case 0:
 			color = ColorObject.BROWN;
+			send(new LobbyInformation(GameLobby.HOST,clientNumber),clients.get(clientNumber));
 			break;
 		case 1:
 			color = ColorObject.BLACK;
+			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,numberOfPlayers),clients.get(clientNumber));
+			send(new LobbyInformation(GameLobby.NOT_READY,clientNumber),clients.get(clientNumber));
 			break;
 		case 2:
 			color = ColorObject.WHITE;
+			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,numberOfPlayers),clients.get(clientNumber));
+			send(new LobbyInformation(GameLobby.NOT_READY,clientNumber),clients.get(clientNumber));
 			break;
 		case 3:
 			color = ColorObject.SWAG;
+			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,numberOfPlayers),clients.get(clientNumber));
+			send(new LobbyInformation(GameLobby.NOT_READY,clientNumber),clients.get(clientNumber));
 			break;
 		default:
 			break;
 		}
-		if(clientNumber == 0) {
-			send(new LobbyInformation(GameLobby.HOST,clientNumber),clients.get(clientNumber));
-		}
-//		send(color,this.clients.get(clientNumber));
+		send(color,this.clients.get(clientNumber));
 	}
 	
 	public void sendAll(Object obj) {
@@ -94,8 +100,13 @@ public class Server {
 	}
 	
 	protected void receive(Object obj) {
-		if(obj instanceof String) {
-			sendAll(obj);
+		if(obj instanceof LobbyInformation) {
+			LobbyInformation lobbyinfo = (LobbyInformation)obj;
+			if(lobbyinfo.getLobby() == GameLobby.SETNUMBEROFPLAYERS) {
+				numberOfPlayers = lobbyinfo.getPlayer();
+			} else if (lobbyinfo.getLobby() == GameLobby.READY || lobbyinfo.getLobby() == GameLobby.NOT_READY) {
+				sendAll(obj);
+			}
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo)obj;
 			System.out.println("Client at: " + peer.getInetAddress().getHostAddress() 

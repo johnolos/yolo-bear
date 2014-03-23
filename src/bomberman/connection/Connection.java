@@ -24,6 +24,7 @@ public class Connection extends Thread {
 		this.client = client;
 		try {
 			socket = new Socket(inet, Config.ANDROIDPORT);
+		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -31,7 +32,7 @@ public class Connection extends Thread {
 	
 	@Override
 	public void run() {
-		System.out.println("Connected to client on " + this.socket.getRemoteSocketAddress());
+//		System.out.println("Connected to client on " + this.socket.getRemoteSocketAddress());
 		try {
 			// Fetches InputStream from connection
 			InputStream serverInputStream = this.socket.getInputStream();

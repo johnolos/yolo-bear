@@ -56,7 +56,10 @@ public class Player extends Sprite {
 		if(this.health == 0){
 			this.setView(null);
 			this.setPosition(0, 0);
-			this.setDead();
+			if(!isDead()){
+				this.setDead(System.currentTimeMillis() - gameState.getGameStarted());				
+			}
+			gameState.playerDied();
 			this.setSpeed(0, 0);
 		}
 	}
@@ -378,14 +381,16 @@ public class Player extends Sprite {
 		if(!canPlayerMove(Direction.RIGHT) && getDirection() == Direction.RIGHT)
 			handleCollision(Direction.RIGHT, y, x, posX, posY);
 		if(gameState.getSpriteBoard().get(y).get(x) instanceof Wall){
-			this.health = 0;
-			this.setDead();
-			setView(null);
+			if(!isDead()){
+				this.setDead(System.currentTimeMillis() - gameState.getGameStarted());
+				setView(null);
+				gameState.playerDied();
+			}
 		}
 	}
-	public void setDead(){
+	public void setDead(long dt){
 		this.dead = true;
-		this.timeStamp = System.currentTimeMillis();
+		this.timeStamp = dt;
 	}
 	public float getPixelsY(Direction dir,Sprite sprite){
 		if(dir == Direction.DOWN){
@@ -413,7 +418,6 @@ public class Player extends Sprite {
 	public boolean canPlayerMove(Direction dir){
 		int y = Constants.getPositionY(getMiddleY());
 		int x = Constants.getPositionX(getMiddleX());
-		System.out.println(x + " og vi har  "+ y );
 		Sprite sprite = gameState.getSpriteBoard().get(y+dir.getY()).get(x+dir.getX());
 		if(dir == Direction.DOWN || dir == Direction.UP){
 			if(canMoveY()){
@@ -449,4 +453,17 @@ public class Player extends Sprite {
 	public long getTimeStamp() {
 		return this.timeStamp;
 	}
+	
+	public void setMagnitude(int magnitude) {
+		magnitudeOfBombs = magnitude;
+		
+	}
+
+	public void setDeadOpponent(long timeStamp2) {
+		timeStamp = timeStamp2;
+		dead = true;
+		
+	}
+
+	
 }

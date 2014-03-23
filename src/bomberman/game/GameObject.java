@@ -8,5 +8,6 @@ public enum GameObject implements Serializable{
 		KICK,
 		THROW,
 		POWERUP_CONSUMED,
-		POWERUP;
+		POWERUP,
+		DIED;
 }

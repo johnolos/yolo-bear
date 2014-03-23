@@ -16,36 +16,36 @@ import sheep.input.TouchListener;
 public class SetNumberPlayerState extends State implements TouchListener {
 
 	private ColorObject color;
-	private Buttons one, two, three,textS;
-	private Image oneImage, twoImage, threeImage,text;
+	private Buttons one, two, three, textS;
+	private Image oneImage, twoImage, threeImage, text;
 	private float x, y;
+	private loadingMultiplayer loading;
 
-	public SetNumberPlayerState(ColorObject color) {
+	public SetNumberPlayerState(ColorObject color, loadingMultiplayer loading) {
 		this.color = color;
-		
-		//text
+		this.loading = loading;
+		// text
 		text = new Image(R.drawable.chooseoponents);
 		x = (Constants.getScreenWidth() / 2 - text.getWidth() / 2);
 		y = (Constants.getHeight() / 6);
-		textS = new Buttons(text, (int)x, (int)y);
+		textS = new Buttons(text, (int) x, (int) y);
 		textS.setPosition(x, y);
-		//Buttons
+		// Buttons
 		// One
 		oneImage = new Image(R.drawable.fireone);
 		x = (Constants.getScreenWidth() / 2 - oneImage.getWidth() * 2);
 		y = (Constants.getScreenHeight() / 2 - oneImage.getHeight() / 2);
 		one = new Buttons(oneImage, (int) x, (int) y);
-		//two
+		// two
 		twoImage = new Image(R.drawable.firetwo);
 		x = (Constants.getScreenWidth() / 2 - twoImage.getWidth() / 2);
 		y = (Constants.getScreenHeight() / 2 - twoImage.getHeight() / 2);
 		two = new Buttons(twoImage, (int) x, (int) y);
-		//Three
+		// Three
 		threeImage = new Image(R.drawable.firethree);
 		x = (float) (Constants.getScreenWidth() / 2 + threeImage.getWidth() * 1);
 		y = (Constants.getScreenHeight() / 2 - threeImage.getHeight() / 2);
 		three = new Buttons(threeImage, (int) x, (int) y);
-		
 
 	}
 
@@ -82,11 +82,24 @@ public class SetNumberPlayerState extends State implements TouchListener {
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if (one.getBounds().contains(event.getX(), event.getY())) {
-			getGame().pushState(new GameState(this.color, 1));
+			if (loading != null) {
+				System.out.println("selected 1");
+				loading.setNrOfPlayers(1);
+				getGame().popState();
+			} else
+				getGame().pushState(new GameState(this.color, 1));
 		} else if (two.getBounds().contains(event.getX(), event.getY())) {
-			getGame().pushState(new GameState(this.color, 2));
+			if (loading != null) {
+				loading.setNrOfPlayers(2);
+				getGame().popState();
+			} else
+				getGame().pushState(new GameState(this.color, 2));
 		} else if (three.getBounds().contains(event.getX(), event.getY())) {
-			getGame().pushState(new GameState(this.color, 3));
+			if (loading != null) {
+				loading.setNrOfPlayers(3);
+				getGame().popState();
+			} else
+				getGame().pushState(new GameState(this.color, 3));
 		}
 		return false;
 	}

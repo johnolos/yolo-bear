@@ -21,9 +21,11 @@ public class Bomb extends Sprite implements Collision{
 	private int column, row;
 	private Direction direction;
 	private boolean initiated = false;
-	private Board board; 
+	private Board board;
+	private ColorObject color; 
 	
-	public Bomb(int x, int y, int blastRadius, GameState gs){
+	public Bomb(int x, int y, int blastRadius, GameState gs, ColorObject color){
+		this.color = color;
 		this.column = Constants.getPositionX(x);
 		this.row = Constants.getPositionY(y);
 		explodeImages = new Image[4];
@@ -218,7 +220,10 @@ public class Bomb extends Sprite implements Collision{
 				gs.addExplosion(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndLeft));
 				Empty empty = new Empty();
 				gs.setSprite(column, y, empty);
-				gs.maybeCreatePowerUp(column, y);
+				if(getColor() == gs.getThisPlayer().getColor()){
+					gs.maybeCreatePowerUp(column, y);
+					
+				}
 				break;
 			}
 			else if(sprite instanceof Empty){
@@ -247,7 +252,11 @@ public class Bomb extends Sprite implements Collision{
 				gs.addExplosion(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndRight));
 				Empty empty = new Empty();
 				gs.setSprite(column, y, empty);
-				gs.maybeCreatePowerUp(column, y);
+				if(getColor() == gs.getThisPlayer().getColor()){
+					gs.maybeCreatePowerUp(column, y);
+					
+				}
+				
 				break;
 			}
 			else if(sprite instanceof Empty){
@@ -276,7 +285,10 @@ public class Bomb extends Sprite implements Collision{
 				gs.addExplosion(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndUp));
 				Empty empty = new Empty();
 				gs.setSprite(x, row, empty);
-				gs.maybeCreatePowerUp(x, row);
+				if(getColor() == gs.getThisPlayer().getColor()){
+					gs.maybeCreatePowerUp(x, row);
+					
+				}
 				break;
 			}
 			else if(sprite instanceof Empty){
@@ -305,7 +317,10 @@ public class Bomb extends Sprite implements Collision{
 				gs.addExplosion(new Explosion(xPixel,yPixel, BombImages.bombExplosionEndDown));
 				Empty empty = new Empty();
 				gs.setSprite(x, row, empty);
-				gs.maybeCreatePowerUp(x, row);
+				if(getColor() == gs.getThisPlayer().getColor()){
+					gs.maybeCreatePowerUp(x, row);
+					
+				}
 				break;
 			}
 			else if(sprite instanceof Empty){
@@ -319,6 +334,9 @@ public class Bomb extends Sprite implements Collision{
 			}
 			i++;
 		}
+	}
+	public ColorObject getColor(){
+		return this.color; 
 	}
 	
 	public void bombKicked(Direction direction){
@@ -355,5 +373,7 @@ public class Bomb extends Sprite implements Collision{
 			}
 		}
 	}
+
+
 	
 }

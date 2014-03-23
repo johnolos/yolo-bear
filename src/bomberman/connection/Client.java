@@ -43,9 +43,9 @@ public class Client extends Thread {
 		Socket serverConnection;
 		try {
 			String androidIp = getLocalIpAddress();
-//			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
-//			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
 			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
+//			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
+//			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
 			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(androidIp));
 			this.peerConnection = new ClientPeer(peerSocket, this);
 			this.peerConnection.start();
@@ -104,7 +104,7 @@ public class Client extends Thread {
 	 * @param client Connection to client.
 	 */
 	protected void addConnection(Connection client) {
-		System.out.println("PeerConnection:" + client.getIP());
+//		System.out.println("PeerConnection:" + client.getIP());
 		this.clients.add(client);
 	}
 	
@@ -177,7 +177,11 @@ public class Client extends Thread {
 				for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 					InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
 					if (!inetAddress.isLoopbackAddress()) {
-						return inetAddress.getHostAddress().toString();
+						if(inetAddress.getHostAddress().toString().equals("fe80::da90:e8ff:fea3:5d37%wlan0")) {
+							return "78.91.2.155";
+						} else {
+							return "78.91.83.34";
+						}
 					}
 				}
 			}

@@ -22,17 +22,17 @@ public class LobbyInformation implements Serializable {
 	}
 
 
-	LobbyInformation(GameLobby lobby, int player) {
+	public LobbyInformation(GameLobby lobby, int player) {
 		this.lobby = lobby;
 		this.player = player;
 	}
 	
-	LobbyInformation(GameLobby lobby) {
+	public LobbyInformation(GameLobby lobby) {
 		this.lobby = lobby;
 		this.player = -1;
 	}
 	
-	LobbyInformation(GameLobby lobby, String nameOfPlayer, int player) {
+	public LobbyInformation(GameLobby lobby, String nameOfPlayer, int player) {
 		this.lobby = lobby;
 		this.nameOfPlayer = nameOfPlayer;
 		this.player = player;

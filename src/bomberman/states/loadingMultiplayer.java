@@ -17,6 +17,8 @@ public class loadingMultiplayer extends State implements TouchListener {
 	private GameState gameState;
 	private ArrayList<GameLobby> players;
 	private ArrayList<String> nameOfPlayers;
+	private int nrOfOpponents;
+	private boolean isHost = false;
 
 	
 	public loadingMultiplayer(){
@@ -24,6 +26,7 @@ public class loadingMultiplayer extends State implements TouchListener {
 			this.client = new Client();
 			players = new ArrayList<GameLobby>();
 			nameOfPlayers = new ArrayList<String>();
+			nrOfOpponents = -1;
 			gameState = new GameState(this.client);
 			this.client.setGameState(gameState);
 			client.setLoadingMultiplayer(this);
@@ -53,8 +56,9 @@ public class loadingMultiplayer extends State implements TouchListener {
 	}
 	
 	public void update(float dt){
-		if(client.getClientConnectionCount()>0){
-			
+		System.out.println(client.getClientConnectionCount());
+		if(client.getClientConnectionCount()==nrOfOpponents && isReadyToStart()){
+			gameState.startGame();
 			getGame().pushState(gameState);
 			
 		}
@@ -68,10 +72,12 @@ public class loadingMultiplayer extends State implements TouchListener {
 		System.out.println(info.getLobby());
 		switch(info.getLobby()) {
 		case HOST:
+			isHost = true;
+			addHostMenu();
 		break;
 		case NOT_READY:
-			players.remove(info.getPlayer());
-			players.add(info.getPlayer(), GameLobby.NOT_READY);
+//			players.remove(info.getPlayer());
+//			players.add(info.getPlayer(), GameLobby.NOT_READY);
 		break;
 		case READY:
 			players.remove(info.getPlayer());
@@ -81,9 +87,33 @@ public class loadingMultiplayer extends State implements TouchListener {
 			nameOfPlayers.remove(info.getPlayer());
 			nameOfPlayers.add(info.getPlayer(), info.getPlayerName());
 		break;
+		case SETNUMBEROFPLAYERS:
+			setNrOfPlayers(info.getPlayer() - 1);
+		break;
 		default:
 		break;
 		}
+	}
+
+	private void addHostMenu() {
+		getGame().pushState(new SetNumberPlayerState(gameState.getThisPlayer().getColor(),this));
+	}
+
+	public void setNrOfPlayers(int nrOfOpponents) {
+		this.nrOfOpponents = nrOfOpponents;
+		if (isHost) {
+			client.send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS, nrOfOpponents + 1));
+		}
+		
+		
+	}
+	
+	public boolean isReadyToStart() {
+		for (GameLobby player : players) {
+			if(player == GameLobby.NOT_READY)
+				return false;
+		}
+		return true;
 	}
 
 }
