@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import bomberman.states.GameState;
 import android.graphics.Canvas;
-import sheep.game.Sprite;
 import sheep.graphics.Image;
 
 public class Opponent extends Player {

@@ -3,9 +3,6 @@ package bomberman.graphics;
 import java.util.ArrayList;
 
 import android.graphics.Canvas;
-import bomberman.buttons.NextTutorial;
-import bomberman.buttons.PreviousTutorial;
-import bomberman.game.Constants;
 import bomberman.game.R;
 
 import sheep.game.Sprite;

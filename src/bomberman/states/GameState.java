@@ -1,12 +1,8 @@
 package bomberman.states;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.jar.Attributes;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,9 +12,7 @@ import bomberman.game.AIBot;
 import bomberman.game.Board;
 import bomberman.game.Bomb;
 import bomberman.game.Constants;
-import bomberman.game.Crate;
 import bomberman.game.Direction;
-import bomberman.game.Empty;
 import bomberman.game.Explosion;
 import bomberman.game.GameObject;
 import bomberman.game.Opponent;
@@ -26,13 +20,9 @@ import bomberman.game.PeerObject;
 import bomberman.game.Player;
 import bomberman.game.ColorObject;
 import bomberman.game.PowerUp;
-import bomberman.game.R;
-import bomberman.game.Wall;
-import bomberman.graphics.BombImages;
 import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
-import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
 public class GameState extends State implements TouchListener {

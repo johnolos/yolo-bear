@@ -12,9 +12,6 @@ import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.graphics.Image;
-import sheep.gui.TextButton;
-import sheep.gui.WidgetAction;
-import sheep.gui.WidgetListener;
 import sheep.input.TouchListener;
 
 public class GameFinished extends State implements TouchListener{

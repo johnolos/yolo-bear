@@ -6,13 +6,9 @@ import bomberman.game.R;
 import bomberman.graphics.Buttons;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.view.MotionEvent;
-import android.widget.Button;
-import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.graphics.Image;
-import sheep.gui.WidgetListener;
 import sheep.input.TouchListener;
 
 public class SetBearState extends State implements TouchListener{

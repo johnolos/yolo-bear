@@ -3,8 +3,6 @@ package bomberman.states;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
-import bomberman.buttons.NextTutorial;
-import bomberman.buttons.PreviousTutorial;
 import bomberman.game.Constants;
 import bomberman.game.R;
 import bomberman.graphics.Buttons;

@@ -1,11 +1,8 @@
 package bomberman.game;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import bomberman.graphics.BombImages;
 import bomberman.graphics.UpgradeImages;
-import bomberman.states.MainMenu;
 import bomberman.states.MainMenuWithGraphics;
 import sheep.game.Game;
 import android.os.Bundle;
