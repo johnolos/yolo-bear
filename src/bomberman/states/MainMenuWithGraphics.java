@@ -26,9 +26,8 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		pressedTutorial = new Image(R.drawable.pressedtutorialbutton);
 		
 		single = new Buttons(singlePlayer, (int) (Constants.screenWidth/2-(singlePlayer.getWidth()/2)), (int) (Constants.screenHeight/2));
-		multi = new Buttons(multiPlayer, (int) (Constants.screenWidth/2-(multiPlayer.getWidth()/2)), (int) (Constants.screenHeight/2));
-		tutorialButton = new Buttons(tutorial, (int) (Constants.screenWidth/2-(tutorial.getWidth()/2)), (int) (Constants.screenHeight/2));
-		
+		multi = new Buttons(multiPlayer, (int) (Constants.screenWidth/2-(multiPlayer.getWidth()/2)), (int) (Constants.screenHeight/2+(multiPlayer.getHeight()*1.25)));
+		tutorialButton = new Buttons(tutorial, (int) (Constants.screenWidth/2-(tutorial.getWidth()/2)), (int) (Constants.screenHeight/2+tutorial.getHeight()*2.5));
 		this.main = new MainMenuStartImage();
 	}
 	@Override
