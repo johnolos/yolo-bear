@@ -268,6 +268,7 @@ public class Player extends Sprite {
 	public float getImageWidth() {
 		return this.playerImages.get(0).getWidth();
 	}
+
 	
 	/**
 	 * Handles power-ups

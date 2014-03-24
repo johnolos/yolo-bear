@@ -322,10 +322,11 @@ public class GameState extends State implements TouchListener {
 	}
 
 	public void resetGame() {
-		this.board.reset();
-		this.powerups.clear();
-		this.suddenDeathInitiated = false;
-		this.gameStarted = System.currentTimeMillis();
+		board.reset();
+		powerups.clear();
+		suddenDeathInitiated = false;
+		gameStarted = System.currentTimeMillis();
+		player.resetRound();
 		for (Player player : this.allPlayers) {
 			player.resetRound();
 		}
