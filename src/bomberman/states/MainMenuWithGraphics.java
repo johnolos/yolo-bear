@@ -6,15 +6,12 @@ import bomberman.buttons.TutorialButton;
 import bomberman.connection.Client;
 import bomberman.game.Constants;
 import bomberman.game.R;
-import bomberman.graphics.Buttons;
 import bomberman.graphics.MainMenuStartImage;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import sheep.game.State;
 import sheep.graphics.Image;
-import sheep.gui.WidgetAction;
-import sheep.gui.WidgetListener;
 import sheep.input.TouchListener;
 
 public class MainMenuWithGraphics extends State implements TouchListener {
