@@ -85,7 +85,6 @@ public class Server {
 	
 	public void sendAll(Object obj) {
 		for(ClientConnection client : this.clients) {
-			System.out.println("Sent peer information");
 			client.send(obj);
 		}
 	}

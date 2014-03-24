@@ -200,7 +200,7 @@ public class Player extends Sprite {
 	}
 	
 	public void update(float dt){
-		if((!this.dead && !gameState.isMultiplayer())|| (gameState.getThisPlayer()==this && !this.dead)){
+		if((!this.dead && !gameState.isMultiplayer())|| (gameState.getPlayer()==this && !this.dead)){
 			playerCollision();
 		}
 		super.update(dt);

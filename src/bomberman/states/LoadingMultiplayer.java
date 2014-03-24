@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 import sheep.game.State;
 import sheep.input.TouchListener;
 
-public class loadingMultiplayer extends State implements TouchListener {
+public class LoadingMultiplayer extends State implements TouchListener {
 	
 	private Client client;
 	private GameState gameState;
@@ -21,7 +21,7 @@ public class loadingMultiplayer extends State implements TouchListener {
 	private boolean isHost = false;
 
 	
-	public loadingMultiplayer(){
+	public LoadingMultiplayer(){
 		if(this.client == null) {
 			this.client = new Client();
 			players = new ArrayList<GameLobby>();
@@ -56,7 +56,6 @@ public class loadingMultiplayer extends State implements TouchListener {
 	}
 	
 	public void update(float dt){
-		System.out.println(client.getClientConnectionCount());
 		if(client.getClientConnectionCount()==nrOfOpponents && isReadyToStart()){
 			gameState.startGame();
 			getGame().pushState(gameState);
@@ -69,7 +68,6 @@ public class loadingMultiplayer extends State implements TouchListener {
 	}
 	
 	public void receiveLobbyInformation(LobbyInformation info) {
-		System.out.println(info.getLobby());
 		switch(info.getLobby()) {
 		case HOST:
 			isHost = true;
@@ -96,7 +94,7 @@ public class loadingMultiplayer extends State implements TouchListener {
 	}
 
 	private void addHostMenu() {
-		getGame().pushState(new SetNumberPlayerState(gameState.getThisPlayer().getColor(),this));
+		getGame().pushState(new SetNumberPlayerState(gameState.getPlayer().getColor(),this));
 	}
 
 	public void setNrOfPlayers(int nrOfOpponents) {

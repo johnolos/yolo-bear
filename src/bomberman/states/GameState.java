@@ -39,14 +39,13 @@ public class GameState extends State implements TouchListener {
 	private Player player;
 	private Board board;
 	private Buttons up, down, left, right, bombIcon;
-	private ArrayList<Bomb> bombs;
-	private ArrayList<PowerUp> powerups;
-	private ArrayList<Explosion> explosions;
+	private ArrayList<Bomb> bombs, copyOfBombs;
+	private ArrayList<PowerUp> powerups, copyOfPowerups;
+	private ArrayList<Explosion> explosions, copyOfExplosions;
+	private boolean isBombArrayChanged = true,isPowerupArrayChanged = true, isExplosionArrayChanged = true;
 	private boolean isMultiplayer = false;
 
 	public static ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
-	private double startingX;
-	private double startingY;
 	private ArrayList<Opponent> opponents;
 	private ArrayList<AIBot> bots;
 	private Client client = null;
@@ -60,16 +59,9 @@ public class GameState extends State implements TouchListener {
 
 	public GameState(ColorObject color, int opponentNumber) {
 		// Board class now handles creating the actual gameBoard,
-		
-
 		this.board = new Board();
-
 		this.gameStarted = System.currentTimeMillis();
-
 		this.player = new Player("Player1", color, this);
-		this.startingX = Constants.screenWidth / 2 - Constants.getHeight()
-				* 6.5;
-		this.startingY = 0.0f;
 
 		// Buttons to control the player
 		this.up = new Buttons("up", (int) (Constants.screenWidth * 0.888f),
@@ -100,31 +92,12 @@ public class GameState extends State implements TouchListener {
 		bots = new ArrayList<AIBot>();
 		addBots(opponentNumber);
 	}
-
-	private void addBots(int opponentNumber) {
-		
-		for (ColorObject color : ColorObject.values()) {
-			if(!color.equals(this.player.getColor()) && bots.size()<opponentNumber){
-				bots.add(new AIBot("adjkhasd", color, this));
-			}
-		}
-		allPlayers = new ArrayList<Player>();
-		allPlayers.add(player);
-		for (AIBot bot : bots) {
-			allPlayers.add(bot);
-		}
-		for (AIBot bot : bots) {
-			bot.addAllBots(allPlayers);
-		}
-	}
-
+	
 	public GameState(Client client) {
 		this.isMultiplayer= true;
 		this.board = new Board();
 		this.client = client;
-		this.startingX = Constants.screenWidth / 2 - Constants.getHeight()
-				* 6.5;
-		this.startingY = 0.0f;
+
 
 		// Buttons to control the player
 		this.up = new Buttons("up", (int) (Constants.screenWidth * 0.888f),
@@ -151,6 +124,24 @@ public class GameState extends State implements TouchListener {
 		allPlayers = new ArrayList<Player>();
 		this.player = new Player("Player1", ColorObject.BROWN, this);
 	}
+
+	private void addBots(int opponentNumber) {
+		
+		for (ColorObject color : ColorObject.values()) {
+			if(!color.equals(this.player.getColor()) && bots.size()<opponentNumber){
+				bots.add(new AIBot("adjkhasd", color, this));
+			}
+		}
+		allPlayers = new ArrayList<Player>();
+		allPlayers.add(player);
+		for (AIBot bot : bots) {
+			allPlayers.add(bot);
+		}
+		for (AIBot bot : bots) {
+			bot.addAllBots(allPlayers);
+		}
+	}
+
 	
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
@@ -212,8 +203,8 @@ public class GameState extends State implements TouchListener {
 				// TODO: Image glitch where bomb is viewed a few milliseconds in
 				// top-left of the screen before placed correctly.
 				Bomb bomb = new Bomb(getTilePositionX(), getTilePositionY(),
-						player.getMagnitude(), this,getThisPlayer().getColor());
-				bombs.add(bomb);
+						player.getMagnitude(), this,getPlayer().getColor());
+				addBomb(bomb);
 				this.player.addBomb(bomb);
 				
 				if (isMultiplayer) {
@@ -227,13 +218,6 @@ public class GameState extends State implements TouchListener {
 		}
 		return false;
 	}
-
-	/**
-	 * Handles onTouchDown events given for the various game elements in the
-	 * state.
-	 */
-
-	
 
 	/**
 	 * Returns tile position in X-direction from current player position.
@@ -318,6 +302,7 @@ public class GameState extends State implements TouchListener {
 				bomb.update(dt);
 				if (bomb.finished()) {
 					it.remove();
+					isBombArrayChanged = true;
 					player.removeBomb(bomb);
 					if (!isMultiplayer) {
 						for (AIBot bot : this.bots) {
@@ -358,7 +343,6 @@ public class GameState extends State implements TouchListener {
 		this.gameStarted = System.currentTimeMillis();
 		for (Player player : this.allPlayers) {
 			player.resetRound();
-			System.out.println(player.getPosition());
 		}
 
 	}
@@ -410,6 +394,7 @@ public class GameState extends State implements TouchListener {
 			Explosion explosion = it.next();
 			if (explosion.removeExplosion()) {
 				it.remove();
+				isExplosionArrayChanged = true;
 			}
 
 		}
@@ -417,7 +402,8 @@ public class GameState extends State implements TouchListener {
 	}
 
 	public void addExplosion(Explosion explosion) {
-		this.explosions.add(explosion);
+		explosions.add(explosion);
+		isExplosionArrayChanged = true;
 	}
 
 	public void checkPlayerHit(float xPixel, float yPixel) {
@@ -427,7 +413,18 @@ public class GameState extends State implements TouchListener {
 				bot.checkGotHit(xPixel, yPixel);
 			}
 		}
-
+	}
+	
+	public void checkPowerUpHit(int x, int y) {
+		for (Iterator<PowerUp> it = copyOfPowerups.iterator(); it.hasNext();) {
+			PowerUp powerup = it.next();
+			if(powerup.getColumn() == x && powerup.getRow() == y) {
+				powerups.remove(powerup);
+				it.remove();
+				isPowerupArrayChanged = true;
+				client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
+			}
+		}
 	}
 
 	public ArrayList<Bomb> getBombs() {
@@ -439,6 +436,7 @@ public class GameState extends State implements TouchListener {
 	 * here.
 	 */
 	public void draw(Canvas canvas) {
+		updateCopyOfElementArrays();
 		canvas.drawColor(Color.BLACK);
 		for (ArrayList<Sprite> row : getSpriteBoard()) {
 			for (Sprite sprite : row) {
@@ -450,7 +448,7 @@ public class GameState extends State implements TouchListener {
 		left.draw(canvas);
 		right.draw(canvas);
 		bombIcon.draw(canvas);
-		for (Iterator<Bomb> it = bombs.iterator(); it.hasNext();) {
+		for (Iterator<Bomb> it = copyOfBombs.iterator(); it.hasNext();) {
 			Bomb bomb = it.next();
 			bomb.draw(canvas);
 		}
@@ -465,15 +463,30 @@ public class GameState extends State implements TouchListener {
 				bot.draw(canvas);
 			}
 		}
-		for (Iterator<PowerUp> it = powerups.iterator(); it.hasNext();){
+		for (Iterator<PowerUp> it = copyOfPowerups.iterator(); it.hasNext();){
 			PowerUp powerup = it.next();
 			powerup.draw(canvas);
 		}
-		for (Iterator<Explosion> it = explosions.iterator(); it.hasNext();){
+		for (Iterator<Explosion> it = copyOfExplosions.iterator(); it.hasNext();){
 			Explosion explosion = it.next();
 			explosion.draw(canvas);
 		}
 		player.draw(canvas);
+	}
+
+	private void updateCopyOfElementArrays() {
+		if(isBombArrayChanged) {
+			copyOfBombs = new ArrayList<Bomb>(bombs);
+			isBombArrayChanged = false;
+		}
+		if(isExplosionArrayChanged) {
+			copyOfExplosions = new ArrayList<Explosion>(explosions);
+			isExplosionArrayChanged = false;
+		}
+		if (isPowerupArrayChanged) {
+			copyOfPowerups = new ArrayList<PowerUp>(powerups);
+			isPowerupArrayChanged = false;
+		}
 	}
 
 	/**
@@ -484,8 +497,8 @@ public class GameState extends State implements TouchListener {
 	 *            PeerObject received from other players. TODO: UPDATE FOR MORE
 	 *            GAME ELEMENTS
 	 */
-	public void updateGame(PeerObject obj) {
-		if(obj.getColor()==getThisPlayer().getColor()){
+	public void receiveGameEvent(PeerObject obj) {
+		if(obj.getColor()==getPlayer().getColor()){
 			return;
 		}
 		
@@ -518,7 +531,7 @@ public class GameState extends State implements TouchListener {
 					opponent.setMagnitude(obj.getMagnitude());
 					Sprite sprite = getSpriteBoard().get((int) obj.getY()).get(
 							(int) obj.getX());
-					bombs.add(new Bomb((int) sprite.getX(),
+					addBomb(new Bomb((int) sprite.getX(),
 							(int) sprite.getY(), obj.getMagnitude(), this, obj.getColor()));
 				}
 			}
@@ -535,7 +548,6 @@ public class GameState extends State implements TouchListener {
 		case THROW:
 			int x1 = (int) obj.getX();
 			int y1 = (int) obj.getY();
-			System.out.println("Throwing bomb at " + x1 + ", " + y1);
 			Direction throwDirection = obj.getDirection();
 			for(Bomb bomb : this.bombs) {
 				if(bomb.getColumn() == x1 && bomb.getRow() == y1)
@@ -548,15 +560,15 @@ public class GameState extends State implements TouchListener {
 			for (PowerUp powerup : this.powerups) {
 				if(powerup.getColumn() == x2 && powerup.getRow() == y2) {
 					this.powerups.remove(powerup);
+					isPowerupArrayChanged = true;
 					break;
 				}
 			}
 			break;
 		case POWERUP:
-			System.out.println("Powerup received");
 			PowerUp powerup = new PowerUp((int) obj.getX(), (int) obj.getY(),
 					obj.getPowerUpType(),this);
-			this.powerups.add(powerup);
+			addPowerup(powerup);
 			break;
 		case DIED:
 			for (Player opponent : allPlayers) {
@@ -564,7 +576,7 @@ public class GameState extends State implements TouchListener {
 					opponent.setDeadOpponent(obj.getTimeStamp());
 				}
 			}
-			
+			break;
 		default:
 			break;
 		}
@@ -584,12 +596,15 @@ public class GameState extends State implements TouchListener {
 					int y2 = Constants.getPositionY(player.getY()
 							+ player.getImageHeight());
 
-					Iterator<PowerUp> it = this.powerups.iterator();
+					Iterator<PowerUp> it = copyOfPowerups.iterator();
 					while (it.hasNext()) {
 						PowerUp powerup = it.next();
 						if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
 							player.powerUp(powerup.getPowerUpType());
+//							it.remove();
+							powerups.remove(powerup);
 							it.remove();
+							isPowerupArrayChanged = true;
 						}
 					}
 				}
@@ -603,13 +618,14 @@ public class GameState extends State implements TouchListener {
 					+ player.getImageWidth());
 			int y2 = Constants.getPositionY(player.getY()
 					+ player.getImageHeight());
-			Iterator<PowerUp> it = this.powerups.iterator();
+			Iterator<PowerUp> it = copyOfPowerups.iterator();
 			while (it.hasNext()) {
 				PowerUp powerup = it.next();
 				if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
 					player.powerUp(powerup.getPowerUpType());
 					client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
 					it.remove();
+					isPowerupArrayChanged = true;
 				}
 			}
 		}
@@ -619,9 +635,8 @@ public class GameState extends State implements TouchListener {
 		int p = randomGenerator.nextInt(10);
 		if (p >= 7) {
 			PowerUp powerup = new PowerUp(x, y, this);
-			powerups.add(powerup);
+			addPowerup(powerup);
 			if (isMultiplayer) {
-				System.out.println("Powerup sent!");
 				client.sendAll(new PeerObject(GameObject.POWERUP, x, y, powerup
 						.getPowerUpType()));
 			}
@@ -642,10 +657,11 @@ public class GameState extends State implements TouchListener {
 	public boolean bombAtPosition(int x, int y) {
 		if (this.bombs.size() == 0)
 			return false;
-		for (Bomb bomb : this.bombs)
-			if (bomb.collision(x, y)) {
+		for (Iterator<Bomb> it = copyOfBombs.iterator(); it.hasNext();) {
+			Bomb bomb = it.next();
+			if(bomb.collision(x, y))
 				return true;
-			}
+		}
 		return false;
 	}
 
@@ -654,16 +670,21 @@ public class GameState extends State implements TouchListener {
 	}
 
 	public void addBomb(Bomb bomb) {
-		this.bombs.add(bomb);
-
+		bombs.add(bomb);
+		isBombArrayChanged = true;
+	}
+	
+	public void addPowerup(PowerUp powerup) {
+		powerups.add(powerup);
+		isPowerupArrayChanged = true;
 	}
 
 	public boolean isMultiplayer() {
-		return this.isMultiplayer;
+		return isMultiplayer;
 	}
 
-	public Player getThisPlayer() {
-		return this.player;
+	public Player getPlayer() {
+		return player;
 	}
 
 	public void startGame() {
@@ -676,7 +697,9 @@ public class GameState extends State implements TouchListener {
 	}
 
 	public void playerDied() {
-		long dt = System.currentTimeMillis() - gameStarted;
-		client.sendAll(new PeerObject(player.getColor(), GameObject.DIED, dt));		
+		if (isMultiplayer) {
+			long dt = System.currentTimeMillis() - gameStarted;
+			client.sendAll(new PeerObject(player.getColor(), GameObject.DIED, dt));		
+		}	
 	}
 }

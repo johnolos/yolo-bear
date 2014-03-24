@@ -8,17 +8,11 @@ import sheep.game.Sprite;
 
 public class Board {
 	
-	/*
-	 * Jeg foeler jeg maa skrive en komentar paa dette.
-	 * Implementerer vi PropertyChangeSupport saa kan vi;
-	 * 1. Ved initialisjon av spillet, kun tegne opp brettet en gang.
-	 * 2. Tenge opp endringer som blir kalt av firePropertyChange.
+	/**
+	 * Optimal solution: 
+	 * 		Draw four tiles around a player at a time.
+	 * 		Draw tiles after bomb impact and powerup consumption.
 	 * 
-	 * Kommentar: Mulig 1.ikke fungerer da spillerens bevegelser vil
-	 * festes på skjermen om vi ikke tenger nye sprites over. Brage?
-	 * 
-	 *
-	 * Dessuten saa brukte vi PCL og PCS i MMI for MVC struktur.
 	 */
 	
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -106,8 +100,6 @@ public class Board {
 		this.spriteList.get(row).remove(oldSprite);
 		sprite.setPosition(oldSprite.getX(), oldSprite.getY());
 		this.spriteList.get(row).add(column, sprite);
-//		pcs.firePropertyChange("spriteList", oldValue, sprite);
-		
 	}
 	
 	public void initiateSuddenDeath(long dt){

@@ -19,9 +19,9 @@ public class SetNumberPlayerState extends State implements TouchListener {
 	private Buttons one, two, three, textS;
 	private Image oneImage, twoImage, threeImage, text;
 	private float x, y;
-	private loadingMultiplayer loading;
+	private LoadingMultiplayer loading;
 
-	public SetNumberPlayerState(ColorObject color, loadingMultiplayer loading) {
+	public SetNumberPlayerState(ColorObject color, LoadingMultiplayer loading) {
 		this.color = color;
 		this.loading = loading;
 		// text
@@ -83,7 +83,6 @@ public class SetNumberPlayerState extends State implements TouchListener {
 	public boolean onTouchUp(MotionEvent event) {
 		if (one.getBounds().contains(event.getX(), event.getY())) {
 			if (loading != null) {
-				System.out.println("selected 1");
 				loading.setNrOfPlayers(1);
 				getGame().popState();
 			} else
