@@ -14,10 +14,13 @@ import sheep.input.TouchListener;
 public class TutorialState extends State implements TouchListener {
 	private TutorialImages img;
 	private int imgIndex=0;
-	private Image nextImage,nextPressedImage,mainMenuImage,mainMenuPressedImage;
-	private Image prevImage,prevPressedImage;
-	
+	private Image nextImage,nextPressedImage,mainMenuImage;
+	private Image prevImage,prevPressedImage,mainMenuPressedImage;
 	private Buttons next,prev,mainMenu;
+	
+	/**
+	 * The ....
+	 */
 	public TutorialState() {
 		nextImage = new Image(R.drawable.nextbutton);
 		next = new Buttons(nextImage,(int) (Constants.getScreenWidth()-nextImage.getWidth()),(int)(Constants.getScreenHeight()/2));
