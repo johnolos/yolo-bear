@@ -629,6 +629,7 @@ public class GameState extends State implements TouchListener {
 				if (powerup.collision(x1, y1) || powerup.collision(x2, y2)) {
 					player.powerUp(powerup.getPowerUpType());
 					client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
+					powerups.remove(powerup);
 					it.remove();
 					isPowerupArrayChanged = true;
 				}

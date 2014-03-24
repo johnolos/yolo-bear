@@ -12,7 +12,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
+
+import org.apache.http.conn.util.InetAddressUtils;
 
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -42,7 +46,7 @@ public class Client extends Thread {
 		System.out.println("Trying to connect to server!");
 		Socket serverConnection;
 		try {
-			String androidIp = getLocalIpAddress();
+			String androidIp = getIPAddress(true);
 			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
 //			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
 //			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
@@ -169,24 +173,60 @@ public class Client extends Thread {
 		this.loadingScreen = loadingScreen;
 	}
 	
-	public String getLocalIpAddress() {
-		try {
-			for (Enumeration en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = (NetworkInterface) en.nextElement();
-				for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-					InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
-					if (!inetAddress.isLoopbackAddress()) {
-						if(inetAddress.getHostAddress().toString().equals("fe80::da90:e8ff:fea3:5d37%wlan0")) {
-							return "78.91.2.155";
-						} else {
-							return "78.91.83.34";
-						}
-					}
-				}
-			}
-		} catch (SocketException ex) {
-		}
-		return null;
+//	public String getLocalIpAddress() {
+//		try {
+//			for (Enumeration en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+//				NetworkInterface intf = (NetworkInterface) en.nextElement();
+//				for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+//					InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
+//					if (!inetAddress.isLoopbackAddress()) {
+//						return get
+//					}
+//				}
+//			}
+//		} catch (SocketException ex) {
+//		}
+//		return null;
+//	}
+	
+	
+    public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress().toUpperCase();
+                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr); 
+                        if (useIPv4) {
+                            if (isIPv4) 
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
+                                return delim<0 ? sAddr : sAddr.substring(0, delim);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) { } // for now eat exceptions
+        return "";
+    }
+	
+	public static String convertHexToIP(String hex)
+	{
+	    String ip= "";
+
+	    for (int j = 0; j < hex.length(); j+=2) {
+	        String sub = hex.substring(j, j+2);
+	        int num = Integer.parseInt(sub, 16);
+	        ip += num+".";
+	    }
+
+	    ip = ip.substring(0, ip.length()-1);
+	    return ip;
 	}
 	
 }
