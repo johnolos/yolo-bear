@@ -8,6 +8,7 @@ import sheep.graphics.Image;
 import sheep.math.BoundingBox;
 
 public class MultiPlayer extends Sprite {
+	//NOT IN USE
 	private Image multiPlayer;
 	private Image pressedMultiplayer;
 	private BoundingBox box;

@@ -8,6 +8,7 @@ import sheep.graphics.Image;
 import sheep.math.BoundingBox;
 
 public class TutorialButton extends Sprite {
+	//NOT IN USE
 	private Image tutorial;
 	private Image pressedTutorial;
 	private BoundingBox box;

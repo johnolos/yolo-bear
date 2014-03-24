@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import bomberman.game.R;
 
 public class SinglePlayer extends Sprite {
+	//NOT IN USE
 	private Image singlePlayer;
 	private Image pressedSingelPlayer;
 	private BoundingBox box;

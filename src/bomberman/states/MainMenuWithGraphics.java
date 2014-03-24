@@ -17,6 +17,11 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	private MainMenuStartImage main;
 	private Buttons single, multi, tutorialButton;
 	
+	/**
+	 * The Constructor in the class MainMenuWithGraphics
+	 * This class uses the pictures, to represent the different buttons you can push.
+	 * The class loads in both the unpressed and pressed buttons in both singleplayer, multiplayer and tutorial. 
+	 */
 	public MainMenuWithGraphics() {
 		singlePlayer = new Image(R.drawable.singleplayerbutton);
 		pressedSinglePlayer = new Image(R.drawable.pressedsingleplayerbutton);
@@ -30,6 +35,11 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		tutorialButton = new Buttons(tutorial, (int) (Constants.screenWidth/2-(tutorial.getWidth()/2)), (int) (Constants.screenHeight/2+tutorial.getHeight()*2.5));
 		this.main = new MainMenuStartImage();
 	}
+	
+	/**
+	 * When the a button is pressed down or onTouchDown the view of this button is changed into a pressed version of the button.
+	 * 
+	 */
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(single.getBounds().contains(event.getX(), event.getY())) {
@@ -43,6 +53,10 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		return false;
 	}
 	
+	/**
+	 * When you release the the touch from the screen, either you go into singleplayer mode, multiplayer mode or tutorial mode.
+	 * if you drag your finger away from the button you pressed down and release, you just set the buttons as unpressed and don't go into any mode.
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(single.getBounds().contains(event.getX(), event.getY())) {
@@ -59,13 +73,19 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		return false;
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this updates function it.
+	 */
 	public void update(float dt) {
 		main.update(dt);
-		singlePlayer.update(dt);
-		multiPlayer.update(dt);
-		tutorial.update(dt);
+		single.update(dt);
+		multi.update(dt);
+		tutorialButton.update(dt);
 	}
 	
+	/**
+	 * This function draws the new updates in the different views onto the screen
+	 */
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		main.draw(canvas);
