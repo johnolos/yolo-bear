@@ -1,9 +1,5 @@
 package bomberman.states;
 
-import bomberman.buttons.MultiPlayer;
-import bomberman.buttons.SinglePlayer;
-import bomberman.buttons.TutorialButton;
-import bomberman.connection.Client;
 import bomberman.game.Constants;
 import bomberman.game.R;
 import bomberman.graphics.Buttons;
@@ -13,66 +9,88 @@ import android.graphics.Color;
 import android.view.MotionEvent;
 import sheep.game.State;
 import sheep.graphics.Image;
-import sheep.gui.WidgetAction;
-import sheep.gui.WidgetListener;
 import sheep.input.TouchListener;
 
 public class MainMenuWithGraphics extends State implements TouchListener {
-	private Client client = null;
-	private SinglePlayer singlePlayer;
-	private MultiPlayer multiPlayer;
-	private TutorialButton tutorial;
+	private Image singlePlayer, multiPlayer, tutorial;
+	private Image pressedSinglePlayer, pressedMultiPlayer, pressedTutorial;
 	private MainMenuStartImage main;
-	private Image singlePlayerImage;
+	private Buttons single, multi, tutorialButton;
 	
+	/**
+	 * The Constructor in the class MainMenuWithGraphics
+	 * This class uses the pictures, to represent the different buttons you can push.
+	 * The class loads in both the unpressed and pressed buttons in both singleplayer, multiplayer and tutorial. 
+	 */
 	public MainMenuWithGraphics() {
-		singlePlayerImage = new Image(R.drawable.singleplayerbutton);
-		this.singlePlayer = new SinglePlayer("Singleplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
-		this.multiPlayer = new MultiPlayer("Multiplayer", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
+		singlePlayer = new Image(R.drawable.singleplayerbutton);
+		pressedSinglePlayer = new Image(R.drawable.pressedsingleplayerbutton);
+		multiPlayer = new Image(R.drawable.multiplayerbutton);
+		pressedMultiPlayer = new Image(R.drawable.pressedmultiplayerbutton);
+		tutorial = new Image(R.drawable.tutorialbutton);
+		pressedTutorial = new Image(R.drawable.pressedtutorialbutton);
+		
+		single = new Buttons(singlePlayer, (int) (Constants.screenWidth/2-(singlePlayer.getWidth()/2)), (int) (Constants.screenHeight/2));
+		multi = new Buttons(multiPlayer, (int) (Constants.screenWidth/2-(multiPlayer.getWidth()/2)), (int) (Constants.screenHeight/2+(multiPlayer.getHeight()*1.25)));
+		tutorialButton = new Buttons(tutorial, (int) (Constants.screenWidth/2-(tutorial.getWidth()/2)), (int) (Constants.screenHeight/2+tutorial.getHeight()*2.5));
 		this.main = new MainMenuStartImage();
-		this.tutorial = new TutorialButton("Tutorial", (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
 	}
+	
+	/**
+	 * When the a button is pressed down or onTouchDown the view of this button is changed into a pressed version of the button.
+	 * 
+	 */
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
-		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
-			singlePlayer.changeImageShow(1);
-		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
-			multiPlayer.changeImageShow(1);
-		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
-			tutorial.changeImageShow(1);
+		if(single.getBounds().contains(event.getX(), event.getY())) {
+			single.setView(pressedSinglePlayer);
+		} else if(multi.getBounds().contains(event.getX(), event.getY())) {
+			multi.setView(pressedMultiPlayer);
+		} else if(tutorialButton.getBounds().contains(event.getX(), event.getY())) {
+			tutorialButton.setView(pressedTutorial);
 		}
 		
 		return false;
 	}
 	
+	/**
+	 * When you release the the touch from the screen, either you go into singleplayer mode, multiplayer mode or tutorial mode.
+	 * if you drag your finger away from the button you pressed down and release, you just set the buttons as unpressed and don't go into any mode.
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
-		if(singlePlayer.getBounds().contains(event.getX(), event.getY())) {
+		if(single.getBounds().contains(event.getX(), event.getY())) {
 			getGame().pushState(new SetBearState());
-		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
+		} else if(multi.getBounds().contains(event.getX(), event.getY())) {
 			getGame().pushState(new LoadingMultiplayer());
-		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
+		} else if(tutorialButton.getBounds().contains(event.getX(), event.getY())) {
 			TutorialState tutorial = new TutorialState();
 			getGame().pushState(tutorial);
 		}
-		singlePlayer.changeImageShow(0);
-		multiPlayer.changeImageShow(0);
-		tutorial.changeImageShow(0);
+		single.setView(singlePlayer);
+		multi.setView(multiPlayer);
+		tutorialButton.setView(tutorial);
 		return false;
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this updates function it.
+	 */
 	public void update(float dt) {
 		main.update(dt);
-		singlePlayer.update(dt);
-		multiPlayer.update(dt);
-		tutorial.update(dt);
+		single.update(dt);
+		multi.update(dt);
+		tutorialButton.update(dt);
 	}
 	
+	/**
+	 * This function draws the new updates in the different views onto the screen
+	 */
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		main.draw(canvas);
-		singlePlayer.draw(canvas);
-		multiPlayer.draw(canvas);
-		tutorial.draw(canvas);
+		single.draw(canvas);
+		multi.draw(canvas);
+		tutorialButton.draw(canvas);
 	}
 }

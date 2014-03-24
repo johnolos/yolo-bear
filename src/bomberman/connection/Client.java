@@ -18,9 +18,6 @@ import java.util.List;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.util.Log;
 import bomberman.game.ColorObject;
 import bomberman.game.PeerObject;
 import bomberman.states.GameState;

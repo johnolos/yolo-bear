@@ -1,6 +1,5 @@
 package bomberman.connection;
 
-import java.net.InetAddress;
 
 public class Config {
 	/* These should be not changed */
