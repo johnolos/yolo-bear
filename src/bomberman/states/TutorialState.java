@@ -27,7 +27,7 @@ public class TutorialState extends State implements TouchListener {
 		prevImage = new Image(R.drawable.previousbutton);
 		prev = new Buttons(prevImage,(int) (0),(int)(Constants.getScreenHeight()/2));
 		mainMenuImage = new Image(R.drawable.mainmenubutton);
-		mainMenu = new Buttons(mainMenuImage,(int) (Constants.getScreenWidth()/2),(int) (Constants.getScreenHeight()-mainMenuImage.getHeight()));
+		mainMenu = new Buttons(mainMenuImage,(int) (Constants.getScreenWidth()/2-mainMenuImage.getWidth()/2),(int) (Constants.getScreenHeight()-mainMenuImage.getHeight()));
 		img = new TutorialImages(0,0);
 		nextPressedImage = new Image(R.drawable.pressednextbutton);
 		prevPressedImage = new Image(R.drawable.pressedpreviousbutton);
