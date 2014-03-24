@@ -1,4 +1,7 @@
 package bomberman.graphics;
+/**
+ * This class extends Sprite.
+ */
 
 import java.util.ArrayList;
 
@@ -12,6 +15,11 @@ public class TutorialImages extends Sprite {
 	private Image tutImgOne, tutImgTwo, tutImgThree, tutImgFour, tutImgFive, tutImgSix;
 	private ArrayList<Image> img;
 	
+	/**
+	 * The constructor for this class, this loads the images and calls the function addToarray.
+	 * @param x the x-coordinate where the Images from the ArrayList<Image> img is to be placed
+	 * @param y the y-coordinate where the Images from the ArrayList<Image> img is to be placed
+	 */
 	public TutorialImages(float x, float y) {
 		img = new ArrayList<Image>();
 		tutImgOne = new Image(R.drawable.tutorialone);
@@ -25,6 +33,9 @@ public class TutorialImages extends Sprite {
 		this.setView(img.get(0));
 	}
 	
+	/**
+	 * Adds the images into the ArrayList<Image>
+	 */
 	private void addToArray() {
 		img.add(tutImgOne);
 		img.add(tutImgTwo);
@@ -34,18 +45,34 @@ public class TutorialImages extends Sprite {
 		img.add(tutImgSix);
 	}
 
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this updates function it.
+	 * @param float dt
+	 */
 	public void update(float dt) {
 		super.update(dt);
 	}
 	
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
+	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 	}
 	
+	/**
+	 * Sets the view by using the int n to get the image from the array, and sets this image onto the screen.
+	 * @param n the index to decide which image to be set into the view
+	 */
 	public void getViewFromArray(int n) {
 			this.setView(img.get(n));
 	}
 	
+	/**
+	 * Gets the size of the ArrayList
+	 * @return the size of the ArrayList as an int
+	 */
 	public int getArraySize() {
 		return this.img.size();
 	}

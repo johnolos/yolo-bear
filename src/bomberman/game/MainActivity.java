@@ -3,7 +3,7 @@ package bomberman.game;
 
 import bomberman.graphics.BombImages;
 import bomberman.graphics.UpgradeImages;
-import bomberman.states.MainMenuWithGraphics;
+import bomberman.states.MainMenuGraphics;
 import sheep.game.Game;
 import android.os.Bundle;
 import android.app.Activity;
@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
         
         System.out.println(Constants.screenHeight);
         System.out.println(Constants.screenWidth);
-        game.pushState(new MainMenuWithGraphics());
+        game.pushState(new MainMenuGraphics());
 		setContentView(game);
 	}
 	

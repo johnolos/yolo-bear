@@ -6,10 +6,10 @@ import bomberman.game.R;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 
-public class MainMenuStartImage extends Sprite {
+public class MainMenuBackground extends Sprite {
 	private Image startImage;
 	
-	public MainMenuStartImage() {
+	public MainMenuBackground() {
 		startImage = new Image(R.drawable.mainscreen);
 		this.setView(startImage);
 		this.setPosition((Constants.getScreenWidth()/2)-(startImage.getWidth()/2), (Constants.getScreenHeight()/2)-(startImage.getHeight()/2));

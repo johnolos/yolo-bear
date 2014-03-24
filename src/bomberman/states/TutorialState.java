@@ -1,7 +1,6 @@
 package bomberman.states;
 /**
- * @author Magnus Mogstad
- * @author Brage Ekroll Jahren
+ * This class extends State and implements TouchListener
  */
 
 import android.graphics.Canvas;

@@ -1,9 +1,12 @@
 package bomberman.states;
+/**
+ * This class extends State and implements TouchListner
+ */
 
 import bomberman.game.Constants;
 import bomberman.game.R;
 import bomberman.graphics.Buttons;
-import bomberman.graphics.MainMenuStartImage;
+import bomberman.graphics.MainMenuBackground;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -11,10 +14,10 @@ import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
-public class MainMenuWithGraphics extends State implements TouchListener {
+public class MainMenuGraphics extends State implements TouchListener {
 	private Image singlePlayer, multiPlayer, tutorial;
 	private Image pressedSinglePlayer, pressedMultiPlayer, pressedTutorial;
-	private MainMenuStartImage main;
+	private MainMenuBackground main;
 	private Buttons single, multi, tutorialButton;
 	
 	/**
@@ -22,7 +25,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	 * This class uses the pictures, to represent the different buttons you can push.
 	 * The class loads in both the unpressed and pressed buttons in both singleplayer, multiplayer and tutorial. 
 	 */
-	public MainMenuWithGraphics() {
+	public MainMenuGraphics() {
 		singlePlayer = new Image(R.drawable.singleplayerbutton);
 		pressedSinglePlayer = new Image(R.drawable.pressedsingleplayerbutton);
 		multiPlayer = new Image(R.drawable.multiplayerbutton);
@@ -33,7 +36,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		single = new Buttons(singlePlayer, (int) (Constants.screenWidth/2-(singlePlayer.getWidth()/2)), (int) (Constants.screenHeight/2));
 		multi = new Buttons(multiPlayer, (int) (Constants.screenWidth/2-(multiPlayer.getWidth()/2)), (int) (Constants.screenHeight/2+(multiPlayer.getHeight()*1.25)));
 		tutorialButton = new Buttons(tutorial, (int) (Constants.screenWidth/2-(tutorial.getWidth()/2)), (int) (Constants.screenHeight/2+tutorial.getHeight()*2.5));
-		this.main = new MainMenuStartImage();
+		this.main = new MainMenuBackground();
 	}
 	
 	/**
