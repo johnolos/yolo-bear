@@ -37,8 +37,8 @@ public class Bomb extends Sprite implements Collision {
 			this.bomb = new Image(R.drawable.smallbomb);
 		}
 		this.direction = Direction.STOP;
-		this.setView(bomb);
 		this.setPosition(x, y);
+		this.setView(bomb);
 	}
 
 	public void bombAnimation() {
@@ -79,6 +79,8 @@ public class Bomb extends Sprite implements Collision {
 	public void update(float dt) {
 		bombAnimation();
 		checkWallCollision();
+		column = Constants.getPositionX(getX());
+		row = Constants.getPositionY(getY());
 		super.update(dt);
 	}
 
@@ -338,7 +340,6 @@ public class Bomb extends Sprite implements Collision {
 	 * @param bomb
 	 */
 	public void bombImpactRefactored() {
-		System.out.println(this.getColor());
 		int blastRadius = getBlastRadius();
 		int x = Constants.getPositionX(getPosition().getX()
 				+ Constants.getHeight() / 2);
@@ -379,7 +380,6 @@ public class Bomb extends Sprite implements Collision {
 				float yPixel = sprite.getPosition().getY();
 				// Last tile of bomb impact
 				if (sprite instanceof Wall) {
-					System.out.println(" Wall");
 					if (dir == Direction.UP)
 						up = false;
 					else if (dir == Direction.DOWN)
@@ -391,7 +391,6 @@ public class Bomb extends Sprite implements Collision {
 					continue;
 				}
 				if (sprite instanceof Crate) {
-					System.out.println(" Crate");
 					addEdgePicture(yPixel, xPixel, dir);
 					gs.checkPlayerHit(xPixel, yPixel);
 					gs.checkPowerUpHit(column, row);
@@ -408,7 +407,6 @@ public class Bomb extends Sprite implements Collision {
 						left = false;
 					else if (dir == Direction.RIGHT)
 						right = false;
-					System.out.println();
 					continue;
 				}
 				if(isEdgeOfExplosion(row, column, dir) || i == blastRadius) {

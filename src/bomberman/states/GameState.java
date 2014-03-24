@@ -233,13 +233,6 @@ public class GameState extends State implements TouchListener {
 		return (int) getSpriteBoard().get(gridY).get(gridX).getY();
 	}
 
-	/**
-	 * This method adds the correct number of opponents to the game when
-	 * started.
-	 */
-//	public void addOpponent(Opponent opponent) {
-//		opponents.add(opponent);
-//	}
 
 	public void setSprite(int column, int row, Sprite sprite) {
 		this.board.setSprite(column, row, sprite);
@@ -378,7 +371,10 @@ public class GameState extends State implements TouchListener {
 		if(this.player.isDead()){
 			return true;
 		}
-		return nrDead > allPlayers.size()-1 ? true:false;
+		if(isMultiplayer){
+			return nrDead > allPlayers.size()-1 ? true:false;
+		}
+		return nrDead > allPlayers.size()-2 ? true:false;
 	}
 
 	private void removeExplosions() {
@@ -406,7 +402,11 @@ public class GameState extends State implements TouchListener {
 			}
 		}
 	}
-	
+	/**
+	 * Removes powerup if hit by bomb at position (x,y)
+	 * @param x
+	 * @param y
+	 */
 	public void checkPowerUpHit(int x, int y) {
 		for (Iterator<PowerUp> it = copyOfPowerups.iterator(); it.hasNext();) {
 			PowerUp powerup = it.next();
@@ -414,7 +414,9 @@ public class GameState extends State implements TouchListener {
 				powerups.remove(powerup);
 				it.remove();
 				isPowerupArrayChanged = true;
-				client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
+				if(isMultiplayer){
+					client.sendAll(new PeerObject(GameObject.POWERUP_CONSUMED, powerup.getColumn(), powerup.getRow(), player.getDirection()));
+				}
 			}
 		}
 	}
