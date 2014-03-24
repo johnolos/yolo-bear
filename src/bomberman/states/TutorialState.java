@@ -1,42 +1,63 @@
 package bomberman.states;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.MotionEvent;
 import bomberman.buttons.NextTutorial;
 import bomberman.buttons.PreviousTutorial;
 import bomberman.game.Constants;
+import bomberman.game.R;
+import bomberman.graphics.Buttons;
 import bomberman.graphics.TutorialImages;
 import sheep.game.State;
+import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
 public class TutorialState extends State implements TouchListener {
-	private NextTutorial next;
-	private PreviousTutorial prev;
 	private TutorialImages img;
+	private int imgIndex=0;
+	private Image nextImage,nextPressedImage,mainMenuImage,mainMenuPressedImage;
+	private Image prevImage,prevPressedImage;
+	
+	private Buttons next,prev,mainMenu;
 	public TutorialState() {
-		next = new NextTutorial("next",Constants.getScreenWidth(),(Constants.getScreenWidth()/2));
-		prev = new PreviousTutorial("prev", 0, (Constants.getScreenWidth()/2));
-		img = new TutorialImages(Constants.getScreenWidth(),(Constants.getScreenWidth()/2));
+		nextImage = new Image(R.drawable.nextbutton);
+		next = new Buttons(nextImage,(int) (Constants.getScreenWidth()-nextImage.getWidth()),(int)(Constants.getScreenHeight()/2));
+		prevImage = new Image(R.drawable.previousbutton);
+		prev = new Buttons(prevImage,(int) (0),(int)(Constants.getScreenHeight()/2));
+		mainMenuImage = new Image(R.drawable.mainmenubutton);
+		mainMenu = new Buttons(mainMenuImage,(int) (Constants.getScreenWidth()/2),(int) (Constants.getScreenHeight()-mainMenuImage.getHeight()));
+		img = new TutorialImages(0,0);
+		nextPressedImage = new Image(R.drawable.pressednextbutton);
+		prevPressedImage = new Image(R.drawable.pressedpreviousbutton);
+		mainMenuPressedImage = new Image(R.drawable.pressedmainmenubutton);
+		
 	}
 	
 	public void update(float dt) {
+		img.update(dt);
 		next.update(dt);
 		prev.update(dt);
-		img.update(dt);
+		mainMenu.update(dt);
 	}
 	
 	public void draw(Canvas canvas) {
+		canvas.drawColor(Color.BLACK);
+		img.draw(canvas);
 		next.draw(canvas);
 		prev.draw(canvas);
-		img.draw(canvas);
+		mainMenu.draw(canvas);
 	}
 	
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(next.getBounds().contains(event.getX(), event.getY())) {
-			img.getViewFromArray(1);
+			next.setView(nextPressedImage);
 		} else if(prev.getBounds().contains(event.getX(), event.getY())) {
-			prev.changeImageShow(1);
+			prev.setView(prevPressedImage);
+		}
+		else if(mainMenu.getBounds().contains(event.getX(), event.getY())){
+			mainMenu.setView(mainMenuPressedImage);
 		}
 		return false;
 	}
@@ -44,12 +65,22 @@ public class TutorialState extends State implements TouchListener {
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(next.getBounds().contains(event.getX(), event.getY())) {
-			img.getViewFromArray(1);
+			if(imgIndex<img.getArraySize()-1) {
+				imgIndex++;				
+				img.getViewFromArray(imgIndex);				
+			}
 		} else if(prev.getBounds().contains(event.getX(), event.getY())) {
-			img.getViewFromArray(0);
+			if(imgIndex>0) {
+				imgIndex--;
+				img.getViewFromArray(imgIndex);				
+			}
 		}
-		next.changeImageShow(0);
-		prev.changeImageShow(0);
+		else if(mainMenu.getBounds().contains(event.getX(), event.getY())){
+			getGame().popState();
+		}
+		next.setView(nextImage);
+		prev.setView(prevImage);
+		mainMenu.setView(mainMenuImage);
 		return false;
 	}
 }

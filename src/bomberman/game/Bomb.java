@@ -157,7 +157,7 @@ public class Bomb extends Sprite implements Collision {
 		} else if (x == 0) {
 			x = Board.COLUMN_SIZE - 1;
 		}
-		if (y == (Board.ROW_SIZE - 1)) {
+		if(y == (Board.ROW_SIZE - 1)) {
 			y = 0;
 		} else if (y == 0) {
 			y = Board.ROW_SIZE - 1;

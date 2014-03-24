@@ -3,6 +3,7 @@ package bomberman.states;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.jar.Attributes;
@@ -90,6 +91,7 @@ public class GameState extends State implements TouchListener {
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
 		bots = new ArrayList<AIBot>();
+		haveMoved = true;
 		addBots(opponentNumber);
 	}
 	
@@ -448,9 +450,12 @@ public class GameState extends State implements TouchListener {
 		left.draw(canvas);
 		right.draw(canvas);
 		bombIcon.draw(canvas);
+
+
 		for (Iterator<Bomb> it = copyOfBombs.iterator(); it.hasNext();) {
 			Bomb bomb = it.next();
 			bomb.draw(canvas);
+
 		}
 		if(isMultiplayer){
 			for (Player opp : this.allPlayers) {
