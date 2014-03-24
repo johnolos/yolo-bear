@@ -1,8 +1,5 @@
 package bomberman.states;
 
-import bomberman.buttons.MultiPlayer;
-import bomberman.buttons.SinglePlayer;
-import bomberman.buttons.TutorialButton;
 import bomberman.game.Constants;
 import bomberman.game.R;
 import bomberman.graphics.Buttons;
@@ -28,9 +25,9 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 		tutorial = new Image(R.drawable.tutorialbutton);
 		pressedTutorial = new Image(R.drawable.pressedtutorialbutton);
 		
-		single = new Buttons(singlePlayer, (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
-		multi = new Buttons(multiPlayer, (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
-		tutorialButton = new Buttons(tutorial, (int) (Constants.screenWidth/2), (int) (Constants.screenHeight/2));
+		single = new Buttons(singlePlayer, (int) (Constants.screenWidth/2-(singlePlayer.getWidth()/2)), (int) (Constants.screenHeight/2));
+		multi = new Buttons(multiPlayer, (int) (Constants.screenWidth/2-(multiPlayer.getWidth()/2)), (int) (Constants.screenHeight/2));
+		tutorialButton = new Buttons(tutorial, (int) (Constants.screenWidth/2-(tutorial.getWidth()/2)), (int) (Constants.screenHeight/2));
 		
 		this.main = new MainMenuStartImage();
 	}
@@ -57,9 +54,9 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 			TutorialState tutorial = new TutorialState();
 			getGame().pushState(tutorial);
 		}
-		single.changeImageShow(0);
-		multi.changeImageShow(0);
-		tutorialButton.changeImageShow(0);
+		single.setView(singlePlayer);
+		multi.setView(multiPlayer);
+		tutorialButton.setView(tutorial);
 		return false;
 	}
 	
@@ -73,8 +70,8 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		main.draw(canvas);
-		singlePlayer.draw(canvas);
-		multiPlayer.draw(canvas);
-		tutorial.draw(canvas);
+		single.draw(canvas);
+		multi.draw(canvas);
+		tutorialButton.draw(canvas);
 	}
 }
