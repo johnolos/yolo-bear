@@ -21,9 +21,6 @@ public class MainActivity extends Activity {
 
 		Game game = new Game(this, null);
 		
-		
-
-
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
  		Constants.screenHeight = dm.heightPixels;

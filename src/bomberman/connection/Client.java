@@ -20,7 +20,7 @@ import android.util.Log;
 import bomberman.game.ColorObject;
 import bomberman.game.PeerObject;
 import bomberman.states.GameState;
-import bomberman.states.loadingMultiplayer;
+import bomberman.states.LoadingMultiplayer;
 
 public class Client extends Thread {
 	/** Peer-to-peer client **/
@@ -28,7 +28,7 @@ public class Client extends Thread {
 	ArrayList<Connection> clients;
 	ClientPeer peerConnection;
 	private GameState game;
-	private loadingMultiplayer loadingScreen;
+	private LoadingMultiplayer loadingScreen;
 	
 	
 	public Client() {
@@ -91,10 +91,9 @@ public class Client extends Thread {
 			addConnection(peerClient);
 		}
 		else if(obj instanceof PeerObject){
-			this.game.updateGame((PeerObject) obj);
+			this.game.receiveGameEvent((PeerObject) obj);
 		}
 		else if(obj instanceof ColorObject){
-			System.out.println("Received color!");
 			this.game.setPlayerColor((ColorObject) obj);
 		}
 	}
@@ -166,7 +165,7 @@ public class Client extends Thread {
 		this.game = gameState;
 	}
 	
-	public void setLoadingMultiplayer(loadingMultiplayer loadingScreen) {
+	public void setLoadingMultiplayer(LoadingMultiplayer loadingScreen) {
 		this.loadingScreen = loadingScreen;
 	}
 	

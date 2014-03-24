@@ -16,13 +16,8 @@ public class Buttons extends Sprite {
 	private Image left;
 	private Image bombIcon;
 	private BoundingBox box;
-	private Image brown,black,white,swag;
-	private Image one,two,three;
 	private Image buttonImage;
 	
-	/*
-	 * New constructor - x and y values is calculated inside before sending them
-	 */
 	public Buttons(Image image,int x, int y){
 		this.buttonImage = image;
 		this.setView(buttonImage);
