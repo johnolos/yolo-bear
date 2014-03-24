@@ -1,7 +1,6 @@
 package bomberman.game;
 
 import java.util.ArrayList;
-
 import bomberman.states.GameState;
 import android.graphics.Canvas;
 import sheep.graphics.Image;

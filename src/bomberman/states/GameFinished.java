@@ -1,7 +1,6 @@
 package bomberman.states;
 
 import java.util.ArrayList;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;

@@ -1,7 +1,6 @@
 package bomberman.game;
 
 import java.util.ArrayList;
-
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
