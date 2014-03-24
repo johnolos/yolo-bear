@@ -450,21 +450,12 @@ public class GameState extends State implements TouchListener {
 		left.draw(canvas);
 		right.draw(canvas);
 		bombIcon.draw(canvas);
-<<<<<<< HEAD
-		for (Iterator<Bomb> it = bombs.iterator(); it.hasNext();) {
-			Bomb bomb;
-			try {
-				bomb = it.next();
-				bomb.draw(canvas);
-			} catch (ConcurrentModificationException e) {
-				e.printStackTrace();
-			}
-		
-=======
+
+
 		for (Iterator<Bomb> it = copyOfBombs.iterator(); it.hasNext();) {
 			Bomb bomb = it.next();
 			bomb.draw(canvas);
->>>>>>> e7eab6daf9e2725c941be3480154361428efbf5e
+
 		}
 		if(isMultiplayer){
 			for (Player opp : this.allPlayers) {
@@ -711,16 +702,9 @@ public class GameState extends State implements TouchListener {
 	}
 
 	public void playerDied() {
-<<<<<<< HEAD
-		long dt = System.currentTimeMillis() - gameStarted;
-		if(isMultiplayer){
-			client.sendAll(new PeerObject(player.getColor(), GameObject.DIED, dt));	
-		}
-=======
 		if (isMultiplayer) {
 			long dt = System.currentTimeMillis() - gameStarted;
 			client.sendAll(new PeerObject(player.getColor(), GameObject.DIED, dt));		
 		}	
->>>>>>> e7eab6daf9e2725c941be3480154361428efbf5e
 	}
 }

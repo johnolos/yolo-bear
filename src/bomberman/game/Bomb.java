@@ -157,23 +157,14 @@ public class Bomb extends Sprite implements Collision {
 		} else if (x == 0) {
 			x = Board.COLUMN_SIZE - 1;
 		}
-<<<<<<< HEAD
 		if(y == (Board.ROW_SIZE - 1)) {
-=======
-		if (y == (Board.ROW_SIZE - 1)) {
->>>>>>> e7eab6daf9e2725c941be3480154361428efbf5e
 			y = 0;
 		} else if (y == 0) {
 			y = Board.ROW_SIZE - 1;
 		}
 		Sprite sprite = gs.getSpriteBoard().get(y).get(x);
-<<<<<<< HEAD
-		if(sprite instanceof Empty) {
-			if(gs.bombAtPosition(x, y)) {
-=======
 		if (sprite instanceof Empty) {
 			if (gs.bombAtPosition(x, y)) {
->>>>>>> e7eab6daf9e2725c941be3480154361428efbf5e
 				setColum(x);
 				setRow(y);
 				updatePosition();

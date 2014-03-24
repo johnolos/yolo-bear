@@ -40,12 +40,6 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 			multiPlayer.changeImageShow(1);
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
 			tutorial.changeImageShow(1);
-//			TutorialState tutorial = new TutorialState();
-//			getGame().pushState(tutorial);
-<<<<<<< HEAD
-//			System.out.println("Tutorial startup");
-=======
->>>>>>> e7eab6daf9e2725c941be3480154361428efbf5e
 		}
 		
 		return false;
@@ -57,24 +51,9 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 			getGame().pushState(new SetBearState());
 		} else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
 			getGame().pushState(new LoadingMultiplayer());
-//			if(this.client == null) {
-//				this.client = new Client();
-//				Thread clientThread = new Thread(this.client);
-//				clientThread.start();
-//				GameState gameState = new GameState(this.client);
-//				getGame().pushState(gameState);
-//				this.client.setGameState(gameState);
-//			}
 		} else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
 			TutorialState tutorial = new TutorialState();
 			getGame().pushState(tutorial);
-//			tutorial.changeImageShow(0);
-//			TutorialState tutorial = new TutorialState();
-			getGame().pushState(tutorial);
-<<<<<<< HEAD
-//			System.out.println("Tutorial startup");
-=======
->>>>>>> e7eab6daf9e2725c941be3480154361428efbf5e
 		}
 		singlePlayer.changeImageShow(0);
 		multiPlayer.changeImageShow(0);
