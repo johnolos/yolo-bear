@@ -1,4 +1,4 @@
-package bomberman.states;
+package bomberman.notused;
 
 import android.graphics.Canvas;
 import sheep.game.State;

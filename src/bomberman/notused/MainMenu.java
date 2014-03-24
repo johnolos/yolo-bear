@@ -1,4 +1,4 @@
-package bomberman.states;
+package bomberman.notused;
 
 import bomberman.connection.Client;
 import android.graphics.Canvas;

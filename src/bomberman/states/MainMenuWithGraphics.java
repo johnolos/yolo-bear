@@ -38,7 +38,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	
 	/**
 	 * When the a button is pressed down or onTouchDown the view of this button is changed into a pressed version of the button.
-	 * 
+	 * @param MotionEvent event
 	 */
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
@@ -56,6 +56,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	/**
 	 * When you release the the touch from the screen, either you go into singleplayer mode, multiplayer mode or tutorial mode.
 	 * if you drag your finger away from the button you pressed down and release, you just set the buttons as unpressed and don't go into any mode.
+	 * @param MotionEvent event
 	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
@@ -75,6 +76,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this updates function it.
+	 * @param float dt
 	 */
 	public void update(float dt) {
 		main.update(dt);
@@ -84,7 +86,8 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	}
 	
 	/**
-	 * This function draws the new updates in the different views onto the screen
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);

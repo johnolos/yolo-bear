@@ -1,4 +1,8 @@
 package bomberman.states;
+/**
+ * @author Magnus Mogstad
+ * @author Brage Ekroll Jahren
+ */
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,7 +23,8 @@ public class TutorialState extends State implements TouchListener {
 	private Buttons next,prev,mainMenu;
 	
 	/**
-	 * The ....
+	 * The constructor of the Tutorial state, this sets up the buttons main menu, next tutorial image and previous tutorial image.
+	 * The constructor also loads in the pressed images, and places the buttons where they are suppose to be.
 	 */
 	public TutorialState() {
 		nextImage = new Image(R.drawable.nextbutton);
@@ -35,6 +40,10 @@ public class TutorialState extends State implements TouchListener {
 		
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this updates function it.
+	 * @param float dt
+	 */
 	public void update(float dt) {
 		img.update(dt);
 		next.update(dt);
@@ -42,6 +51,10 @@ public class TutorialState extends State implements TouchListener {
 		mainMenu.update(dt);
 	}
 	
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
+	 */
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		img.draw(canvas);
@@ -50,6 +63,10 @@ public class TutorialState extends State implements TouchListener {
 		mainMenu.draw(canvas);
 	}
 	
+	/**
+	 * When the a button is pressed down or onTouchDown the view of this button is changed into a pressed version of the button.
+	 * @param MotionEvent event
+	 */
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(next.getBounds().contains(event.getX(), event.getY())) {
@@ -63,6 +80,11 @@ public class TutorialState extends State implements TouchListener {
 		return false;
 	}
 	
+	/**
+	 * When you release the the touch from the screen, either you go into singleplayer mode, multiplayer mode or tutorial mode.
+	 * if you drag your finger away from the button you pressed down and release, you just set the buttons as unpressed and don't go into any mode.
+	 * @param MotionEvent event
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(next.getBounds().contains(event.getX(), event.getY())) {
