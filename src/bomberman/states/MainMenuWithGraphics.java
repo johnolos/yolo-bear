@@ -42,7 +42,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 			tutorial.changeImageShow(1);
 //			TutorialState tutorial = new TutorialState();
 //			getGame().pushState(tutorial);
-			System.out.println("Tutorial startup");
+//			System.out.println("Tutorial startup");
 		}
 		
 		return false;
@@ -68,7 +68,7 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 //			tutorial.changeImageShow(0);
 //			TutorialState tutorial = new TutorialState();
 			getGame().pushState(tutorial);
-			System.out.println("Tutorial startup");
+//			System.out.println("Tutorial startup");
 		}
 		singlePlayer.changeImageShow(0);
 		multiPlayer.changeImageShow(0);
@@ -77,7 +77,6 @@ public class MainMenuWithGraphics extends State implements TouchListener {
 	}
 	
 	public void update(float dt) {
-		System.out.println(singlePlayer.getPosition());
 		main.update(dt);
 		singlePlayer.update(dt);
 		multiPlayer.update(dt);

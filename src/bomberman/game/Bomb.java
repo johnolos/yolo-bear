@@ -163,7 +163,6 @@ public class Bomb extends Sprite implements Collision{
 			x = Board.COLUMN_SIZE - 1;
 		}
 		if(y == (Board.ROW_SIZE - 1)) {
-			System.out.println("Shit got real");
 			y = 0;
 		}
 		else if(y == 0) {
@@ -172,7 +171,6 @@ public class Bomb extends Sprite implements Collision{
 		Sprite sprite = gs.getSpriteBoard().get(y).get(x);
 		if(sprite instanceof Empty) {
 			if(gs.bombAtPosition(x, y)) {
-				System.out.println("This happens");
 				setColum(x);
 				setRow(y);
 				updatePosition();

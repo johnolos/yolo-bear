@@ -132,7 +132,6 @@ public class Board {
 	public boolean timeToPlaceWall(long dt){
 
 		if(dt >= (this.timeSinceLastWallplaced + TIMEBETWEENWALLS) ) {
-			System.out.println("ShitNOW!");
 			this.timeSinceLastWallplaced += TIMEBETWEENWALLS;
 			return true;
 		}
