@@ -71,8 +71,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(btnReady.getBounds().contains(event.getX(), event.getY())) {
+			isPlayerReady[playerNumber] = true;
 			client.send(new LobbyInformation(GameLobby.READY, playerNumber));
 		} else if(btnNotReady.getBounds().contains(event.getX(), event.getY())) {
+			isPlayerReady[playerNumber] = false;
 			client.send(new LobbyInformation(GameLobby.NOT_READY, playerNumber));
 		}
 		btnNotReady.setView(notReady);
@@ -93,10 +95,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	public void update(float dt){
 		btnReady.update(dt);
 		btnNotReady.update(dt);
-		if(isHost){
+		if(isHost && isPlayerReady[playerNumber]){
 			checkPlayersReady();
 		}
-		if(client.getClientConnectionCount()==nrOfOpponents && isReadyToStart()){
+		if(isReadyToStart()){//client.getClientConnectionCount()==nrOfOpponents && 
 			gameState.startGame();
 			getGame().pushState(gameState);
 		}
@@ -105,13 +107,15 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	private void checkPlayersReady() {
 		int nrReadyPlayers = 0 ;
 		for(int i = 0; i<isPlayerReady.length; i++){
-			if(isPlayerReady[0] == true){
-				System.out.println("hey");
+			if(isPlayerReady[i] == true){
 				nrReadyPlayers++;
 			}
 		}
+		System.out.println(nrReadyPlayers);
+		System.out.println("nrOpponents" + nrOfOpponents);
 		if(nrReadyPlayers == nrOfOpponents+1){
 			client.sendAll(new LobbyInformation(GameLobby.STARTGAME));
+			hasReceivedReadyToStartInformation = true;
 			
 		}
 	}
@@ -154,7 +158,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 			nameOfPlayer[info.getPlayer()] = info.getPlayerName();
 		break;
 		case SETNUMBEROFPLAYERS:
-			setNrOfPlayers(info.getPlayer() - 1);
+			setNrOfPlayers(info.getPlayer());
 		break;
 		case PLAYERNUMBER:
 			System.out.println("Player number recieved is " + info.getPlayer());
@@ -175,7 +179,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	public void setNrOfPlayers(int nrOfOpponents) {
 		this.nrOfOpponents = nrOfOpponents;
 		if (isHost) {
-			client.send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS, nrOfOpponents + 1));
+			client.send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS, nrOfOpponents));//fjernet + 1
 		}
 	}
 	
