@@ -17,6 +17,7 @@ public class PeerObject  implements Serializable{
 	private PowerUpType powerType;
 	private float xPosition,yPosition;
 	private int magnitude;
+	private boolean superbomb;
 	private long timestamp;
 	
 	public PeerObject(GameObject gameObject, float x, float y, Direction direction) {
@@ -41,13 +42,14 @@ public class PeerObject  implements Serializable{
 		this.powerType = type;
 	}
 
-	public PeerObject(ColorObject color2, GameObject bomb, int x, int y, Direction direction, int magnitude) {
+	public PeerObject(ColorObject color2, GameObject bomb, int x, int y, Direction direction, int magnitude, boolean superbomb) {
 		this.color = color2;
 		this.gObj = bomb;
 		this.xPosition = x;
 		this.yPosition = y;
 		this.direction = direction;
-		this.magnitude =magnitude;
+		this.magnitude = magnitude;
+		this.superbomb = superbomb;
 	}
 	//Died
 	public PeerObject(ColorObject color, GameObject died, long dt) {
@@ -82,6 +84,10 @@ public class PeerObject  implements Serializable{
 
 	public int getMagnitude() {
 		return magnitude;
+	}
+	
+	public boolean getSuperBomb() {
+		return superbomb;
 	}
 
 	public long getTimeStamp() {
