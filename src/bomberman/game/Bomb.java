@@ -292,7 +292,10 @@ public class Bomb extends Sprite implements Collision {
 						gs.randomPlacePowerUp(column, row);
 					}
 					if(isSuperBomb) {
-						addMiddlePicture(yPixel, xPixel, dir);
+						if(isEdgeOfExplosion(row, column, dir))
+							addEdgePicture(yPixel, xPixel, dir);
+						else
+							addMiddlePicture(yPixel, xPixel, dir); 
 						continue;
 					}
 					addEdgePicture(yPixel, xPixel, dir);

@@ -25,14 +25,14 @@ public class UpgradeImages {
 			SPEED = new Image(R.drawable.speedupgrade);
 			THROW_ABILITY = new Image(R.drawable.throwability);
 			KICK_ABILITY = new Image(R.drawable.kickability);
-			SUPER_BOMB = new Image(R.drawable.superbombangry);
+			SUPER_BOMB = new Image(R.drawable.superbombangryupgrade);
 		} else{
 			BOMB_COUNT = new Image(R.drawable.smallmorebombupgrade);
 			BIGGER_BOMB = new Image(R.drawable.smallbiggerbombupgrade);
 			SPEED = new Image(R.drawable.smallspeedupgrade);
 			THROW_ABILITY = new Image(R.drawable.smallthrowability);
 			KICK_ABILITY = new Image(R.drawable.smallkickability);
-			SUPER_BOMB = new Image(R.drawable.superbombangry);
+			SUPER_BOMB = new Image(R.drawable.superbombangryupgrade);
 		}
 	}
 	
