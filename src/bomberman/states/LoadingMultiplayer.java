@@ -52,7 +52,8 @@ public class LoadingMultiplayer extends State implements TouchListener {
 			
 			btnReady = new Buttons(ready, (int) (Constants.screenWidth/2-(ready.getWidth()/2)), (int) (Constants.screenHeight - 2*(Constants.screenHeight/8)));
 			btnNotReady = new Buttons(notReady, (int) (Constants.screenWidth/2-(notReady.getWidth()/2)), (int) (Constants.screenHeight - (Constants.screenHeight/8)));
-			
+			btnReady.setView(ready);
+			btnNotReady.setView(notReady);	
 		}
 	}
 

@@ -246,7 +246,7 @@ public class GameState extends State implements TouchListener {
 	 */
 	public void update(float dt) {
 		
-		if (!(board.lastWall())) {
+		if (!(board.isCompletelyFilled())) {
 			++counter;
 			if (counter % 3 == 0 && this.player.hasMovedSince()) {
 				if (isMultiplayer) {
@@ -329,7 +329,6 @@ public class GameState extends State implements TouchListener {
 		for (Player player : this.allPlayers) {
 			player.resetRound();
 		}
-
 	}
 
 	private void checkTimer() {
@@ -352,8 +351,6 @@ public class GameState extends State implements TouchListener {
 				board.SpeedUpSD();
 			}
 		}
-		
-
 	}
 
 	private boolean gameOver() {
@@ -384,9 +381,7 @@ public class GameState extends State implements TouchListener {
 				it.remove();
 				isExplosionArrayChanged = true;
 			}
-
 		}
-
 	}
 
 	public void addExplosion(Explosion explosion) {
@@ -444,16 +439,13 @@ public class GameState extends State implements TouchListener {
 		right.draw(canvas);
 		bombIcon.draw(canvas);
 
-
 		for (Iterator<Bomb> it = copyOfBombs.iterator(); it.hasNext();) {
 			Bomb bomb = it.next();
 			bomb.draw(canvas);
-
 		}
 		if(isMultiplayer){
 			for (Player opp : this.allPlayers) {
 				opp.draw(canvas);
-		 
 			}
 		}
 		if (this.bots != null) {
@@ -630,9 +622,8 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
-	public void maybeCreatePowerUp(int x, int y) {
-		int p = randomGenerator.nextInt(10);
-		if (p >= 7) {
+	public void randomPlacePowerUp(int x, int y) {
+		if (randomGenerator.nextInt(100) >= 70) {
 			PowerUp powerup = new PowerUp(x, y, this);
 			addPowerup(powerup);
 			if (isMultiplayer) {

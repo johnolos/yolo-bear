@@ -228,7 +228,7 @@ public class Bomb extends Sprite implements Collision {
 				Empty empty = new Empty();
 				gs.setSprite(column, y, empty);
 				if (getColor() == gs.getPlayer().getColor()) {
-					gs.maybeCreatePowerUp(column, y);
+					gs.randomPlacePowerUp(column, y);
 
 				}
 				break;
@@ -260,7 +260,7 @@ public class Bomb extends Sprite implements Collision {
 				Empty empty = new Empty();
 				gs.setSprite(column, y, empty);
 				if (getColor() == gs.getPlayer().getColor()) {
-					gs.maybeCreatePowerUp(column, y);
+					gs.randomPlacePowerUp(column, y);
 
 				}
 
@@ -293,7 +293,7 @@ public class Bomb extends Sprite implements Collision {
 				Empty empty = new Empty();
 				gs.setSprite(x, row, empty);
 				if (getColor() == gs.getPlayer().getColor()) {
-					gs.maybeCreatePowerUp(x, row);
+					gs.randomPlacePowerUp(x, row);
 
 				}
 				break;
@@ -325,7 +325,7 @@ public class Bomb extends Sprite implements Collision {
 				Empty empty = new Empty();
 				gs.setSprite(x, row, empty);
 				if (getColor() == gs.getPlayer().getColor()) {
-					gs.maybeCreatePowerUp(x, row);
+					gs.randomPlacePowerUp(x, row);
 
 				}
 				break;
@@ -407,7 +407,7 @@ public class Bomb extends Sprite implements Collision {
 					Empty empty = new Empty();
 					gs.setSprite(column, row, empty);
 					if (getColor() == gs.getPlayer().getColor()) {
-						gs.maybeCreatePowerUp(column, row);
+						gs.randomPlacePowerUp(column, row);
 					}
 					if (dir == Direction.UP)
 						up = false;
