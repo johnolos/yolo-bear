@@ -160,6 +160,18 @@ public class Server {
 		if(checkReadyToStart()) {
 			sendAll(new LobbyInformation(GameLobby.STARTGAME));
 		}
+		for(int i = 0; i < clients.length; i++) {
+			if(clients[i] == null)
+				continue;
+			try {
+				clients[i].connection.close();
+				clients[i] = null;
+				isClientReady[i] = false;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Game starting. All players removed from server.");
 	}
 
 	public boolean checkReadyToStart() {
