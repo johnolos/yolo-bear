@@ -241,6 +241,8 @@ public class GameState extends State implements TouchListener {
 
 	/**
 	 * Called every game tic. All sprites needs to be updated here.
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * @param float dt
 	 */
 	public void update(float dt) {
 		
@@ -424,8 +426,9 @@ public class GameState extends State implements TouchListener {
 	}
 
 	/**
-	 * Called every game tic. Sprites are drawn on the given canvas parameter
-	 * here.
+	 * Called every game tic. Sprites are drawn on the given canvas parameter here.
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		updateCopyOfElementArrays();

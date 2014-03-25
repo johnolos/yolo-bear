@@ -75,6 +75,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		return false;
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * @param float dt
+	 */
 	public void update(float dt){
 		btnReady.update(dt);
 		btnNotReady.update(dt);
@@ -84,6 +88,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		}
 	}
 	
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
+	 */
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		for(int i = 0; i < nrOfOpponents + 1; i++) {

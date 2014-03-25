@@ -47,6 +47,10 @@ public class SetNumberPlayerState extends State implements TouchListener {
 
 	}
 
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * @param float dt
+	 */
 	public void update(float dt) {
 		one.update(dt);
 		two.update(dt);
@@ -54,6 +58,10 @@ public class SetNumberPlayerState extends State implements TouchListener {
 		textS.update(dt);
 	}
 
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
+	 */
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		one.draw(canvas);

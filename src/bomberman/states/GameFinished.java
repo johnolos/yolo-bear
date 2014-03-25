@@ -61,13 +61,20 @@ public class GameFinished extends State implements TouchListener{
 		return winner.equals(player);
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * @param float dt
+	 */
 	public void update(float dt){
 		resultSprite.update(dt);
 		newRound.update(dt);
 		backMenu.update(dt);
 	}
 	
-	
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
+	 */
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		resultSprite.draw(canvas);
