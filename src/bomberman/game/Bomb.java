@@ -231,156 +231,6 @@ public class Bomb extends Sprite implements Collision {
 	}
 
 	/**
-	 * Evaluates a bomb and removes the crates it finds in its impact range.
-	 * Refactoring should be considered.
-	 * 
-	 */
-	public void bombImpact() {
-		int blastRadius = getBlastRadius();
-		int x = Constants.getPositionX(getPosition().getX()
-				+ Constants.getHeight() / 2);
-		int y = Constants.getPositionY(getPosition().getY()
-				+ Constants.getHeight() / 2);
-		float pixelX = gs.getSpriteBoard().get(y).get(x).getX();
-		float pixelY = gs.getSpriteBoard().get(y).get(x).getY();
-		gs.addExplosion(new Explosion(pixelX, pixelY,
-				BombImages.bombExplosionCenter));
-		gs.checkPlayerHit(pixelX, pixelY);
-		int i = 0;
-		Sprite sprite;
-		for (int column = x - 1; column >= 0; column--) {
-			if (i == blastRadius)
-				break;
-			sprite = gs.getSpriteBoard().get(y).get(column);
-			float xPixel = sprite.getPosition().getX();
-			float yPixel = sprite.getPosition().getY();
-			if (sprite instanceof Wall) {
-				break;
-			} else if (sprite instanceof Crate || i + 1 == blastRadius) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				gs.addExplosion(new Explosion(xPixel, yPixel,
-						BombImages.bombExplosionEndLeft));
-				Empty empty = new Empty();
-				gs.setSprite(column, y, empty);
-				if (getColor() == gs.getPlayer().getColor()) {
-					gs.randomPlacePowerUp(column, y);
-
-				}
-				if(isSuperBomb){}
-				else
-					break;
-			} else if (sprite instanceof Empty) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				if (gs.getSpriteBoard().get(y).get(column - 1) instanceof Wall) {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionEndLeft));
-				} else {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionMidLeft));
-				}
-			}
-			i++;
-		}
-		i = 0;
-		for (int column = x + 1; column <= 12; column++) {
-			if (i == blastRadius)
-				break;
-			sprite = gs.getSpriteBoard().get(y).get(column);
-			float xPixel = sprite.getPosition().getX();
-			float yPixel = sprite.getPosition().getY();
-			if (sprite instanceof Wall) {
-				break;
-			} else if (sprite instanceof Crate || i + 1 == blastRadius) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				gs.addExplosion(new Explosion(xPixel, yPixel,
-						BombImages.bombExplosionEndRight));
-				Empty empty = new Empty();
-				gs.setSprite(column, y, empty);
-				if (getColor() == gs.getPlayer().getColor()) {
-					gs.randomPlacePowerUp(column, y);
-
-				}
-
-				break;
-			} else if (sprite instanceof Empty) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				if (gs.getSpriteBoard().get(y).get(column + 1) instanceof Wall) {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionEndRight));
-				} else {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionMidRight));
-				}
-			}
-			i++;
-		}
-		i = 0;
-		for (int row = y - 1; row >= 0; row--) {
-			if (i == blastRadius)
-				break;
-			sprite = gs.getSpriteBoard().get(row).get(x);
-			float xPixel = sprite.getPosition().getX();
-			float yPixel = sprite.getPosition().getY();
-			if (sprite instanceof Wall) {
-				break;
-			} else if (sprite instanceof Crate || i + 1 == blastRadius) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				gs.addExplosion(new Explosion(xPixel, yPixel,
-						BombImages.bombExplosionEndUp));
-				Empty empty = new Empty();
-				gs.setSprite(x, row, empty);
-				if (getColor() == gs.getPlayer().getColor()) {
-					gs.randomPlacePowerUp(x, row);
-
-				}
-				break;
-			} else if (sprite instanceof Empty) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				if (gs.getSpriteBoard().get(row - 1).get(x) instanceof Wall) {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionEndUp));
-				} else {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionMidUp));
-				}
-			}
-			i++;
-		}
-		i = 0;
-		for (int row = y + 1; row <= 12; row++) {
-			if (i == blastRadius)
-				break;
-			sprite = gs.getSpriteBoard().get(row).get(x);
-			float xPixel = sprite.getPosition().getX();
-			float yPixel = sprite.getPosition().getY();
-			if (sprite instanceof Wall) {
-				break;
-			} else if (sprite instanceof Crate || i + 1 == blastRadius) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				gs.addExplosion(new Explosion(xPixel, yPixel,
-						BombImages.bombExplosionEndDown));
-				Empty empty = new Empty();
-				gs.setSprite(x, row, empty);
-				if (getColor() == gs.getPlayer().getColor()) {
-					gs.randomPlacePowerUp(x, row);
-
-				}
-				break;
-			} else if (sprite instanceof Empty) {
-				gs.checkPlayerHit(xPixel, yPixel);
-				if (gs.getSpriteBoard().get(row + 1).get(x) instanceof Wall) {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionEndDown));
-				} else {
-					gs.addExplosion(new Explosion(xPixel, yPixel,
-							BombImages.bombExplosionMidDown));
-				}
-			}
-			i++;
-		}
-	}
-
-	/**
 	 * Evaluates a bomb and removes the creates it finds in its impact range.
 	 * 
 	 */
@@ -434,7 +284,6 @@ public class Bomb extends Sprite implements Collision {
 					continue;
 				}
 				if (sprite instanceof Crate) {
-					addEdgePicture(yPixel, xPixel, dir);
 					gs.checkPlayerHit(xPixel, yPixel);
 					gs.checkPowerUpHit(column, row);
 					Empty empty = new Empty();
@@ -442,6 +291,11 @@ public class Bomb extends Sprite implements Collision {
 					if (getColor() == gs.getPlayer().getColor()) {
 						gs.randomPlacePowerUp(column, row);
 					}
+					if(isSuperBomb) {
+						addMiddlePicture(yPixel, xPixel, dir);
+						continue;
+					}
+					addEdgePicture(yPixel, xPixel, dir);
 					if (dir == Direction.UP)
 						up = false;
 					else if (dir == Direction.DOWN)
