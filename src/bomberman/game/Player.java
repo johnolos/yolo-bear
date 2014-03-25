@@ -44,7 +44,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Returns the centered X-coordinate of player sprite.
-	 * @return
+	 * @return this.getX() + this.getImageWidth()/2 which is the middle of the screen x-axis
 	 */
 	public float getMiddleX(){
 		return this.getX() + this.getImageWidth() / 2;
@@ -79,7 +79,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Returns the centered Y-coordinate of player sprite.
-	 * @return
+	 * @return this.getY() + this.getImageHeight()/2 which is the middle of the screen y-axis
 	 */
 	public float getMiddleY() {
 		return this.getY() + this.getImageHeight() / 2;
@@ -201,7 +201,7 @@ public class Player extends Sprite {
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
 	 * This function also calls the update function in the super class
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt){
 		if((!this.dead && !gameState.isMultiplayer())|| (gameState.getPlayer()==this && !this.dead)){
@@ -214,7 +214,7 @@ public class Player extends Sprite {
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
 	 * This draw calls the draw function in the super class
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas){
 		super.draw(canvas);
@@ -224,7 +224,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Checks if a player can move in Y-direction.
-	 * @return
+	 * @return true or false, true if player can move
 	 */
 	public boolean canMoveY() {
 		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.playerImages.get(0).getHeight()))
@@ -234,7 +234,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Checks if a player can move in X-direction
-	 * @return
+	 * @return true or false, true if player can move
 	 */
 	public boolean canMoveX() {
 		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.playerImages.get(0).getHeight()))
@@ -424,9 +424,8 @@ public class Player extends Sprite {
 	
 	/**
 	 * Returns true if a player can move to the given direction.
-	 * @return
+	 * @return true or false
 	 */
-
 	public boolean canPlayerMove(Direction dir){
 		int y = Constants.getPositionY(getMiddleY());
 		int x = Constants.getPositionX(getMiddleX());

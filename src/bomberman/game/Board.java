@@ -269,7 +269,7 @@ public class Board {
 	}
 	/**
 	 * Return true if game is finished
-	 * @return
+	 * @return true or false
 	 */
 	public boolean lastWall(){
 		if(this.getWallX() == 6 && this.getWallY() == 6){

@@ -1,5 +1,7 @@
 package bomberman.states;
-
+/**
+ * Extends State implements TouchListener
+ */
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -12,13 +14,17 @@ import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
 public class SetNumberPlayerState extends State implements TouchListener {
-
 	private ColorObject color;
 	private Buttons one, two, three, textS;
 	private Image oneImage, twoImage, threeImage, text;
 	private float x, y;
 	private LoadingMultiplayer loading;
 
+	/**
+	 * The Constructor
+	 * @param color the color of the object
+	 * @param loading multiplayer loading screen
+	 */
 	public SetNumberPlayerState(ColorObject color, LoadingMultiplayer loading) {
 		this.color = color;
 		this.loading = loading;
@@ -49,7 +55,7 @@ public class SetNumberPlayerState extends State implements TouchListener {
 
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt) {
 		one.update(dt);
@@ -60,7 +66,7 @@ public class SetNumberPlayerState extends State implements TouchListener {
 
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
@@ -85,6 +91,10 @@ public class SetNumberPlayerState extends State implements TouchListener {
 	// return false;
 	// }
 
+	/**
+	 * onTouchUp what happens when you release the screen
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if (one.getBounds().contains(event.getX(), event.getY())) {
