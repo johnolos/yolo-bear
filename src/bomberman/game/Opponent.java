@@ -120,6 +120,11 @@ public class Opponent extends Player {
 		return this.magnitude;
 	}
 
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * This draw calls the draw function in the super class
+	 * @param Canvas canvas which you draw on.
+	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 	}

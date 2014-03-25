@@ -99,6 +99,10 @@ public class SetBearState extends State implements TouchListener{
 		return false;
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * @param float dt
+	 */
 	public void update(float dt){
 		black.update(dt);
 		brown.update(dt);
@@ -106,6 +110,11 @@ public class SetBearState extends State implements TouchListener{
 		swag.update(dt);
 		textS.update(dt);
 	}
+	
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * @param Canvas canvas which you draw on.
+	 */
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		black.draw(canvas);

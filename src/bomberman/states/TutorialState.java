@@ -40,7 +40,7 @@ public class TutorialState extends State implements TouchListener {
 	}
 	
 	/**
-	 * This updates the view, if there is any changes in the view of the different buttons this updates function it.
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
 	 * @param float dt
 	 */
 	public void update(float dt) {
