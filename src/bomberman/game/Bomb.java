@@ -21,8 +21,11 @@ public class Bomb extends Sprite implements Collision {
 	private Direction direction;
 	private boolean initiated = false;
 	private ColorObject color;
+	public boolean isSuperBomb;
 
-	public Bomb(int x, int y, int blastRadius, GameState gs, ColorObject color) {
+	public Bomb(int x, int y, int blastRadius, GameState gs, ColorObject color,
+			boolean superBomb) {
+		this.isSuperBomb = superBomb;
 		this.color = color;
 		this.column = Constants.getPositionX(x);
 		this.row = Constants.getPositionY(y);
@@ -30,11 +33,20 @@ public class Bomb extends Sprite implements Collision {
 		this.blastRadius = blastRadius;
 		this.gs = gs;
 		if (Constants.screenHeight == 1600) {
-			this.bomb = new Image(R.drawable.bomb);
+			if (this.isSuperBomb)
+				this.bomb = new Image(R.drawable.superbombangry);
+			else
+				this.bomb = new Image(R.drawable.bomb);
 		} else if (Constants.screenHeight == 752) {
-			this.bomb = new Image(R.drawable.bomb);
+			if (this.isSuperBomb)
+				this.bomb = new Image(R.drawable.superbombangry);
+			else
+				this.bomb = new Image(R.drawable.bomb);
 		} else {
-			this.bomb = new Image(R.drawable.smallbomb);
+			if (this.isSuperBomb)
+				this.bomb = new Image(R.drawable.superbombangry);
+			else
+				this.bomb = new Image(R.drawable.smallbomb);
 		}
 		this.direction = Direction.STOP;
 		this.setPosition(x, y);
@@ -45,7 +57,10 @@ public class Bomb extends Sprite implements Collision {
 		if (System.currentTimeMillis() - time >= 2000 && !this.exploded
 				&& !this.phase2) {
 			initiated = true;
-			bomb = new Image(R.drawable.bombphase2);
+			if (this.isSuperBomb)
+				this.bomb = new Image(R.drawable.superbombphase2);
+			else
+				this.bomb = new Image(R.drawable.bombphase2);
 			setView(bomb);
 			phase2 = true;
 		} else if (System.currentTimeMillis() - time >= 3000 && !this.exploded) {
@@ -77,8 +92,11 @@ public class Bomb extends Sprite implements Collision {
 	}
 
 	/**
-	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
-	 * This function also calls the update function in the super class, and updates some other things that are set in this class
+	 * This updates the view, if there is any changes in the view of the
+	 * different buttons this function updates it. This function also calls the
+	 * update function in the super class, and updates some other things that
+	 * are set in this class
+	 * 
 	 * @param dt
 	 */
 	public void update(float dt) {
@@ -100,9 +118,12 @@ public class Bomb extends Sprite implements Collision {
 	}
 
 	/**
-	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
-	 * This draw calls the draw function in the super class
-	 * @param canvas which you draw on.
+	 * Draw function which draws the things onto the canvas, and draws the
+	 * updated images onto the canvas. This draw calls the draw function in the
+	 * super class
+	 * 
+	 * @param canvas
+	 *            which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
@@ -169,7 +190,7 @@ public class Bomb extends Sprite implements Collision {
 		} else if (x == 0) {
 			x = Board.COLUMN_SIZE - 1;
 		}
-		if(y == (Board.ROW_SIZE - 1)) {
+		if (y == (Board.ROW_SIZE - 1)) {
 			y = 0;
 		} else if (y == 0) {
 			y = Board.ROW_SIZE - 1;
@@ -414,7 +435,7 @@ public class Bomb extends Sprite implements Collision {
 						right = false;
 					continue;
 				}
-				if(isEdgeOfExplosion(row, column, dir) || i == blastRadius) {
+				if (isEdgeOfExplosion(row, column, dir) || i == blastRadius) {
 					addEdgePicture(yPixel, xPixel, dir);
 					gs.checkPlayerHit(xPixel, yPixel);
 					gs.checkPowerUpHit(column, row);

@@ -1,4 +1,7 @@
 package bomberman.graphics;
+/**
+ * 
+ */
 import bomberman.game.Constants;
 import bomberman.game.R;
 import sheep.graphics.Image;
@@ -10,9 +13,11 @@ public class UpgradeImages {
 	public static Image SPEED;
 	public static Image THROW_ABILITY;
 	public static Image KICK_ABILITY;
+	public static Image SUPER_BOMB;
 	
-	
-	
+	/**
+	 * Loads the upgradeImages
+	 */
 	public static void loadImages(){
 		if(Constants.screenHeight >= 752){
 			BOMB_COUNT = new Image(R.drawable.morebombupgrade);
@@ -20,12 +25,14 @@ public class UpgradeImages {
 			SPEED = new Image(R.drawable.speedupgrade);
 			THROW_ABILITY = new Image(R.drawable.throwability);
 			KICK_ABILITY = new Image(R.drawable.kickability);
+			SUPER_BOMB = new Image(R.drawable.superbombangry);
 		} else{
 			BOMB_COUNT = new Image(R.drawable.smallmorebombupgrade);
 			BIGGER_BOMB = new Image(R.drawable.smallbiggerbombupgrade);
 			SPEED = new Image(R.drawable.smallspeedupgrade);
 			THROW_ABILITY = new Image(R.drawable.smallthrowability);
 			KICK_ABILITY = new Image(R.drawable.smallkickability);
+			SUPER_BOMB = new Image(R.drawable.superbombangry);
 		}
 	}
 	

@@ -1,5 +1,7 @@
 package bomberman.game;
-
+/**
+ * 
+ */
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -8,22 +10,6 @@ import sheep.game.Sprite;
 
 
 public class Board {
-	
-	/**
-	 * Optimal solution: 
-	 * 		Draw four tiles around a player at a time.
-	 * 		Draw tiles after bomb impact and powerup consumption.
-	 * 
-	 */
-	
-	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	public void addPropertyChangeListener(PropertyChangeListener l) {
-		pcs.addPropertyChangeListener(l);
-	}
-	public void removePropertyChangeListener(PropertyChangeListener l) {
-		pcs.removePropertyChangeListener(l);
-	}
-	
 	private ArrayList<ArrayList<Sprite>> spriteList;
 	
 	private long timeSinceLastWallplaced;
@@ -58,6 +44,7 @@ public class Board {
 	
 	// X-board
 	//The 5 is a placeholder for tiles to be filled by the custom filler
+	@SuppressWarnings("unused")
 	private int[][] customBoard1 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,5,5,1,5,5,0,0,0,1},
