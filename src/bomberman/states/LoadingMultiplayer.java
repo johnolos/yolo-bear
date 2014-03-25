@@ -24,6 +24,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	private int playerNumber = 0;
 	private boolean isHost = false;
 	private Image ready, notReady;
+	private Image readyPressed, notReadyPressed;
 	private Buttons btnReady, btnNotReady;
 	private boolean hasReceivedReadyToStartInformation = false;
 
@@ -44,8 +45,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 			Thread clientThread = new Thread(this.client) ;
 			clientThread.start();
 			
-			ready = new Image(R.drawable.singleplayerbutton);
-			notReady = new Image(R.drawable.singleplayerbutton);
+			ready = new Image(R.drawable.readybutton);
+			notReady = new Image(R.drawable.notreadybutton);
+			readyPressed = new Image(R.drawable.pressedreadybutton);
+			notReadyPressed = new Image(R.drawable.pressednotreadybutton);
 			
 			btnReady = new Buttons(ready, (int) (Constants.screenWidth/2-(ready.getWidth()/2)), (int) (Constants.screenHeight - 2*(Constants.screenHeight/8)));
 			btnNotReady = new Buttons(notReady, (int) (Constants.screenWidth/2-(notReady.getWidth()/2)), (int) (Constants.screenHeight - (Constants.screenHeight/8)));
@@ -56,16 +59,24 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(btnReady.getBounds().contains(event.getX(), event.getY())) {
-			client.send(new LobbyInformation(GameLobby.READY, playerNumber));
+			btnReady.setView(readyPressed);
+//			client.send(new LobbyInformation(GameLobby.READY, playerNumber));
 		} else if(btnNotReady.getBounds().contains(event.getX(), event.getY())) {
-			client.send(new LobbyInformation(GameLobby.NOT_READY, playerNumber));
+			btnNotReady.setView(notReadyPressed);
+//			client.send(new LobbyInformation(GameLobby.NOT_READY, playerNumber));
 		}
 		return false;
 	}
 
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
-		// TODO Auto-generated method stub
+		if(btnReady.getBounds().contains(event.getX(), event.getY())) {
+			client.send(new LobbyInformation(GameLobby.READY, playerNumber));
+		} else if(btnNotReady.getBounds().contains(event.getX(), event.getY())) {
+			client.send(new LobbyInformation(GameLobby.NOT_READY, playerNumber));
+		}
+		btnNotReady.setView(notReady);
+		btnReady.setView(ready);
 		return false;
 	}
 

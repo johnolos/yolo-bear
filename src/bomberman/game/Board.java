@@ -4,8 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
-
-import android.text.BoringLayout;
 import sheep.game.Sprite;
 
 public class Board {
