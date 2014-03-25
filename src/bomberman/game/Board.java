@@ -68,7 +68,7 @@ public class Board {
 				 if(isStartingPositionOrAdjacent(row,column))
 					   continue;
 				 //every other tile must be a none-destructible wall
-				 if(row/2 == 0 && column == 0){
+				 if(row/2 == 0 && column/2 == 0){
 					 _board[row][column] = 1;
 					 continue;
 				 }
@@ -111,7 +111,7 @@ public class Board {
 		return this.board;
 	}
 	
-	public ArrayList<ArrayList<Sprite>> getSpriteBoard(){
+	public ArrayList<ArrayList<Sprite>> getSpriteBoard(){ 
 		return this.spriteList;
 	}
 	
