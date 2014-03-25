@@ -55,7 +55,9 @@ public class Board {
 		{1,0,0,2,2,2,2,2,2,2,0,0,1},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	
-	private int[][] customBoard = {
+	
+	// X-board
+	private int[][] customBoard1 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,5,5,1,5,5,0,0,0,1},
 			{1,0,1,5,1,5,1,5,1,5,1,0,1},
@@ -70,12 +72,30 @@ public class Board {
 			{1,0,0,0,5,5,1,5,5,0,0,0,1},
 			{1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	
+	//empty board
+	private int[][] customBoard2 = {
+			{1,1,1,1,1,1,1,1,1,1,1,1,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,1,1,1,1,1,1,1,1,1,1,1,1}};
+	
 	
 	public Board(){	
 		spriteList = new ArrayList<ArrayList<Sprite>>();
 		board = initRandomBoard();
-		customRandomFillBoard(customBoard); // X-board to test modifiablilityyty
-		board = customBoard;
+		customRandomFillBoard(customBoard1); // X-board to test modifiablilityyty
+		board = customBoard1;
+		// customRandomFillBoard(customBoard2); //should stay empty after the fill
+		//board = customBoard2;
 		generateImageBoard(board);
 	}
 	
