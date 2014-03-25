@@ -50,7 +50,7 @@ public class GameState extends State implements TouchListener {
 	/**
 	 * The constructor for GameState
 	 * @param color the color of the player
-	 * @param opponentNumber th number of opponents you will play against
+	 * @param opponentNumber the number of opponents you will play against
 	 */
 	public GameState(ColorObject color, int opponentNumber) {
 		// Board class now handles creating the actual gameBoard,
@@ -707,7 +707,7 @@ public class GameState extends State implements TouchListener {
 	 * @param y position for powerup
 	 */
 	public void randomPlacePowerUp(int x, int y) {
-		if (randomGenerator.nextInt(100) >= 70) {
+		if (randomGenerator.nextInt(100) >= 45) {
 			PowerUp powerup = new PowerUp(x, y, this);
 			addPowerup(powerup);
 			if (isMultiplayer) {
