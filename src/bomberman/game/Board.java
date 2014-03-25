@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.text.BoringLayout;
 import sheep.game.Sprite;
 
 public class Board {
@@ -68,21 +69,22 @@ public class Board {
 				 if(isStartingPositionOrAdjacent(row,column))
 					   continue;
 				 //every other tile must be a none-destructible wall
-				 if(row/2 == 0 && column/2 == 0){
+				 if(row%2.0 == 0 && column%2.0 == 0){
+					 
 					 _board[row][column] = 1;
 					 continue;
 				 }
 				 //fills approx. 75% of the board with crates
-				 if(random.nextInt(100) >= 25)
+				 else if(random.nextInt(100) >= 25)
 					 _board[row][column] = 2;
 			 } 
 		 }
 		 //enforces the outer wall
 		 for(int i=0;i<Board.ROW_SIZE;i++){
-			 board[0][i] = 1;
-			 board[i][0] = 1;
-			 board[Board.ROW_SIZE-1][i] = 1;
-			 board[Board.COLUMN_SIZE-1][i] = 1;
+			 _board[0][i] = 1;
+			 _board[i][0] = 1;
+			 _board[Board.ROW_SIZE-1][i] = 1;
+			 _board[i][Board.COLUMN_SIZE-1] = 1;
 		 }
 		return _board;
 	}
@@ -97,7 +99,7 @@ public class Board {
 			   return true;
 		 }
 		//lower left player
-		if((x == Board.COLUMN_SIZE-2 && y == 1) || (x == Board.COLUMN_SIZE-3 && y == 2) || (x == Board.COLUMN_SIZE-3 && y == 1)){
+		if((x == Board.COLUMN_SIZE-2 && y == 1) || (x == Board.COLUMN_SIZE-3 && y == 1) || (x == Board.COLUMN_SIZE-3 && y == 1)){
 			   return true;
 		 }
 		//lower right player
