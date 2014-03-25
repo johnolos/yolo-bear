@@ -3,6 +3,7 @@ package bomberman.game;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Random;
 
 import sheep.game.Sprite;
 
@@ -53,7 +54,57 @@ public class Board {
 	
 	public Board(){	
 		spriteList = new ArrayList<ArrayList<Sprite>>();
-		initiateBoard(board);
+		board = initRandomBoard();
+		generateImageBoard(board);
+	}
+	
+	private int[][] initRandomBoard(){
+		int[][] _board = new int[Board.COLUMN_SIZE][Board.ROW_SIZE];
+		Random random = new Random();
+
+		 for(int row = 0; row<_board.length;row++){
+			 for(int column = 0; column<board[0].length;column++){
+				 //player starting position and adjacent tiles must be empty
+				 if(isStartingPositionOrAdjacent(row,column))
+					   continue;
+				 //every other tile must be a none-destructible wall
+				 if(row/2 == 0 && column == 0){
+					 _board[row][column] = 1;
+					 continue;
+				 }
+				 //fills approx. 75% of the board with crates
+				 if(random.nextInt(100) >= 25)
+					 _board[row][column] = 2;
+			 } 
+		 }
+		 //enforces the outer wall
+		 for(int i=0;i<Board.ROW_SIZE;i++){
+			 board[0][i] = 1;
+			 board[i][0] = 1;
+			 board[Board.ROW_SIZE-1][i] = 1;
+			 board[Board.COLUMN_SIZE-1][i] = 1;
+		 }
+		return _board;
+	}
+	
+	private boolean isStartingPositionOrAdjacent(int x, int y){
+		//upper left player
+		if((x == 1 && y == 1) || (x == 1 && y == 2) || (x == 2 && y == 1)){
+			   return true;
+		 }
+		//upper right player
+		if((x == 1 && y == Board.ROW_SIZE-2) || (x == 1 && y == Board.ROW_SIZE-3) || (x == 2 && y == Board.ROW_SIZE-2)){
+			   return true;
+		 }
+		//lower left player
+		if((x == Board.COLUMN_SIZE-2 && y == 1) || (x == Board.COLUMN_SIZE-3 && y == 2) || (x == Board.COLUMN_SIZE-3 && y == 1)){
+			   return true;
+		 }
+		//lower right player
+		if((x == Board.COLUMN_SIZE-2 && y == Board.ROW_SIZE-2) || (x == Board.COLUMN_SIZE-2 && y == Board.ROW_SIZE-3) || (x == Board.COLUMN_SIZE-3 && y == Board.ROW_SIZE-2)){
+			   return true;
+		 }
+		return false;
 	}
 	
 	public int[][] getBoard() {
@@ -65,7 +116,7 @@ public class Board {
 	}
 	
 	/** OPPRINELIG addSprites i GameState.java ***/
-	public void initiateBoard(int[][] board){
+	public void generateImageBoard(int[][] board){
 		this.wallX = 0;
 		this.wallY = 0;
 		float x = Constants.getPixelsOnSides();
@@ -198,7 +249,7 @@ public class Board {
 	public void reset() {
 		this.spriteList.clear();
 		this.TIMEBETWEENWALLS = 1000;
-		initiateBoard(board);
+		generateImageBoard(board);
 	}
 	public void SpeedUpSD() {
 		this.TIMEBETWEENWALLS = 50;
