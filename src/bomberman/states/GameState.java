@@ -408,6 +408,7 @@ public class GameState extends State implements TouchListener {
 	public void resetGame() {
 		board.reset();
 		powerups.clear();
+		bombs.clear();
 		suddenDeathInitiated = false;
 		gameStarted = System.currentTimeMillis();
 		player.resetRound();
@@ -774,7 +775,7 @@ public class GameState extends State implements TouchListener {
 	 *            position for powerup
 	 */
 	public void randomPlacePowerUp(int x, int y) {
-		if (randomGenerator.nextInt(100) >= 45) {
+		if (randomGenerator.nextInt(100) >= 25) {
 			PowerUp powerup = new PowerUp(x, y, this);
 			addPowerup(powerup);
 			if (isMultiplayer) {

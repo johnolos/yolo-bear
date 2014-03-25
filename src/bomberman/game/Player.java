@@ -22,9 +22,9 @@ public class Player extends Sprite {
 	private int health =3; 
 	private boolean kickBombs = false;
 	private boolean throwBombs = false;
-	private float speedOfPlayer = 1.3f;
+	private float speedOfPlayer = 1.7f;
 	private static final float SPEED_UPGRADE = 0.4f;
-	private static final float MAX_SPEED = 2.9f;
+	private static final float MAX_SPEED = 3.2f;
 	private int magnitudeOfBombs = 1;
 	private static final int MAX_NR_OF_MAGNITUDE_UPS = 5;
 	private int scoreOfPlayer = 0;
@@ -194,7 +194,7 @@ public class Player extends Sprite {
 		this.numberOfBombs = 1;
 		this.kickBombs = false;
 		this.throwBombs = false;
-		this.speedOfPlayer = 1.0f;
+		this.speedOfPlayer = 1.7f;
 		this.magnitudeOfBombs = 2;
 		this.dead = false;
 		this.timeStamp = 0;
@@ -237,7 +237,7 @@ public class Player extends Sprite {
 		return false;
 	}
 	
-	/**
+	/**+
 	 * Checks if a player can move in X-direction
 	 * @return true or false, true if player can move
 	 */
