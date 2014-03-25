@@ -1,5 +1,7 @@
 package bomberman.graphics;
-
+/**
+ * implements Serializable
+ */
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +25,10 @@ public enum PowerUpType implements Serializable {
 	private static final int SIZE = VALUES.size();
 	private static final Random RANDOM = new Random();
 	
+	/**
+	 * The type of powerUp
+	 * @return
+	 */
 	public static PowerUpType randomPowerUp() {
 		return VALUES.get(RANDOM.nextInt(SIZE));
 	}

@@ -1,4 +1,7 @@
 package bomberman.graphics;
+/**
+ * 
+ */
 import bomberman.game.Constants;
 import bomberman.game.R;
 import sheep.graphics.Image;
@@ -11,8 +14,9 @@ public class UpgradeImages {
 	public static Image THROW_ABILITY;
 	public static Image KICK_ABILITY;
 	
-	
-	
+	/**
+	 * Loads the upgradeImages
+	 */
 	public static void loadImages(){
 		if(Constants.screenHeight >= 752){
 			BOMB_COUNT = new Image(R.drawable.morebombupgrade);

@@ -58,6 +58,7 @@ public class Board {
 	
 	// X-board
 	//The 5 is a placeholder for tiles to be filled by the custom filler
+	@SuppressWarnings("unused")
 	private int[][] customBoard1 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,5,5,1,5,5,0,0,0,1},

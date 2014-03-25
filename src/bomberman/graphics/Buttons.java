@@ -1,5 +1,7 @@
 package bomberman.graphics;
-
+/**
+ * Extends Sprite
+ */
 import bomberman.game.Constants;
 import bomberman.game.R;
 import android.graphics.Canvas;
@@ -9,7 +11,6 @@ import sheep.graphics.Image;
 import sheep.math.BoundingBox;
 
 public class Buttons extends Sprite {
-	
 	private Image up;
 	private Image down;
 	private Image right;
@@ -18,6 +19,12 @@ public class Buttons extends Sprite {
 	private BoundingBox box;
 	private Image buttonImage;
 	
+	/**
+	 * Constructor in buttons
+	 * @param image the image which is supposed to be shown
+	 * @param x the x-position to place the image
+	 * @param y the y-position to place the image
+	 */
 	public Buttons(Image image,int x, int y){
 		this.buttonImage = image;
 		this.setView(buttonImage);
@@ -26,6 +33,12 @@ public class Buttons extends Sprite {
 		this.box = new BoundingBox(bound);
 	}
 	
+	/**
+	 * Constructor in buttons
+	 * @param buttonID the buttonID
+	 * @param x the x-position to place the image
+	 * @param y the y-position to place the image
+	 */
 	public Buttons(String buttonID, int x, int y){
 		Rect bounds = null;
 		if(buttonID.equals("up")){
@@ -101,6 +114,10 @@ public class Buttons extends Sprite {
 		super.draw(canvas);
 	}
 	
+	/**
+	 * Gets the bounds of the different buttons
+	 * @return the value of the Boundingbox
+	 */
 	public BoundingBox getBounds(){
 		return this.box;
 	}

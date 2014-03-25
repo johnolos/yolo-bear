@@ -17,6 +17,9 @@ public class BombImages {
 	public static Image bombExplosionEndUp;
 	public static Image bombExplosionEndDown;
 	
+	/**
+	 * Constructor in BombImages
+	 */
 	public static void loadImages(){
 		if(Constants.screenHeight >= 752){
 			bombPhase1 = new Image(R.drawable.bomb);
