@@ -238,7 +238,6 @@ public class GameState extends State implements TouchListener {
 							getPlayer().getColor(), true);
 					addBomb(bomb);
 					this.player.addBomb(bomb);
-					this.player.hasSuperBomb = false;
 				} else {
 					Bomb bomb = new Bomb(getTilePositionX(),
 							getTilePositionY(), player.getMagnitude(), this,
@@ -252,15 +251,16 @@ public class GameState extends State implements TouchListener {
 								GameObject.BOMB, Constants
 										.getPositionX(getTilePositionX()),
 								Constants.getPositionY(getTilePositionY()),
-								Direction.UP, Board.ROW_SIZE));
+								Direction.UP, Board.ROW_SIZE, true));
 					} else {
 						client.sendAll(new PeerObject(this.player.getColor(),
 								GameObject.BOMB, Constants
 										.getPositionX(getTilePositionX()),
 								Constants.getPositionY(getTilePositionY()),
-								Direction.UP, player.getMagnitude()));
+								Direction.UP, player.getMagnitude(), false));
 					}
 				}
+				this.player.hasSuperBomb = false;
 			}
 		}
 		return false;
@@ -652,14 +652,14 @@ public class GameState extends State implements TouchListener {
 					opponent.setMagnitude(obj.getMagnitude());
 					Sprite sprite = getSpriteBoard().get((int) obj.getY()).get(
 							(int) obj.getX());
-					if(opponent.hasSuperBomb)
+					if(obj.getSuperBomb())
 						addBomb(new Bomb((int) sprite.getX(), (int) sprite.getY(),
 							Board.ROW_SIZE, this, obj.getColor(),
-							true));
+							obj.getSuperBomb()));
 					else
 						addBomb(new Bomb((int) sprite.getX(), (int) sprite.getY(),
 								obj.getMagnitude(), this, obj.getColor(),
-								false));
+								obj.getSuperBomb()));
 				}
 			}
 			break;
