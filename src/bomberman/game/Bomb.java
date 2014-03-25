@@ -231,7 +231,7 @@ public class Bomb extends Sprite implements Collision {
 	}
 
 	/**
-	 * Evaluates a bomb and removes the creates it finds in its impact range.
+	 * Evaluates a bomb and removes the crates it finds in its impact range.
 	 * Refactoring should be considered.
 	 * 
 	 */
@@ -266,7 +266,9 @@ public class Bomb extends Sprite implements Collision {
 					gs.randomPlacePowerUp(column, y);
 
 				}
-				break;
+				if(isSuperBomb){}
+				else
+					break;
 			} else if (sprite instanceof Empty) {
 				gs.checkPlayerHit(xPixel, yPixel);
 				if (gs.getSpriteBoard().get(y).get(column - 1) instanceof Wall) {
