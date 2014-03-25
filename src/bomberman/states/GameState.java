@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Random;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -21,9 +20,11 @@ import bomberman.game.PeerObject;
 import bomberman.game.Player;
 import bomberman.game.ColorObject;
 import bomberman.game.PowerUp;
+import bomberman.game.R;
 import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
+import sheep.graphics.Image;
 import sheep.input.TouchListener;
 /**
  * This class extends State and implements TouchListner
@@ -39,7 +40,8 @@ public class GameState extends State implements TouchListener {
 	private boolean isBombArrayChanged = true, isPowerupArrayChanged = true,
 			isExplosionArrayChanged = true;
 	private boolean isMultiplayer = false;
-
+	private Buttons mainMenu;
+	private Image main,pressedMain;
 	public static ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
 	private ArrayList<AIBot> bots;
 	private Client client = null;
@@ -87,6 +89,9 @@ public class GameState extends State implements TouchListener {
 					(int) (Constants.screenWidth * 0.08f),
 					(int) (Constants.screenHeight * 0.407f));
 
+		main = new Image(R.drawable.mainmenubutton);
+		pressedMain = new Image(R.drawable.pressedmainmenubutton);
+		mainMenu = new Buttons(main, (int)(Constants.getScreenWidth()-main.getWidth()), (int)(Constants.getScreenHeight()-main.getHeight()));
 		bombs = new ArrayList<Bomb>();
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
@@ -168,6 +173,10 @@ public class GameState extends State implements TouchListener {
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		player.setSpeed(0, 0);
+		if(mainMenu.getBounds().contains(event.getX(),event.getY())) {
+			getGame().popState(3);
+		}
+		mainMenu.setView(main);
 		return false;
 	}
 
@@ -262,6 +271,8 @@ public class GameState extends State implements TouchListener {
 				}
 				this.player.hasSuperBomb = false;
 			}
+		} else if(mainMenu.getBounds().contains(event.getX(), event.getY())) {
+			mainMenu.setView(pressedMain);
 		}
 		return false;
 	}
@@ -348,6 +359,7 @@ public class GameState extends State implements TouchListener {
 			collisionCheck();
 			removeExplosions();
 			checkTimer();
+			mainMenu.update(dt);
 			up.update(dt);
 			down.update(dt);
 			left.update(dt);
@@ -555,6 +567,7 @@ public class GameState extends State implements TouchListener {
 				sprite.draw(canvas);
 			}
 		}
+		mainMenu.draw(canvas);
 		up.draw(canvas);
 		down.draw(canvas);
 		left.draw(canvas);
