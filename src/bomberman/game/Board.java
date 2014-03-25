@@ -2,8 +2,6 @@ package bomberman.game;
 /**
  * 
  */
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
 import sheep.game.Sprite;   
@@ -11,21 +9,19 @@ import sheep.game.Sprite;
 
 public class Board {
 	private ArrayList<ArrayList<Sprite>> spriteList;
-	
 	private long timeSinceLastWallplaced;
-	
 	private int boundaryX, boundaryY;
 	private int wallX, wallY;
 	private boolean UP, DOWN, RIGHT, LEFT;
-
-	
 	public static final int COLUMN_SIZE = 13;
 	public static final int ROW_SIZE = 13;
 	public long TIMEBETWEENWALLS = 1000;
 	private static final int NOT_FILLED_PERCENTAGE = 25;
 	
 	
-	//standard completely filled board for testing
+	/**
+	 * standard completely filled board for testing
+	 */
 	private int[][] board = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,2,2,2,2,2,2,2,0,0,1},
@@ -42,8 +38,10 @@ public class Board {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	
 	
-	// X-board
-	//The 5 is a placeholder for tiles to be filled by the custom filler
+	/**
+	 * X-board
+	 * The 5 is a placeholder for tiles to be filled by the custom filler
+	 */
 	@SuppressWarnings("unused")
 	private int[][] customBoard1 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -60,7 +58,9 @@ public class Board {
 			{1,0,0,0,5,5,1,5,5,0,0,0,1},
 			{1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	
-	//empty board
+	/**
+	 * empty board
+	 */
 	private int[][] customBoard2 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,0,0,0,0,0,0,1,0,1},
@@ -76,7 +76,10 @@ public class Board {
 			{1,0,1,0,0,0,0,0,0,0,0,0,1},
 			{1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	
-	
+	/**
+	 * Constructor 
+	 * @param isMultiplayer is the game a multiplayer game or not
+	 */
 	public Board(boolean isMultiplayer){	
 		spriteList = new ArrayList<ArrayList<Sprite>>();
 		if(!isMultiplayer){
@@ -89,6 +92,10 @@ public class Board {
 		generateImageBoard(board);
 	}
 	
+	/**
+	 * Initiate a Random board where the crates are placed random
+	 * @return the random board
+	 */
 	private int[][] initRandomBoard(){
 		int[][] _board = new int[Board.COLUMN_SIZE][Board.ROW_SIZE];
 		Random random = new Random();
@@ -116,7 +123,10 @@ public class Board {
 		 }
 		return _board;
 	}
-	//Goes through the board and fills the given 5-area the given percentage
+	
+	/**
+	 * Goes through the board and fills the given 5-area the given percentage
+	 */
 	private void customRandomFillBoard(int[][] board){
 		Random random = new Random();
 		 for(int row = 1; row<Board.ROW_SIZE;row++){
@@ -129,6 +139,12 @@ public class Board {
 		 }
 	}
 	
+	/**
+	 * Is the starting pos adjacent to the random tile
+	 * @param x position of tile
+	 * @param y position of tile
+	 * @return true if starting pos or adjacentTile.
+	 */
 	private boolean isStartingPositionOrAdjacentTile(int x, int y){
 		//upper left player
 		if((x == 1 && y == 1) || (x == 1 && y == 2) || (x == 2 && y == 1)){
@@ -149,10 +165,18 @@ public class Board {
 		return false;
 	}
 	
+	/**
+	 * Gets the board
+	 * @return the board
+	 */
 	public int[][] getBoard() {
 		return this.board;
 	}
 	
+	/**
+	 * gets the SpriteBoard
+	 * @return the board with sprites
+	 */
 	public ArrayList<ArrayList<Sprite>> getSpriteBoard(){ 
 		return this.spriteList;
 	}
@@ -187,7 +211,12 @@ public class Board {
 		}
 	}
 	
-	
+	/**
+	 * Sets the sprite in the different positions
+	 * @param column the col the sprite is to be set
+	 * @param row the row the sprite is to be set
+	 * @param sprite the sprite
+	 */
 	public void setSprite(int column, int row, Sprite sprite) {
 		Sprite oldSprite = this.spriteList.get(row).get(column);
 		this.spriteList.get(row).remove(oldSprite);
@@ -195,6 +224,10 @@ public class Board {
 		this.spriteList.get(row).add(column, sprite);
 	}
 	
+	/**
+	 * Initates the sudden death mode in game
+	 * @param dt
+	 */
 	public void initiateSuddenDeath(long dt){
 		this.timeSinceLastWallplaced = dt;
 		this.boundaryX = 1;
@@ -208,12 +241,22 @@ public class Board {
 		
 	}
 	
+	/**
+	 * Places the suddenDeathWall on the coordinates
+	 * @param x coordinate to place suddenDeathWall
+	 * @param y coordinate to place suddenDeathWall
+	 */
 	public void placeSuddenDeathWall(int x, int y){
 		Wall wall = new Wall();
 		setSprite(x, y, wall);
 		
 	}
 	
+	/**
+	 * Is it time to place a new suddenDeathWall
+	 * @param dt
+	 * @return true if it is time else false
+	 */
 	public boolean timeToPlaceWall(long dt){
 
 		if(dt >= (this.timeSinceLastWallplaced + TIMEBETWEENWALLS) ) {
@@ -223,6 +266,10 @@ public class Board {
 		return false;
 	}
 	
+	/**
+	 * Get the x-coordinate for suddenDeathWall
+	 * @return the int for the x value where to put suddenDeathWall
+	 */
 	public int getXSuddenDeathWall() {
 		if(this.DOWN || this.UP) {
 			return wallX;
@@ -247,6 +294,10 @@ public class Board {
 		return -1;
 	}
 	
+	/**
+	 * Get the y-coordinate for suddenDeathWall
+	 * @return the int for the y value where to put suddenDeathWall
+	 */
 	public int getYSuddenDeathWall() {
 		if(this.LEFT || this.RIGHT) {
 			return wallY;
@@ -272,12 +323,23 @@ public class Board {
 		}
 		return -1;
 	}
+	
+	/**
+	 * Get the y-coordinate of wall
+	 * @return the y-coordinate of wall
+	 */
 	public int getWallY() {
 		return this.wallY;
 	}
+	
+	/**
+	 * Get the x-coordinate of wall
+	 * @return the x-coordinate of wall
+	 */
 	public int getWallX() {
 		return this.wallX;
 	}
+	
 	/**
 	 * Return true if game is finished
 	 * @return true or false
@@ -288,11 +350,19 @@ public class Board {
 		}
 		return false;
 	}
+	
+	/**
+	 * Restet game resets the game for new round
+	 */
 	public void reset() {
 		this.spriteList.clear();
 		this.TIMEBETWEENWALLS = 1000;
 		generateImageBoard(board);
 	}
+	
+	/**
+	 * Speed up time between wall placement in suddenDeathWall
+	 */
 	public void SpeedUpSD() {
 		this.TIMEBETWEENWALLS = 50;
 	}
