@@ -1,8 +1,5 @@
 package bomberman.states;
 
-/**
- * This class extends State and implements TouchListner
- */
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -28,7 +25,9 @@ import bomberman.graphics.Buttons;
 import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.input.TouchListener;
-
+/**
+ * This class extends State and implements TouchListner
+ */
 public class GameState extends State implements TouchListener {
 
 	private Player player;
@@ -355,6 +354,7 @@ public class GameState extends State implements TouchListener {
 			right.update(dt);
 			bombIcon.update(dt);
 			player.update(dt);
+			@SuppressWarnings("unchecked")
 			ArrayList<Bomb> bombClones = (ArrayList<Bomb>) bombs.clone();
 			for (Iterator<Bomb> it = bombClones.iterator(); it.hasNext();) {
 				Bomb bomb = it.next();
@@ -375,8 +375,8 @@ public class GameState extends State implements TouchListener {
 			for (PowerUp powerup : this.powerups)
 				powerup.update(dt);
 			if (isMultiplayer) {
-				ArrayList<Player> playerClones = (ArrayList<Player>) allPlayers
-						.clone();
+				@SuppressWarnings("unchecked")
+				ArrayList<Player> playerClones = (ArrayList<Player>) allPlayers.clone();
 				System.out
 						.println("Number of opponents " + playerClones.size());
 				for (Player opp : playerClones) {
@@ -453,8 +453,8 @@ public class GameState extends State implements TouchListener {
 		}
 		int nrDead = 0;
 		if (allPlayers != null) {
-			ArrayList<Player> playerClones = (ArrayList<Player>) allPlayers
-					.clone();
+			@SuppressWarnings("unchecked")
+			ArrayList<Player> playerClones = (ArrayList<Player>) allPlayers.clone();
 			for (Player player : playerClones) {
 				if (player.isDead()) {
 					nrDead++;
@@ -566,6 +566,7 @@ public class GameState extends State implements TouchListener {
 			bomb.draw(canvas);
 		}
 		if (isMultiplayer) {
+			@SuppressWarnings("unchecked")
 			ArrayList<Player> players = (ArrayList<Player>) allPlayers.clone();
 			for (Player opp : players) {
 				opp.draw(canvas);
@@ -609,9 +610,7 @@ public class GameState extends State implements TouchListener {
 	 * Called with an PeerObject which will update the GameState for this
 	 * player.
 	 * 
-	 * @param obj
-	 *            PeerObject received from other players. TODO: UPDATE FOR MORE
-	 *            GAME ELEMENTS
+	 * @param obj PeerObject received from other players. TODO: UPDATE FOR MORE GAME ELEMENTS
 	 */
 	public void receiveGameEvent(PeerObject obj) {
 		if (obj.getColor() == getPlayer().getColor()) {
@@ -625,8 +624,8 @@ public class GameState extends State implements TouchListener {
 				haveMoved = true;
 			}
 			try {
-				ArrayList<Player> playersClone = (ArrayList<Player>) allPlayers
-						.clone();
+				@SuppressWarnings("unchecked")
+				ArrayList<Player> playersClone = (ArrayList<Player>) allPlayers.clone();
 				for (Iterator<Player> it = playersClone.iterator(); it
 						.hasNext();) {
 					Player opponent = it.next();

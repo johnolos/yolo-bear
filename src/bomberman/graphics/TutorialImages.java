@@ -1,7 +1,4 @@
 package bomberman.graphics;
-/**
- * This class extends Sprite.
- */
 
 import java.util.ArrayList;
 
@@ -11,6 +8,9 @@ import bomberman.game.R;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 
+/**
+ * This class extends Sprite.
+ */
 public class TutorialImages extends Sprite {
 	private Image tutImgOne, tutImgTwo, tutImgThree, tutImgFour, tutImgFive, tutImgSix;
 	private ArrayList<Image> img;

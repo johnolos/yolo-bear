@@ -1,11 +1,12 @@
 package bomberman.graphics;
-/**
- * 
- */
+
 import bomberman.game.Constants;
 import bomberman.game.R;
 import sheep.graphics.Image;
 
+/**
+ * UpgradeImages
+ */
 public class UpgradeImages {
 	
 	public static Image BOMB_COUNT;

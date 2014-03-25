@@ -1,7 +1,4 @@
 package bomberman.states;
-/**
- * This class extends State and implements TouchListner
- */
 
 import bomberman.game.Constants;
 import bomberman.game.R;
@@ -13,7 +10,9 @@ import android.view.MotionEvent;
 import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.input.TouchListener;
-
+/**
+ * This class extends State and implements TouchListner
+ */
 public class MainMenuGraphics extends State implements TouchListener {
 	private Image singlePlayer, multiPlayer, tutorial;
 	private Image pressedSinglePlayer, pressedMultiPlayer, pressedTutorial;

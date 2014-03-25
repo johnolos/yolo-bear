@@ -1,14 +1,13 @@
 package bomberman.graphics;
-
-/**
- * implements Serializable
- */
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * implements Serializable
+ */
 public enum PowerUpType implements Serializable {
 	BOMB, // Increasing number of bombs that player has.
 

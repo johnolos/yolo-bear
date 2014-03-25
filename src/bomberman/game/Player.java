@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import bomberman.graphics.PowerUpType;
 import bomberman.states.GameState;
 
+/**
+ * Player extends Sprite
+ */
 public class Player extends Sprite {
 
 	/** Player settings **/
@@ -38,7 +41,12 @@ public class Player extends Sprite {
 	private float startPosY;
 	private long timeStamp;
 	
-	
+	/**
+	 * Constructor
+	 * @param name
+	 * @param color
+	 * @param gs
+	 */
 	public Player(String name, ColorObject color, GameState gs) {
 		this.nameOfPlayer = name;
 		this.setPosition(Constants.screenWidth/2, Constants.screenHeight/2);
@@ -55,6 +63,9 @@ public class Player extends Sprite {
 		return this.getX() + this.getImageWidth() / 2;
 	}
 	
+	/**
+	 * gotHit the player got hit by the bomb explosion
+	 */
 	public void gotHit(){
 		this.health = this.health - 1;
 		if(this.health == 0){
@@ -68,10 +79,19 @@ public class Player extends Sprite {
 		}
 	}
 	
+	/**
+	 * Isdead does the player have any life's left
+	 * @return true if player is dead else false
+	 */
 	public boolean isDead(){
 		return this.dead;
 	}
 	
+	/**
+	 * CheckGotHit check if the player got hit by the bomb explosion
+	 * @param xPixel
+	 * @param yPixel
+	 */
 	public void checkGotHit(float xPixel, float yPixel){
 		int x = Constants.getPositionX(xPixel);
 		int y = Constants.getPositionY(yPixel);
@@ -225,8 +245,6 @@ public class Player extends Sprite {
 		super.draw(canvas);
 	}
 	
-	
-	
 	/**
 	 * Checks if a player can move in Y-direction.
 	 * @return true or false, true if player can move
@@ -247,6 +265,10 @@ public class Player extends Sprite {
 		return false;
 	}
 	
+	/**
+	 * get the direction the player is moving in
+	 * @return direction
+	 */
 	public Direction getDirection() {
 		return this.direction;
 	}
@@ -277,14 +299,21 @@ public class Player extends Sprite {
 		}
 	}
 	
+	/**
+	 * getImageheight 
+	 * @return playerImages.get(0).getHeight the height of the players
+	 */
 	public float getImageHeight(){
 		return this.playerImages.get(0).getHeight();
 	}
 	
+	/**
+	 * getImageWidth
+	 * @return playerImages.get(0).getWidth the width of the player
+	 */
 	public float getImageWidth() {
 		return this.playerImages.get(0).getWidth();
 	}
-
 	
 	/**
 	 * Gives the player the power-ups, if the player have not maxed thus far
@@ -323,59 +352,118 @@ public class Player extends Sprite {
 		return;
 	}
 	
+	/**
+	 * getNameOfPlayer
+	 * @return nameOfPlayer the name of the player
+	 */
 	public String getNameOfPlayer() {
 		return this.nameOfPlayer;
 	}
 	
+	/**
+	 * getMagnitude
+	 * @return magnitudeOfBombs the magnitude of the bombs
+	 */
 	public int getMagnitude(){
 		return this.magnitudeOfBombs;
 	}
 	
+	/**
+	 * getColor
+	 * @return color of the object
+	 */
 	public ColorObject getColor(){
 		return this.color;
 	}
 	
+	/**
+	 * getPlayerSpeed
+	 * @return speedOfPlayer the speed of the player
+	 */
 	public float getPlayerSpeed() {
 		return this.speedOfPlayer;
 	}
 	
+	/**
+	 * getScore
+	 * @return scoreOfPlayer the score of the player
+	 */
 	public int getScore() {
 		return this.scoreOfPlayer;
 	}
-	
+
+	/**
+	 * canThrowBomb
+	 * @return true if you can throw bombs else false
+	 */
 	public boolean canThrowBomb() {
 		return this.throwBombs;
 	}
 	
+	/**
+	 * getNumber of bombs the player can drop at one time.
+	 * @return numberOfBombs
+	 */
 	public int getNumberOfBombs(){
 		return this.numberOfBombs;
 	}
 	
+	/**
+	 * canKickBomb can the player kick the bombs
+	 * @return true if player can kick bomb else false
+	 */
 	public boolean canKickBomb() {
 		return this.kickBombs;
 	}
 	
+	/**
+	 * UpdatePosition of player on screen
+	 */
 	public void updatePosition() {
 		this.previousX = this.getMiddleX();
 		this.previousY = this.getMiddleY();
 	}
 	
+	/**
+	 * HasMovedSince have the player moved since last time checked
+	 * @return true if moved else false
+	 */
 	public boolean hasMovedSince() {
 		return !(this.previousX == this.getMiddleX() && this.previousY == this.getMiddleY());
 	}
 	
+	/**
+	 * canPlaceBom can player place bomb
+	 * @return true if player can place bomb, else false
+	 */
 	public boolean canPlaceBomb() {
 		return (this.bombsPlaced.size() < getNumberOfBombs());
 	}
 	
+	/**
+	 * AddBomb place bomb on screen and into array
+	 * @param bomb
+	 */
 	public void addBomb(Bomb bomb) {
 		this.bombsPlaced.add(bomb);
 	}
 	
+	/**
+	 * removeBomb remove bomb from array and screen
+	 * @param bomb
+	 */
 	public void removeBomb(Bomb bomb) {
 		this.bombsPlaced.remove(bomb);
 	}
 	
+	/**
+	 * handleCollision between things
+	 * @param dir
+	 * @param y
+	 * @param x
+	 * @param posX
+	 * @param posY
+	 */
 	public void handleCollision(Direction dir,int y, int x, float posX, float posY){
 		Sprite sprite = gameState.getSpriteBoard().get(y+dir.getY()).get(x+dir.getX());
 		if(sprite instanceof Empty){
@@ -415,10 +503,22 @@ public class Player extends Sprite {
 			}
 		}
 	}
+	
+	/**
+	 * setDead set player dead
+	 * @param dt
+	 */
 	public void setDead(long dt){
 		this.dead = true;
 		this.timeStamp = dt;
 	}
+	
+	/**
+	 * getPixlesY get the number of pixels between player and wall in direction down
+	 * @param dir
+	 * @param sprite
+	 * @return
+	 */
 	public float getPixelsY(Direction dir,Sprite sprite){
 		if(dir == Direction.DOWN){
 			return sprite.getPosition().getY() - (getPosition().getY() + getImageHeight());
@@ -428,6 +528,12 @@ public class Player extends Sprite {
 		}
 	}
 	
+	/**
+	 * getPixlesY get the number of pixels between player and wall in direction right
+	 * @param dir
+	 * @param sprite
+	 * @return
+	 */
 	public float getPixelsX(Direction dir,Sprite sprite){
 		if(dir == Direction.RIGHT){
 			return sprite.getPosition().getX() - (getPosition().getX() + getImageHeight());
@@ -476,20 +582,30 @@ public class Player extends Sprite {
 
 	}
 
+	/**
+	 * getTimeStamp
+	 * @return timeStamp
+	 */
 	public long getTimeStamp() {
 		return this.timeStamp;
 	}
 	
+	/**
+	 * setMagnitude
+	 * @param magnitude new magnitude
+	 */
 	public void setMagnitude(int magnitude) {
 		magnitudeOfBombs = magnitude;
 		
 	}
 
+	/**
+	 * setDeadOpponent opponents dead
+	 * @param timeStamp2
+	 */
 	public void setDeadOpponent(long timeStamp2) {
 		timeStamp = timeStamp2;
 		dead = true;
 		
 	}
-
-	
 }

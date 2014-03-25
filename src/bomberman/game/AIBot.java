@@ -1,14 +1,13 @@
 package bomberman.game;
-/**
- * Extends Player
- */
+
 import java.util.ArrayList;
 import java.util.Random;
-
 import bomberman.states.GameState;
 import android.graphics.Canvas;
 import sheep.game.Sprite;
-
+/**
+ * Extends Player
+ */
 public class AIBot extends Player {
 
 	private GameState gameState;

@@ -4,11 +4,15 @@ import android.graphics.Canvas;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 
+/**
+ * Wall extends Sprite
+ */
 public class Wall extends Sprite {
-	
-	
 	private Image wall;
 	
+	/**
+	 * Constructor
+	 */
 	public Wall(){
 		if(Constants.screenHeight  == 1600){
 			this.wall = new Image(R.drawable.wall);
@@ -44,7 +48,4 @@ public class Wall extends Sprite {
 	public void draw(Canvas canvas){
 		super.draw(canvas);
 	}
-	
-
-
 }

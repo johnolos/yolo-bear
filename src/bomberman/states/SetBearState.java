@@ -1,7 +1,5 @@
 package bomberman.states;
-/**
- * extends State implements TouchListener
- */
+
 import bomberman.game.ColorObject;
 import bomberman.game.Constants;
 import bomberman.game.R;
@@ -13,6 +11,9 @@ import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
+/**
+ * extends State implements TouchListener
+ */
 public class SetBearState extends State implements TouchListener{
 	Buttons brown,black,white,swag,textS;
 	Image brownImage,blackImage,whiteImage,swagImage,text;

@@ -3,12 +3,20 @@ package bomberman.game;
 import android.graphics.Canvas;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
-
+/**
+ * Explosion extends Sprite
+ */
 public class Explosion extends Sprite {
 	
 	private double time;
 	private boolean removeMe = false;
 	
+	/**
+	 * Constructor
+	 * @param x x-coordinate of explosion
+	 * @param y y-coordinate of explosion
+	 * @param image image for explosion
+	 */
 	public Explosion(float x, float y, Image image){
 		this.time = System.currentTimeMillis();
 		this.setPosition(x, y);
@@ -25,6 +33,9 @@ public class Explosion extends Sprite {
 		super.update(dt);
 	}
 	
+	/**
+	 * Check time for explosion
+	 */
 	private void checkTime() {
 		if(System.currentTimeMillis()-this.time>1000){
 			removeMe = true;
@@ -41,6 +52,10 @@ public class Explosion extends Sprite {
 		super.draw(canvas);
 	}
 	
+	/**
+	 * Remove the explosion
+	 * @return true if explosion has happend
+	 */
 	public boolean removeExplosion(){
 		return removeMe;
 	}
