@@ -47,7 +47,7 @@ public class GameState extends State implements TouchListener {
 
 	public GameState(ColorObject color, int opponentNumber) {
 		// Board class now handles creating the actual gameBoard,
-		this.board = new Board();
+		this.board = new Board(false);
 		this.gameStarted = System.currentTimeMillis();
 		this.player = new Player("Player1", color, this);
 
@@ -84,7 +84,7 @@ public class GameState extends State implements TouchListener {
 	
 	public GameState(Client client) {
 		this.isMultiplayer= true;
-		this.board = new Board();
+		this.board = new Board(true);
 		this.client = client;
 
 
@@ -487,7 +487,7 @@ public class GameState extends State implements TouchListener {
 	 *            PeerObject received from other players. TODO: UPDATE FOR MORE
 	 *            GAME ELEMENTS
 	 */
-	public void receiveGameEvent(PeerObject obj) {
+	public synchronized void receiveGameEvent(PeerObject obj) {
 		if(obj.getColor()==getPlayer().getColor()){
 			return;
 		}
@@ -499,7 +499,8 @@ public class GameState extends State implements TouchListener {
 				allPlayers.add(new Opponent(color, this));
 				haveMoved = true;
 			}
-			for (Player opponent : allPlayers) {
+			for(Iterator<Player> it = allPlayers.iterator(); it.hasNext();) {
+				Player opponent = it.next();
 				if (opponent.getColor() == color) {
 					float x = obj.getX();
 					float y = obj.getY();
@@ -514,6 +515,23 @@ public class GameState extends State implements TouchListener {
 					allPlayers.add(new Opponent(color, this));
 				}
 			}
+			
+//			for (Player opponent : allPlayers) {
+//				if (opponent.getColor() == color) {
+//					float x = obj.getX();
+//					float y = obj.getY();
+//					x = Constants.getLocalXPosition(x);
+//					y = Constants.getLocalYPosition(y);
+//					x = x - (this.player.getImageWidth() / 2);
+//					y = y - (this.player.getImageHeight() / 2);
+//					opponent.setPosition(x, y);
+//					opponent.setDirection(obj.getDirection());
+//				}
+//				else{
+//					allPlayers.add(new Opponent(color, this));
+//				}
+//			}
+			
 			break;
 		case BOMB:
 			for (Player opponent : allPlayers) {

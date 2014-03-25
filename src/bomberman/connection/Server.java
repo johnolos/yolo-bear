@@ -16,6 +16,7 @@ public class Server {
 
 	private ClientConnection[] clients;
 	private boolean[] isClientReady;
+	private ColorObject[] clientColors;
 	
 	private int numberOfPlayers = -1;
 
@@ -27,6 +28,10 @@ public class Server {
 		isClientReady = new boolean[4];
 		for(int i = 0; i < 4; i++) {
 			isClientReady[i] = false;
+		}
+		clientColors = new ColorObject[4];
+		for(int i = 0; i < 4; i++) {
+			clientColors[i] = null;
 		}
 	}
 
@@ -79,31 +84,37 @@ public class Server {
 			}
 		}
 		clients[availablePlayerSpot] = client;
-		ColorObject color = null;
+		ColorObject colorAssigned = null;
+		for(ColorObject color : ColorObject.values()) {
+			if(isColorAvailable(color))
+				colorAssigned = color;
+		}
+		clientColors[availablePlayerSpot] = colorAssigned;
 		switch (availablePlayerSpot) {
 		case 0:
-			color = ColorObject.BROWN;
+//			color = ColorObject.BROWN;
 			send(new LobbyInformation(GameLobby.HOST),client);
 			break;
 		case 1:
-			color = ColorObject.BLACK;
+//			color = ColorObject.BLACK;
 			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,
 					numberOfPlayers), client);
 			break;
 		case 2:
-			color = ColorObject.WHITE;
+//			color = ColorObject.WHITE;
 			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,
 					numberOfPlayers), client);
 			break;
 		case 3:
-			color = ColorObject.SWAG;
+//			color = ColorObject.SWAG;
 			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,
 					numberOfPlayers), client);
 			break;
 		default:
 			break;
 		}
-		send(color, client);
+		System.out.println("Color " + colorAssigned + " assigned.");
+		send(colorAssigned, client);
 		System.out.print("A player connected. ");
 		System.out.println( getNumberOfPlayers()
 				+ " client(s) are connected to the server.");
@@ -223,6 +234,14 @@ public class Server {
 					+ peer.getInetAddress().getHostAddress() + ":"
 					+ String.valueOf(peer.getPort()));
 		}
+	}
+	
+	private boolean isColorAvailable(ColorObject color) {
+		for(int i = 0; i < clientColors.length; i++) {
+			if(clientColors[i] == color)
+				return false;
+		}
+		return true;
 	}
 
 	// Thread class for handling further connection with client when connection
