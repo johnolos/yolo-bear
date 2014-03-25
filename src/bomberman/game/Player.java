@@ -18,15 +18,15 @@ public class Player extends Sprite {
 	
 	/** Player power **/
 	private int numberOfBombs = 1;
-	private static final int MAX_NR_OF_BOMBS = 5;
+	private static final int MAX_NR_OF_BOMBS = 6;
 	private int health =3;
 	private boolean kickBombs = false;
 	private boolean throwBombs = false;
 	private float speedOfPlayer = 1.3f;
 	private static final float SPEED_UPGRADE = 0.4f;
-	private static final float MAX_SPEED = 3.3f;
+	private static final float MAX_SPEED = 2.9f;
 	private int magnitudeOfBombs = 1;
-	private static final int MAX_NR_OF_MAGNITUDE_UPS = 6;
+	private static final int MAX_NR_OF_MAGNITUDE_UPS = 5;
 	private int scoreOfPlayer = 0;
 	
 	private float previousX;
@@ -48,7 +48,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Returns the centered X-coordinate of player sprite.
-	 * @return
+	 * @return this.getX() + this.getImageWidth()/2 which is the middle of the screen x-axis
 	 */
 	public float getMiddleX(){
 		return this.getX() + this.getImageWidth() / 2;
@@ -83,7 +83,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Returns the centered Y-coordinate of player sprite.
-	 * @return
+	 * @return this.getY() + this.getImageHeight()/2 which is the middle of the screen y-axis
 	 */
 	public float getMiddleY() {
 		return this.getY() + this.getImageHeight() / 2;
@@ -205,7 +205,7 @@ public class Player extends Sprite {
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
 	 * This function also calls the update function in the super class
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt){
 		if((!this.dead && !gameState.isMultiplayer())|| (gameState.getPlayer()==this && !this.dead)){
@@ -218,7 +218,7 @@ public class Player extends Sprite {
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
 	 * This draw calls the draw function in the super class
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas){
 		super.draw(canvas);
@@ -228,7 +228,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Checks if a player can move in Y-direction.
-	 * @return
+	 * @return true or false, true if player can move
 	 */
 	public boolean canMoveY() {
 		if(Constants.getPositionX(this.getPosition().getX()) == Constants.getPositionX(this.getPosition().getX() + this.playerImages.get(0).getHeight()))
@@ -238,7 +238,7 @@ public class Player extends Sprite {
 	
 	/**
 	 * Checks if a player can move in X-direction
-	 * @return
+	 * @return true or false, true if player can move
 	 */
 	public boolean canMoveX() {
 		if(Constants.getPositionY(this.getPosition().getY()) == Constants.getPositionY(this.getPosition().getY() + this.playerImages.get(0).getHeight()))
@@ -298,7 +298,7 @@ public class Player extends Sprite {
 		case SPEED:
 			if(this.speedOfPlayer < Player.MAX_SPEED)
 			this.speedOfPlayer+=Player.SPEED_UPGRADE;
-			return;
+			return; 
 		case THROW:
 			this.throwBombs = true;
 			return;
@@ -431,9 +431,8 @@ public class Player extends Sprite {
 	
 	/**
 	 * Returns true if a player can move to the given direction.
-	 * @return
+	 * @return true or false
 	 */
-
 	public boolean canPlayerMove(Direction dir){
 		int y = Constants.getPositionY(getMiddleY());
 		int x = Constants.getPositionX(getMiddleX());

@@ -79,7 +79,7 @@ public class Bomb extends Sprite implements Collision {
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
 	 * This function also calls the update function in the super class, and updates some other things that are set in this class
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt) {
 		bombAnimation();
@@ -102,7 +102,7 @@ public class Bomb extends Sprite implements Collision {
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
 	 * This draw calls the draw function in the super class
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
@@ -198,7 +198,6 @@ public class Bomb extends Sprite implements Collision {
 	 * Evaluates a bomb and removes the creates it finds in its impact range.
 	 * Refactoring should be considered.
 	 * 
-	 * @param bomb
 	 */
 	public void bombImpact() {
 		int blastRadius = getBlastRadius();
@@ -346,8 +345,6 @@ public class Bomb extends Sprite implements Collision {
 	/**
 	 * Evaluates a bomb and removes the creates it finds in its impact range.
 	 * 
-	 * 
-	 * @param bomb
 	 */
 	public void bombImpactRefactored() {
 		int blastRadius = getBlastRadius();

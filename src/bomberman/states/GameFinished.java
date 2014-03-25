@@ -1,5 +1,7 @@
 package bomberman.states;
-
+/**
+ * This class extends State and implements TouchListener
+ */
 import java.util.ArrayList;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,13 +16,15 @@ import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
 public class GameFinished extends State implements TouchListener{
-	
 	private Buttons newRound,backMenu;
 	private Image newRoundImage,backMenuImage;
 	private float x,y;
 	private GameState gs;
 	private Sprite resultSprite;
 	
+	/**
+	 * The constructor in GameFinished
+	 */
 	public GameFinished(ArrayList<Player> allPlayers,Player player, GameState gs){
 		this.gs = gs;
 		newRoundImage = new Image(R.drawable.newgamebutton);
@@ -50,6 +54,13 @@ public class GameFinished extends State implements TouchListener{
 		}
 	}
 	
+	/**
+	 * isWinner is a function which returns a boolean value and checks whether you are the winner or not,
+	 * if you are the winner it returns true if not it returns false.
+	 * @param allPlayers an ArrayList<Player> with all the players
+	 * @param player a instance from the Player class
+	 * @return true or false if the player is a winner or not
+	 */
 	public boolean isWinner(ArrayList<Player> allPlayers,Player player){
 		Player winner=player;
 		for (Player p : allPlayers) {
@@ -63,7 +74,7 @@ public class GameFinished extends State implements TouchListener{
 	
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt){
 		resultSprite.update(dt);
@@ -73,7 +84,7 @@ public class GameFinished extends State implements TouchListener{
 	
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas, which you draw on.
 	 */
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
@@ -81,6 +92,11 @@ public class GameFinished extends State implements TouchListener{
 		newRound.draw(canvas);
 		backMenu.draw(canvas);
 	}
+	
+	/**
+	 * What happens when you release your finger from the screen, from the different buttons
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if (newRound.getBounds().contains(event.getX(), event.getY())) {

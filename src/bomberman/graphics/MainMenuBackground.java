@@ -23,7 +23,7 @@ public class MainMenuBackground extends Sprite {
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
 	 * This draw calls the draw function in the super class
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
@@ -32,7 +32,7 @@ public class MainMenuBackground extends Sprite {
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
 	 * This function also calls the update function in the super class
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt) {
 		super.update(dt);

@@ -1,5 +1,7 @@
 package bomberman.states;
-
+/**
+ * This class extends State and implements TouchListner
+ */
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -45,6 +47,11 @@ public class GameState extends State implements TouchListener {
 	private long gameStarted;
 	private boolean suddenDeathInitiated = false;
 
+	/**
+	 * The constructor for GameState
+	 * @param color the color of the player
+	 * @param opponentNumber th number of opponents you will play against
+	 */
 	public GameState(ColorObject color, int opponentNumber) {
 		// Board class now handles creating the actual gameBoard,
 		this.board = new Board(false);
@@ -82,6 +89,11 @@ public class GameState extends State implements TouchListener {
 		addBots(opponentNumber);
 	}
 	
+	/**
+	 * The state of the game is it a multiplayer game or is it a singleplayer game.
+	 * And adds all the buttons to the view, place bomb and direction buttons.
+	 * @param client the client connection to the server.
+	 */
 	public GameState(Client client) {
 		this.isMultiplayer= true;
 		this.board = new Board(true);
@@ -114,6 +126,10 @@ public class GameState extends State implements TouchListener {
 		this.player = new Player("Player1", ColorObject.BROWN, this);
 	}
 
+	/**
+	 * Adds bots to the singleplayer game, how many depends on how many you want to play against
+	 * @param opponentNumber the number of bots you will play against, you choose this number.
+	 */
 	private void addBots(int opponentNumber) {
 		
 		for (ColorObject color : ColorObject.values()) {
@@ -131,23 +147,29 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
-	
+	/**
+	 * What happens when you release the screen the player stops
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		player.setSpeed(0, 0);
 		return false;
 	}
 
+	/**
+	 * Nothing happens when you just press the screen
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchMove(MotionEvent event) {
 		return false;
 	}
 
 	/**
-	 * Handles onTouchDown events given for the various game elements in the
-	 * state.
+	 * Handles onTouchDown events given for the various game elements in the state.
+	 * @param event
 	 */
-	
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if (up.getBounds().contains(event.getX(), event.getY())) {
@@ -210,8 +232,7 @@ public class GameState extends State implements TouchListener {
 
 	/**
 	 * Returns tile position in X-direction from current player position.
-	 * 
-	 * @return
+	 * @return (int)getSpriteBoard().get(gridY).get(gridX).getX()
 	 */
 	public int getTilePositionX() {
 		int gridX = Constants.getPositionX(player.getMiddleX());
@@ -221,8 +242,7 @@ public class GameState extends State implements TouchListener {
 
 	/**
 	 * Returns tile position in Y-direction from the current player position.
-	 * 
-	 * @return
+	 * @return (int)getSpriteBoard().get(gridY).get(gridX).getY()
 	 */
 	public int getTilePositionY() {
 		int gridX = Constants.getPositionX(player.getMiddleX());
@@ -230,11 +250,20 @@ public class GameState extends State implements TouchListener {
 		return (int) getSpriteBoard().get(gridY).get(gridX).getY();
 	}
 
-
+	/**
+	 * Sets the sprites onto the board
+	 * @param column which column to set it on
+	 * @param row which row to set it on
+	 * @param sprite which sprite to set on the column and row
+	 */
 	public void setSprite(int column, int row, Sprite sprite) {
 		this.board.setSprite(column, row, sprite);
 	}
 
+	/**
+	 * Gets the sprites on the board
+	 * @return this.board.getSpriteBoard() is the board represented with sprites
+	 */
 	public ArrayList<ArrayList<Sprite>> getSpriteBoard() {
 		return this.board.getSpriteBoard();
 	}
@@ -242,7 +271,7 @@ public class GameState extends State implements TouchListener {
 	/**
 	 * Called every game tic. All sprites needs to be updated here.
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt) {
 		
@@ -320,6 +349,9 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * Resets the game
+	 */
 	public void resetGame() {
 		board.reset();
 		powerups.clear();
@@ -330,7 +362,10 @@ public class GameState extends State implements TouchListener {
 			player.resetRound();
 		}
 	}
-
+	
+	/**
+	 * Check timer, the timer if the game should start shrinking the board
+	 */
 	private void checkTimer() {
 		if(!haveMoved){
 			return;
@@ -353,6 +388,10 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * Checks if the game is over, it is over if you are dead in singleplayer and if there is one player standing in multiplayer
+	 * @return true if every one is dead in multiplayer and true if you are dead in singleplayer else false
+	 */
 	private boolean gameOver() {
 		if(this.player.isDead() && !isMultiplayer){
 			return true;
@@ -374,6 +413,9 @@ public class GameState extends State implements TouchListener {
 		return nrDead > allPlayers.size()-2 ? true:false;
 	}
 
+	/**
+	 * Removs the explosion when it has exploded
+	 */
 	private void removeExplosions() {
 		for (Iterator<Explosion> it = explosions.iterator(); it.hasNext();) {
 			Explosion explosion = it.next();
@@ -384,11 +426,20 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * adds explosion to the explosion list
+	 * @param explosion
+	 */
 	public void addExplosion(Explosion explosion) {
 		explosions.add(explosion);
 		isExplosionArrayChanged = true;
 	}
 
+	/**
+	 * checks if a player is hit when bomb explodes
+	 * @param xPixel
+	 * @param yPixel
+	 */
 	public void checkPlayerHit(float xPixel, float yPixel) {
 		this.player.checkGotHit(xPixel, yPixel);
 		if(!isMultiplayer){
@@ -416,6 +467,10 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * This returns an ArrayList which holds the bombs
+	 * @return bombs
+	 */
 	public ArrayList<Bomb> getBombs() {
 		return bombs;
 	}
@@ -423,7 +478,7 @@ public class GameState extends State implements TouchListener {
 	/**
 	 * Called every game tic. Sprites are drawn on the given canvas parameter here.
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		updateCopyOfElementArrays();
@@ -464,6 +519,9 @@ public class GameState extends State implements TouchListener {
 		player.draw(canvas);
 	}
 
+	/**
+	 * Copys the ArrayLists into a copied ArrayList
+	 */
 	private void updateCopyOfElementArrays() {
 		if(isBombArrayChanged) {
 			copyOfBombs = new ArrayList<Bomb>(bombs);
@@ -590,6 +648,9 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * Checks for collisons like player into wall etc
+	 */
 	public void collisionCheck() {
 		if (this.powerups.size() == 0) {
 			return;
@@ -639,7 +700,12 @@ public class GameState extends State implements TouchListener {
 			}
 		}
 	}
-
+	
+	/**
+	 * Creats powerups random when bombs explode
+	 * @param x position for powerup
+	 * @param y position for powerup
+	 */
 	public void randomPlacePowerUp(int x, int y) {
 		if (randomGenerator.nextInt(100) >= 70) {
 			PowerUp powerup = new PowerUp(x, y, this);
@@ -651,6 +717,12 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * gives the player the possibility to kick bombs
+	 * @param x position of bomb
+	 * @param y position of bomb
+	 * @param direction the direction you kick the bomb
+	 */
 	public void kickBomb(int x, int y, Direction direction) {
 		for (Bomb bomb : this.bombs) {
 			if (bomb.collision(x, y) && !bomb.initiated()) {
@@ -662,6 +734,12 @@ public class GameState extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * Adds bomb at the position it is placed
+	 * @param x position of bomb
+	 * @param y position of bomb
+	 * @return true or false
+	 */
 	public boolean bombAtPosition(int x, int y) {
 		if (this.bombs.size() == 0)
 			return false;
@@ -673,37 +751,67 @@ public class GameState extends State implements TouchListener {
 		return false;
 	}
 
+	/**
+	 * Sets the color on the player
+	 * @param obj
+	 */
 	public void setPlayerColor(ColorObject obj) {
 		this.player.setColor(obj);
 	}
 
+	/**
+	 * Adds the possibility to place more then one bomb
+	 * @param bomb
+	 */
 	public void addBomb(Bomb bomb) {
 		bombs.add(bomb);
 		isBombArrayChanged = true;
 	}
 	
+	/**
+	 * Adds powerup to the player and makes him stronger
+	 * @param powerup which powerup is added
+	 */
 	public void addPowerup(PowerUp powerup) {
 		powerups.add(powerup);
 		isPowerupArrayChanged = true;
 	}
 
+	/**
+	 * is this a multiplayer game
+	 * @return true if multiplayer, false else
+	 */
 	public boolean isMultiplayer() {
 		return isMultiplayer;
 	}
 
+	/**
+	 * Get the player
+	 * @return player
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Starts the game and starts the timer
+	 */
 	public void startGame() {
 		gameStarted = System.currentTimeMillis();
 		
 	}
 	
+	/**
+	 * Get the game you started
+	 * @return the time the game was started
+	 */
 	public long getGameStarted() {
 		return gameStarted;
 	}
 
+	/**
+	 * If the game is a multiplayer game, the client sends a message to the others when a player is dead
+	 */
 	public void playerDied() {
 		if (isMultiplayer) {
 			long dt = System.currentTimeMillis() - gameStarted;

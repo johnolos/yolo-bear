@@ -1,5 +1,7 @@
 package bomberman.states;
-
+/**
+ * extends State implements TouchListener
+ */
 import bomberman.connection.Client;
 import bomberman.connection.GameLobby;
 import bomberman.connection.LobbyInformation;
@@ -28,7 +30,9 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	private Buttons btnReady, btnNotReady;
 	private boolean hasReceivedReadyToStartInformation = false;
 
-	
+	/**
+	 * Constructor of loading multiplayer
+	 */
 	public LoadingMultiplayer(){
 		if(this.client == null) {
 			this.client = new Client();
@@ -57,6 +61,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * When the screen is pressed down, the buttons is changes if the event is in the button bounds
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(btnReady.getBounds().contains(event.getX(), event.getY())) {
@@ -69,6 +77,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		return false;
 	}
 
+	/**
+	 * What happens when you release the screen, and updates the view
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(btnReady.getBounds().contains(event.getX(), event.getY())) {
@@ -83,6 +95,9 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		return false;
 	}
 
+	/**
+	 * not used
+	 */
 	@Override
 	public boolean onTouchMove(MotionEvent event) {
 		// TODO Auto-generated method stub
@@ -91,7 +106,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt){
 		btnReady.update(dt);
@@ -105,6 +120,9 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		}
 	}
 	
+	/**
+	 * Checks wheter the players are ready to play a multiplayer game
+	 */
 	private void checkPlayersReady() {
 		int nrReadyPlayers = 0 ;
 		for(int i = 0; i<isPlayerReady.length; i++){
@@ -123,7 +141,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
@@ -143,6 +161,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		btnNotReady.draw(canvas);
 	}
 	
+	/**
+	 * The lobby information is taken care of here
+	 * @param info
+	 */
 	public void receiveLobbyInformation(LobbyInformation info) {
 		switch(info.getLobby()) {
 		case HOST:
@@ -173,10 +195,17 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		}
 	}
 
+	/**
+	 * Host menu
+	 */
 	private void addHostMenu() {
 		getGame().pushState(new SetNumberPlayerState(gameState.getPlayer().getColor(),this));
 	}
 
+	/**
+	 * Sets the number of players in a multiplayer game
+	 * @param nrOfOpponents the number of opponents
+	 */
 	public void setNrOfPlayers(int nrOfOpponents) {
 		this.nrOfOpponents = nrOfOpponents;
 		if (isHost) {
@@ -184,6 +213,10 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		}
 	}
 	
+	/**
+	 * Ready to start game
+	 * @return true if hasReceivedReadyToStartInformation else false
+	 */
 	public boolean isReadyToStart() {
 		return hasReceivedReadyToStartInformation;
 	}

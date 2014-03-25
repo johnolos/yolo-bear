@@ -1,5 +1,7 @@
 package bomberman.states;
-
+/**
+ * extends State implements TouchListener
+ */
 import bomberman.game.ColorObject;
 import bomberman.game.Constants;
 import bomberman.game.R;
@@ -16,7 +18,9 @@ public class SetBearState extends State implements TouchListener{
 	Image brownImage,blackImage,whiteImage,swagImage,text;
 	private float x,y;
 
-	
+	/**
+	 * The constructor of SetBearstate
+	 */
 	public SetBearState(){
 		//text
 		text = new Image(R.drawable.chooseplayer);
@@ -54,7 +58,10 @@ public class SetBearState extends State implements TouchListener{
 		
 	}
 
-	
+	/**
+	 * OnTouchDown what happens when you press the screen
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchDown(MotionEvent event) {
 		if(brown.getBounds().contains(event.getX(), event.getY())) {
@@ -72,6 +79,10 @@ public class SetBearState extends State implements TouchListener{
 		return false;
 	}
 
+	/**
+	 * onTouchUp what happens when you relese the screen
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(brown.getBounds().contains(event.getX(), event.getY())) {
@@ -93,6 +104,10 @@ public class SetBearState extends State implements TouchListener{
 		return false;
 	}
 
+	/**
+	 * Not used
+	 * @param event
+	 */
 	@Override
 	public boolean onTouchMove(MotionEvent event) {
 		// TODO Auto-generated method stub
@@ -101,7 +116,7 @@ public class SetBearState extends State implements TouchListener{
 	
 	/**
 	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
-	 * @param float dt
+	 * @param dt
 	 */
 	public void update(float dt){
 		black.update(dt);
@@ -113,7 +128,7 @@ public class SetBearState extends State implements TouchListener{
 	
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
-	 * @param Canvas canvas which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
