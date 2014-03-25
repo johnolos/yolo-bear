@@ -198,6 +198,11 @@ public class Player extends Sprite {
 		this.setView(playerImages.get(0));
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * This function also calls the update function in the super class
+	 * @param float dt
+	 */
 	public void update(float dt){
 		if((!this.dead && !gameState.isMultiplayer())|| (gameState.getPlayer()==this && !this.dead)){
 			playerCollision();
