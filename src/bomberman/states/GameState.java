@@ -1,4 +1,4 @@
-package bomberman.states;
+ package bomberman.states;
 /**
  * This class extends State and implements TouchListner
  */
@@ -213,6 +213,13 @@ public class GameState extends State implements TouchListener {
 			if (this.player.canPlaceBomb()) {
 				// TODO: Image glitch where bomb is viewed a few milliseconds in
 				// top-left of the screen before placed correctly.
+				if(this.player.hasSuperBomb){
+					this.player.hasSuperBomb = false;
+					Bomb bomb = new Bomb(getTilePositionX(), getTilePositionY(),
+							Board.ROW_SIZE, this,getPlayer().getColor());
+					addBomb(bomb);
+					this.player.addBomb(bomb);
+				}
 				Bomb bomb = new Bomb(getTilePositionX(), getTilePositionY(),
 						player.getMagnitude(), this,getPlayer().getColor());
 				addBomb(bomb);
@@ -649,7 +656,7 @@ public class GameState extends State implements TouchListener {
 	}
 
 	/**
-	 * Checks for collisons like player into wall etc
+	 * Checks for collisions like player into wall etc
 	 */
 	public void collisionCheck() {
 		if (this.powerups.size() == 0) {

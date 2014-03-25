@@ -18,7 +18,9 @@ public enum PowerUpType implements Serializable {
 
 	KICK, // Enables player to kick bombs
 
-	MAGNITUDE; // Increases the magnitude range of bombs for that player
+	MAGNITUDE, // Increases the magnitude of the bombs that player has
+	
+	SUPERBOMB; //THE SUPERBOMB! one bomb that's maxed (and red :D)
 
 	private static final List<PowerUpType> VALUES = Collections
 			.unmodifiableList(Arrays.asList(values()));
@@ -31,19 +33,20 @@ public enum PowerUpType implements Serializable {
 	 * @return
 	 */
 	public static PowerUpType randomPowerUp() {
-		Random r = new Random();
-		int chooser = r.nextInt(100);
+		int chooser = RANDOM.nextInt(110);
 		if (chooser <= 28)
 			return BOMB;
-		if (chooser > 28 && chooser <= 38)
+		if (chooser > 28 && chooser <= 47)
 			return SPEED;
-		if (chooser > 38 && chooser <= 54)
+		if (chooser > 47 && chooser <= 59)
 			return THROW;
-		if (chooser > 54 && chooser <=70)
+		if (chooser > 59 && chooser <= 70)
 			return KICK;
-		if (chooser > 70)
+		if (chooser > 70 && chooser <= 103)
 			return MAGNITUDE;
-		return VALUES.get(RANDOM.nextInt(SIZE)); //just in case
+		if(chooser > 103)
+			return SUPERBOMB;
+		return VALUES.get(RANDOM.nextInt(SIZE)); // just in case
 	}
 
 }

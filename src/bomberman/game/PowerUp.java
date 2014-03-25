@@ -21,7 +21,7 @@ public class PowerUp extends Sprite implements Collision{
 		float y = (float) (row * Constants.getHeight());
 		this.setPosition(x, y);
 		this.powerup = PowerUpType.randomPowerUp();
-		assignPowerUpImage();
+		assignPowerUpImage();  
 		setView(image);
 	}
 	
@@ -55,6 +55,8 @@ public class PowerUp extends Sprite implements Collision{
 		case THROW:
 			this.image = UpgradeImages.THROW_ABILITY;
 			break;
+		case SUPERBOMB:
+			this.image = UpgradeImages.SUPER_BOMB;
 		}
 	}
 	
