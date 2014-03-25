@@ -1,7 +1,5 @@
 package bomberman.states;
-/**
- * Extends State and implements TouchListener
- */
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -13,6 +11,9 @@ import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
+/**
+ * Extends State and implements TouchListener
+ */
 public class TutorialState extends State implements TouchListener {
 	private TutorialImages img;
 	private int imgIndex=0;

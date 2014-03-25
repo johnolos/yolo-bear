@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import bomberman.states.GameState;
 import android.graphics.Canvas;
 import sheep.graphics.Image;
-
+/**
+ * Opponent extends Player
+ */
 public class Opponent extends Player {
-	
 	private ArrayList<Image> opponentImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
 	private ColorObject myColor;
 	private Direction direction = Direction.UP;
 	private int magnitude=1;
 
+	/**
+	 * Constructor
+	 * @param color color
+	 * @param gs game
+	 */
 	public Opponent(ColorObject color, GameState gs) {
 		super(" ", color,gs);
 		this.myColor = color;
@@ -88,10 +94,18 @@ public class Opponent extends Player {
 		this.setView(opponentImages.get(0));
 	}
 	
+	/**
+	 * Get the direction the opponent is moving in
+	 * @return direction
+	 */
 	public Direction getDirection() {
 		return this.direction;
 	}
 	
+	/**
+	 * Set direction opponent is moving in
+	 * @param direction direction moving in
+	 */
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 		switch(direction) {
@@ -112,10 +126,17 @@ public class Opponent extends Player {
 		}
 	}
 	
+	/**
+	 * Update magnitude
+	 */
 	public void updateMagnitude(){
 		this.magnitude ++;
 	}
 	
+	/**
+	 * Get magnitude
+	 * @return magnitude
+	 */
 	public int getMagnitude(){
 		return this.magnitude;
 	}
@@ -138,6 +159,10 @@ public class Opponent extends Player {
 		super.update(dt);
 	}
 	
+	/**
+	 * getColor
+	 * @return mycolor color on the opponent 
+	 */
 	public ColorObject getColor(){
 		return this.myColor;
 	}

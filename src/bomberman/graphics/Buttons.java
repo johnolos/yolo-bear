@@ -1,7 +1,5 @@
 package bomberman.graphics;
-/**
- * Extends Sprite
- */
+
 import bomberman.game.Constants;
 import bomberman.game.R;
 import android.graphics.Canvas;
@@ -10,6 +8,9 @@ import sheep.game.Sprite;
 import sheep.graphics.Image;
 import sheep.math.BoundingBox;
 
+/**
+ * Extends Sprite
+ */
 public class Buttons extends Sprite {
 	private Image up;
 	private Image down;

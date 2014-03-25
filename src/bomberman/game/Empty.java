@@ -3,11 +3,16 @@ package bomberman.game;
 import android.graphics.Canvas;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
-
+/**
+ * Empty extends Sprite
+ */
 public class Empty extends Sprite{
 	
 	private Image empty;
 	
+	/**
+	 * Constructor
+	 */
 	public Empty(){
 		if(Constants.screenHeight  == 1600){
 			this.empty = new Image(R.drawable.empty);

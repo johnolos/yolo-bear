@@ -1,8 +1,12 @@
 package bomberman.graphics;
+
 import bomberman.game.Constants;
 import bomberman.game.R;
 import sheep.graphics.Image;
 
+/**
+ * BombImages
+ */
 public class BombImages {
 	
 	public static Image bombPhase1;

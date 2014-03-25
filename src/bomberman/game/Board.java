@@ -1,12 +1,12 @@
 package bomberman.game;
-/**
- * 
- */
+
 import java.util.ArrayList;
 import java.util.Random;
 import sheep.game.Sprite;   
 
-
+/**
+ * Board
+ */
 public class Board {
 	private ArrayList<ArrayList<Sprite>> spriteList;
 	private long timeSinceLastWallplaced;
@@ -42,7 +42,7 @@ public class Board {
 	 * X-board
 	 * The 5 is a placeholder for tiles to be filled by the custom filler
 	 */
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private int[][] customBoard1 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,5,5,1,5,5,0,0,0,1},
@@ -61,6 +61,7 @@ public class Board {
 	/**
 	 * empty board
 	 */
+	@SuppressWarnings("unused")
 	private int[][] customBoard2 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,0,0,0,0,0,0,1,0,1},

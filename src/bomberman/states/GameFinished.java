@@ -1,7 +1,5 @@
 package bomberman.states;
-/**
- * This class extends State and implements TouchListener
- */
+
 import java.util.ArrayList;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,7 +12,9 @@ import sheep.game.Sprite;
 import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.input.TouchListener;
-
+/**
+ * This class extends State and implements TouchListener
+ */
 public class GameFinished extends State implements TouchListener{
 	private Buttons newRound,backMenu;
 	private Image newRoundImage,backMenuImage;

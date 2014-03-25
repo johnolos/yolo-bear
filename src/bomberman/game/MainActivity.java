@@ -9,7 +9,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
-
+/**
+ * MainActivity extends Activity
+ * This is where the magic happens, this is the start of everything.
+ * The Big Bang of HolyHell what are those damn bears up to now!
+ */
 public class MainActivity extends Activity {
 
 	@Override

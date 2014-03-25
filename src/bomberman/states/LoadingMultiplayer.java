@@ -1,7 +1,5 @@
 package bomberman.states;
-/**
- * extends State implements TouchListener
- */
+
 import bomberman.connection.Client;
 import bomberman.connection.GameLobby;
 import bomberman.connection.LobbyInformation;
@@ -15,7 +13,9 @@ import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.gui.TextButton;
 import sheep.input.TouchListener;
-
+/**
+ * extends State implements TouchListener
+ */
 public class LoadingMultiplayer extends State implements TouchListener {
 	
 	private Client client;

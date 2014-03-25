@@ -7,12 +7,21 @@ import bomberman.graphics.PowerUpType;
 import bomberman.graphics.UpgradeImages;
 import bomberman.states.GameState;
 
+/**
+ * powerUp extends Sprite implements Collision
+ */
 public class PowerUp extends Sprite implements Collision{
 	private PowerUpType powerup;
 	private Image image;
 	int column, row;
 	private GameState gs;
 	
+	/**
+	 * Constructor
+	 * @param column
+	 * @param row
+	 * @param gs
+	 */
 	public PowerUp(int column, int row, GameState gs) {
 		this.gs = gs;
 		this.column = column;
@@ -25,6 +34,13 @@ public class PowerUp extends Sprite implements Collision{
 		setView(image);
 	}
 	
+	/**
+	 * Constructor
+	 * @param column
+	 * @param row
+	 * @param type
+	 * @param gs
+	 */
 	public PowerUp(int column, int row, PowerUpType type,GameState gs) {
 		this.gs = gs;
 		this.column = column;
@@ -38,6 +54,9 @@ public class PowerUp extends Sprite implements Collision{
 		
 	}
 	
+	/**
+	 * assignPowerUpImage
+	 */
 	private void assignPowerUpImage() {
 		switch(this.powerup) {
 		case BOMB:
@@ -60,14 +79,26 @@ public class PowerUp extends Sprite implements Collision{
 		}
 	}
 	
+	/**
+	 * getColumn
+	 * @return column
+	 */
 	public int getColumn() {
 		return this.column;
 	}
 	
+	/**
+	 * getRow
+	 * @return row
+	 */
 	public int getRow() {
 		return this.row;
 	}
 	
+	/**
+	 * getPowerUpType
+	 * @return powerup 
+	 */
 	public PowerUpType getPowerUpType() {
 		return this.powerup;
 	}
@@ -94,6 +125,10 @@ public class PowerUp extends Sprite implements Collision{
 		super.draw(canvas);
 	}
 
+	/**
+	 * Collision
+	 * @return true if collision else false
+	 */
 	public boolean collision(int x, int y) {
 		return (this.column == x && this.row == y);
 	}

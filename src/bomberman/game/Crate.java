@@ -5,9 +5,15 @@ import android.graphics.Canvas;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 
+/**
+ * Crate extends Sprite
+ */
 public class Crate extends Sprite {
 	private Image crate;
 	
+	/**
+	 * constuctor
+	 */
 	public Crate(){
 		if(Constants.screenHeight == 1600){
 			this.crate = new Image(R.drawable.crate);

@@ -1,13 +1,13 @@
 package bomberman.game;
-/**
- * Extends Sprite implements Collision
- */
+
 import bomberman.graphics.BombImages;
 import bomberman.states.GameState;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 import android.graphics.Canvas;
-
+/**
+ * Extends Sprite implements Collision
+ */
 public class Bomb extends Sprite implements Collision {
 	private int blastRadius; // the "length" of the explosion
 	private Image bomb;

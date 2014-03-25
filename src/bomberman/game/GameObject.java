@@ -1,7 +1,9 @@
 package bomberman.game;
 
 import java.io.Serializable;
-
+/**
+ * Enum GameObject implements Serializable
+ */
 public enum GameObject implements Serializable{
 		PLAYER,
 		BOMB,

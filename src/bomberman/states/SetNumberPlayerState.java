@@ -1,7 +1,5 @@
 package bomberman.states;
-/**
- * Extends State implements TouchListener
- */
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -13,6 +11,9 @@ import sheep.game.State;
 import sheep.graphics.Image;
 import sheep.input.TouchListener;
 
+/**
+ * Extends State implements TouchListener
+ */
 public class SetNumberPlayerState extends State implements TouchListener {
 	private ColorObject color;
 	private Buttons one, two, three, textS;

@@ -1,13 +1,14 @@
 package bomberman.graphics;
-/**
- * This class extends Sprite
- */
+
 import android.graphics.Canvas;
 import bomberman.game.Constants;
 import bomberman.game.R;
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 
+/**
+ * This class extends Sprite
+ */
 public class MainMenuBackground extends Sprite {
 	private Image startImage;
 	
