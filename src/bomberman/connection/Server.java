@@ -130,6 +130,7 @@ public class Server {
 			if(clients[i].equals(client)) {
 				isClientReady[i] = false;
 				clients[i] = null;
+				clientColors[i] = null;
 			}
 		}
 		System.out.print("A player left. ");
@@ -227,6 +228,7 @@ public class Server {
 			} else if (lobbyinfo.getLobby() == GameLobby.READY
 					|| lobbyinfo.getLobby() == GameLobby.NOT_READY) {
 				sendAll(new LobbyInformation(lobbyinfo.getLobby(), lobbyinfo.getPlayer()));
+				startGame();
 			}
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo) obj;

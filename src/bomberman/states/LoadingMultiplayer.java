@@ -111,33 +111,33 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	public void update(float dt){
 		btnReady.update(dt);
 		btnNotReady.update(dt);
-		if(isHost && isPlayerReady[playerNumber]){
-			checkPlayersReady();
-		}
+//		if(isHost && isPlayerReady[playerNumber]){
+//			checkPlayersReady();
+//		}
 		if(isReadyToStart()){//client.getClientConnectionCount()==nrOfOpponents && 
 			gameState.startGame();
 			getGame().pushState(gameState);
 		}
 	}
 	
-	/**
-	 * Checks wheter the players are ready to play a multiplayer game
-	 */
-	private void checkPlayersReady() {
-		int nrReadyPlayers = 0 ;
-		for(int i = 0; i<isPlayerReady.length; i++){
-			if(isPlayerReady[i] == true){
-				nrReadyPlayers++;
-			}
-		}
-		System.out.println(nrReadyPlayers);
-		System.out.println("nrOpponents" + nrOfOpponents);
-		if(nrReadyPlayers == nrOfOpponents+1){
-			client.sendAll(new LobbyInformation(GameLobby.STARTGAME));
-			hasReceivedReadyToStartInformation = true;
-			
-		}
-	}
+//	/**
+//	 * Checks wheter the players are ready to play a multiplayer game
+//	 */
+//	private void checkPlayersReady() {
+//		int nrReadyPlayers = 0 ;
+//		for(int i = 0; i<isPlayerReady.length; i++){
+//			if(isPlayerReady[i] == true){
+//				nrReadyPlayers++;
+//			}
+//		}
+//		System.out.println(nrReadyPlayers);
+//		System.out.println("nrOpponents" + nrOfOpponents);
+//		if(nrReadyPlayers == nrOfOpponents+1){
+//			client.sendAll(new LobbyInformation(GameLobby.STARTGAME));
+//			hasReceivedReadyToStartInformation = true;
+//			
+//		}
+//	}
 
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.

@@ -361,7 +361,6 @@ public class Bomb extends Sprite implements Collision {
 		int i = 1;
 		Sprite sprite;
 		while (up || down || left || right) {
-			System.out.println(i);
 			if (i > blastRadius)
 				break;
 			for (Direction dir : Direction.values()) {
@@ -381,7 +380,6 @@ public class Bomb extends Sprite implements Collision {
 				}
 				int row = i * dir.getY() + y;
 				int column = i * dir.getX() + x;
-				System.out.print("Y: " + row + " X:" + column);
 				sprite = gs.getSpriteBoard().get(row).get(column);
 				float xPixel = sprite.getPosition().getX();
 				float yPixel = sprite.getPosition().getY();
