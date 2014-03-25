@@ -3,5 +3,12 @@ package bomberman.connection;
 import java.io.Serializable;
 
 public enum GameLobby implements Serializable {
-	HOST, READY, NOT_READY, NAME, SETNUMBEROFPLAYERS;
+	HOST,
+	REFRESHPLAYERLIST,
+	READY,
+	NOT_READY,
+	NAME,
+	SETNUMBEROFPLAYERS,
+	STARTGAME,
+	PLAYERNUMBER;
 }
