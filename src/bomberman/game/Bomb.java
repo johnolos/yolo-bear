@@ -1,5 +1,7 @@
 package bomberman.game;
-
+/**
+ * Extends Sprite implements Collision
+ */
 import bomberman.graphics.BombImages;
 import bomberman.states.GameState;
 import sheep.game.Sprite;
@@ -7,7 +9,6 @@ import sheep.graphics.Image;
 import android.graphics.Canvas;
 
 public class Bomb extends Sprite implements Collision {
-
 	private int blastRadius; // the "length" of the explosion
 	private Image bomb;
 	private double time = System.currentTimeMillis();
@@ -23,6 +24,15 @@ public class Bomb extends Sprite implements Collision {
 	private ColorObject color;
 	public boolean isSuperBomb;
 
+	/**
+	 * The constructor
+	 * @param x
+	 * @param y
+	 * @param blastRadius
+	 * @param gs
+	 * @param color
+	 * @param superBomb
+	 */
 	public Bomb(int x, int y, int blastRadius, GameState gs, ColorObject color,
 			boolean superBomb) {
 		this.isSuperBomb = superBomb;
@@ -53,6 +63,9 @@ public class Bomb extends Sprite implements Collision {
 		this.setView(bomb);
 	}
 
+	/**
+	 * The bombanimation
+	 */
 	public void bombAnimation() {
 		if (System.currentTimeMillis() - time >= 2000 && !this.exploded
 				&& !this.phase2) {
@@ -96,7 +109,6 @@ public class Bomb extends Sprite implements Collision {
 	 * different buttons this function updates it. This function also calls the
 	 * update function in the super class, and updates some other things that
 	 * are set in this class
-	 * 
 	 * @param dt
 	 */
 	public void update(float dt) {
@@ -107,6 +119,9 @@ public class Bomb extends Sprite implements Collision {
 		super.update(dt);
 	}
 
+	/**
+	 * Check for wallCollision when bomb explode
+	 */
 	private void checkWallCollision() {
 		int x = Constants.getPositionX(this.getX());
 		int y = Constants.getPositionY(this.getY());
@@ -216,7 +231,7 @@ public class Bomb extends Sprite implements Collision {
 	}
 
 	/**
-	 * Evaluates a bomb and removes the creates it finds in its impact range.
+	 * Evaluates a bomb and removes the crates it finds in its impact range.
 	 * Refactoring should be considered.
 	 * 
 	 */
@@ -251,7 +266,9 @@ public class Bomb extends Sprite implements Collision {
 					gs.randomPlacePowerUp(column, y);
 
 				}
-				break;
+				if(isSuperBomb){}
+				else
+					break;
 			} else if (sprite instanceof Empty) {
 				gs.checkPlayerHit(xPixel, yPixel);
 				if (gs.getSpriteBoard().get(y).get(column - 1) instanceof Wall) {
