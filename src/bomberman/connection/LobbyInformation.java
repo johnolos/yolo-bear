@@ -2,6 +2,7 @@ package bomberman.connection;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class LobbyInformation implements Serializable {
 	private GameLobby lobby;
 	private int player;

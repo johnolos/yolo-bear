@@ -19,7 +19,6 @@ public class GameFinished extends State implements TouchListener{
 	private Image newRoundImage,backMenuImage;
 	private float x,y;
 	private GameState gs;
-	private ArrayList<Player> players;
 	private Sprite resultSprite;
 	
 	public GameFinished(ArrayList<Player> allPlayers,Player player, GameState gs){
@@ -91,15 +90,4 @@ public class GameFinished extends State implements TouchListener{
 		}
 		return false;
 	}
-
-
-//	@Override
-//	public void actionPerformed(WidgetAction action) {
-//		if(action.getSource() == newRound){
-//			gs.resetGame();
-//			getGame().popState(4);
-//		}
-//		
-//	}
-
 }

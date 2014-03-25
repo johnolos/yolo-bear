@@ -6,12 +6,10 @@ import sheep.graphics.Image;
 
 public class Explosion extends Sprite {
 	
-	private Image image;
 	private double time;
 	private boolean removeMe = false;
 	
 	public Explosion(float x, float y, Image image){
-		this.image = image;
 		this.time = System.currentTimeMillis();
 		this.setPosition(x, y);
 		this.setView(image);

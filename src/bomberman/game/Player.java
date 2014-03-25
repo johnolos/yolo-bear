@@ -256,6 +256,8 @@ public class Player extends Sprite {
 			case LEFT:
 				this.setView(this.playerImages.get(3));
 				break;
+			default:
+				break;
 			}
 		}
 	}
