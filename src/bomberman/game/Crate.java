@@ -26,6 +26,11 @@ public class Crate extends Sprite {
 		}
 	}
 	
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * This function also calls the update function in the super class
+	 * @param float dt
+	 */
 	public void update(float dt){
 		super.update(dt);
 	}

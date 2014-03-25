@@ -70,7 +70,11 @@ public class PowerUp extends Sprite implements Collision{
 		return this.powerup;
 	}
 
-
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * This function also calls the update function in the super class
+	 * @param float dt
+	 */
 	public void update(float dt){
 		super.update(dt);
 		if(gs.getSpriteBoard().get(row).get(column) instanceof Wall){

@@ -215,6 +215,11 @@ public class AIBot extends Player {
 						* direction.getY());
 	}
 
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * This function also calls the update function in the super class, and is not suppose to update the view if is dead is true
+	 * @param float dt
+	 */
 	public void update(float dt) {
 		if(!this.isDead()){
 			selectNextMove();
