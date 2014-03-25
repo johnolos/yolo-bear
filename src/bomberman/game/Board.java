@@ -40,7 +40,7 @@ public class Board {
 	
 	
 	//standard completely filled board for testing
-	public int[][] board = {
+	private int[][] board = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,2,2,2,2,2,2,2,0,0,1},
 		{1,0,1,2,1,2,1,2,1,2,1,0,1},
@@ -57,6 +57,7 @@ public class Board {
 	
 	
 	// X-board
+	//The 5 is a placeholder for tiles to be filled by the custom filler
 	private int[][] customBoard1 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,5,5,1,5,5,0,0,0,1},
@@ -75,6 +76,8 @@ public class Board {
 	//empty board
 	private int[][] customBoard2 = {
 			{1,1,1,1,1,1,1,1,1,1,1,1,1},
+			{1,0,0,0,0,0,0,0,0,0,1,0,1},
+			{1,1,1,0,1,0,1,0,1,0,1,0,1},
 			{1,0,0,0,0,0,0,0,0,0,0,0,1},
 			{1,0,1,0,1,0,1,0,1,0,1,0,1},
 			{1,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -82,10 +85,8 @@ public class Board {
 			{1,0,0,0,0,0,0,0,0,0,0,0,1},
 			{1,0,1,0,1,0,1,0,1,0,1,0,1},
 			{1,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,1,0,1,0,1,0,1,0,1,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,1,0,1,0,1,0,1,0,1,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1,0,1,1,1},
+			{1,0,1,0,0,0,0,0,0,0,0,0,1},
 			{1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	
 	
@@ -103,18 +104,17 @@ public class Board {
 		int[][] _board = new int[Board.COLUMN_SIZE][Board.ROW_SIZE];
 		Random random = new Random();
 
-		 for(int row = 0; row<_board.length;row++){
-			 for(int column = 0; column<board[0].length;column++){
+		 for(int row = 1; row<_board.length;row++){
+			 for(int column = 1; column<board[0].length;column++){
 				 //player starting position and adjacent tiles must be empty
-				 if(isStartingPositionOrAdjacent(row,column))
+				 if(isStartingPositionOrAdjacentTile(row,column))
 					   continue;
 				 //every other tile must be a none-destructible wall
 				 if(row%2.0 == 0 && column%2.0 == 0){
-					 
 					 _board[row][column] = 1;
 					 continue;
 				 }
-				 else if(random.nextInt(100) >= Board.NOT_FILLED_PERCENTAGE)
+				 if(random.nextInt(100) >= Board.NOT_FILLED_PERCENTAGE)
 					 _board[row][column] = 2;
 			 }  
 		 }
@@ -127,18 +127,20 @@ public class Board {
 		 }
 		return _board;
 	}
-	
+	//Goes through the board and fills the given 5-area the given percentage
 	private void customRandomFillBoard(int[][] board){
 		Random random = new Random();
-		 for(int row = 0; row<Board.ROW_SIZE;row++){
-			 for(int column = 0; column<Board.COLUMN_SIZE;column++){
+		 for(int row = 1; row<Board.ROW_SIZE;row++){
+			 for(int column = 1; column<Board.COLUMN_SIZE;column++){
 				 if(board[row][column] == 5 && random.nextInt(100) >= Board.NOT_FILLED_PERCENTAGE)
 					 board[row][column] = 2;
+				 else if(board[row][column] != 1)
+					 board[row][column] = 0;
 			 }
 		 }
 	}
 	
-	private boolean isStartingPositionOrAdjacent(int x, int y){
+	private boolean isStartingPositionOrAdjacentTile(int x, int y){
 		//upper left player
 		if((x == 1 && y == 1) || (x == 1 && y == 2) || (x == 2 && y == 1)){
 			   return true;
