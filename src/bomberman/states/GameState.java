@@ -653,9 +653,14 @@ public class GameState extends State implements TouchListener {
 					opponent.setMagnitude(obj.getMagnitude());
 					Sprite sprite = getSpriteBoard().get((int) obj.getY()).get(
 							(int) obj.getX());
-					addBomb(new Bomb((int) sprite.getX(), (int) sprite.getY(),
-							obj.getMagnitude(), this, obj.getColor(),
-							opponent.hasSuperBomb));
+					if(opponent.hasSuperBomb)
+						addBomb(new Bomb((int) sprite.getX(), (int) sprite.getY(),
+							Board.ROW_SIZE, this, obj.getColor(),
+							true));
+					else
+						addBomb(new Bomb((int) sprite.getX(), (int) sprite.getY(),
+								obj.getMagnitude(), this, obj.getColor(),
+								false));
 				}
 			}
 			break;
