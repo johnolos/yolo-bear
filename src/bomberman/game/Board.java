@@ -293,7 +293,7 @@ public class Board {
 	 * Return true if game is finished
 	 * @return
 	 */
-	public boolean lastWall(){
+	public boolean isCompletelyFilled(){
 		if(this.getWallX() == 6 && this.getWallY() == 6){
 			return true;
 		}
@@ -306,7 +306,5 @@ public class Board {
 	}
 	public void SpeedUpSD() {
 		this.TIMEBETWEENWALLS = 50;
-		
 	}
-	
 }
