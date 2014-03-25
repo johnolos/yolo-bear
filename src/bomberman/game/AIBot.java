@@ -248,7 +248,11 @@ public class AIBot extends Player {
 		int posX = (int)gameState.getSpriteBoard().get(y).get(x).getPosition().getX();
 		int posY = (int)gameState.getSpriteBoard().get(y).get(x).getPosition().getY();
 		if (this.canPlaceBomb()) {
-			Bomb bomb = new Bomb(posX, posY, this.getMagnitude(), this.gameState,getColor(),this.hasSuperBomb);
+			Bomb bomb;
+			if(this.hasSuperBomb)
+				bomb = new Bomb(posX, posY, Board.COLUMN_SIZE, this.gameState,getColor(),true);
+			else
+				bomb = new Bomb(posX, posY, this.getMagnitude(), this.gameState,getColor(),false);
 			this.gameState.addBomb(bomb);
 			this.addBomb(bomb);
 			this.placedBomb = System.currentTimeMillis();
