@@ -4,9 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Random;
-
-import android.text.BoringLayout;
-import sheep.game.Sprite;
+import sheep.game.Sprite;   
 
 public class Board {
 	
@@ -37,7 +35,10 @@ public class Board {
 	public static final int COLUMN_SIZE = 13;
 	public static final int ROW_SIZE = 13;
 	public long TIMEBETWEENWALLS = 1000;
+	private static final int NOT_FILLED_PERCENTAGE = 25;
 	
+	
+	//standard completely filled board for testing
 	public int[][] board = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,2,2,2,2,2,2,2,0,0,1},
@@ -53,9 +54,27 @@ public class Board {
 		{1,0,0,2,2,2,2,2,2,2,0,0,1},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1}};
 	
+	private int[][] customBoard = {
+			{1,1,1,1,1,1,1,1,1,1,1,1,1},
+			{1,0,0,0,5,5,1,5,5,0,0,0,1},
+			{1,0,1,5,1,5,1,5,1,5,1,0,1},
+			{1,0,5,5,5,5,1,5,5,5,5,0,1},
+			{1,5,1,5,1,5,1,5,1,5,1,5,1},
+			{1,5,5,5,5,5,5,5,5,5,5,5,1},
+			{1,1,1,5,1,1,1,1,1,5,1,1,1},
+			{1,5,5,5,5,5,5,5,5,5,5,5,1},
+			{1,5,1,5,1,5,1,5,1,5,1,5,1},
+			{1,0,5,5,5,5,1,5,5,5,5,0,1},
+			{1,0,1,5,1,5,1,5,1,5,1,0,1},
+			{1,0,0,0,5,5,1,5,5,0,0,0,1},
+			{1,1,1,1,1,1,1,1,1,1,1,1,1}};
+	
+	
 	public Board(){	
 		spriteList = new ArrayList<ArrayList<Sprite>>();
 		board = initRandomBoard();
+		customRandomFillBoard(customBoard); // X-board to test modifiablilityyty
+		board = customBoard;
 		generateImageBoard(board);
 	}
 	
@@ -74,19 +93,28 @@ public class Board {
 					 _board[row][column] = 1;
 					 continue;
 				 }
-				 //fills approx. 75% of the board with crates
-				 else if(random.nextInt(100) >= 25)
+				 else if(random.nextInt(100) >= Board.NOT_FILLED_PERCENTAGE)
 					 _board[row][column] = 2;
-			 } 
+			 }  
 		 }
 		 //enforces the outer wall
 		 for(int i=0;i<Board.ROW_SIZE;i++){
-			 _board[0][i] = 1;
-			 _board[i][0] = 1;
-			 _board[Board.ROW_SIZE-1][i] = 1;
-			 _board[i][Board.COLUMN_SIZE-1] = 1;
+			 _board[0][i] = 1;   					//upper wall
+			 _board[i][0] = 1;   					//left wall
+			 _board[Board.ROW_SIZE-1][i] = 1; 		//lower wall
+			 _board[i][Board.COLUMN_SIZE-1] = 1; 	//right wall
 		 }
 		return _board;
+	}
+	
+	private void customRandomFillBoard(int[][] board){
+		Random random = new Random();
+		 for(int row = 0; row<Board.ROW_SIZE;row++){
+			 for(int column = 0; column<Board.COLUMN_SIZE;column++){
+				 if(board[row][column] == 5 && random.nextInt(100) >= Board.NOT_FILLED_PERCENTAGE)
+					 board[row][column] = 2;
+			 }
+		 }
 	}
 	
 	private boolean isStartingPositionOrAdjacent(int x, int y){
