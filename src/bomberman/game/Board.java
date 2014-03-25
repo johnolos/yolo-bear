@@ -36,7 +36,7 @@ public class Board {
 	public static final int ROW_SIZE = 13;
 	public long TIMEBETWEENWALLS = 1000;
 	
-	public static final int[][] board = {
+	public int[][] board = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,2,2,2,2,2,2,2,0,0,1},
 		{1,0,1,2,1,2,1,2,1,2,1,0,1},

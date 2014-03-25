@@ -11,11 +11,9 @@ public class Opponent extends Player {
 	private ColorObject myColor;
 	private Direction direction = Direction.UP;
 	private int magnitude=1;
-	private GameState gs;
 
 	public Opponent(ColorObject color, GameState gs) {
 		super(" ", color,gs);
-		this.gs = gs;
 		this.myColor = color;
 		if (Constants.screenHeight >750) {
 			switch (color) {
@@ -108,6 +106,8 @@ public class Opponent extends Player {
 			break;
 		case LEFT:
 			this.setView(this.opponentImages.get(3));
+			break;
+		default:
 			break;
 		}
 	}

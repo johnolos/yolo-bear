@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import bomberman.game.ColorObject;
 
 public class Server {
@@ -34,6 +33,7 @@ public class Server {
 	public void startServer() {
 		try {
 			// Creating a ServerSocket: Is not used further
+			@SuppressWarnings("resource")
 			ServerSocket serverSocket = new ServerSocket(Config.SERVERPORT, 50,
 					InetAddress.getByName(Config.SERVERIP));
 			// Printing IP:Port for the server
@@ -258,6 +258,7 @@ public class Server {
 				OutputStream clientOutputStream = this.connection
 						.getOutputStream();
 				// Create InputStreamReader for InputStream
+				@SuppressWarnings("unused")
 				InputStreamReader inFromClient = new InputStreamReader(
 						clientInputStream);
 

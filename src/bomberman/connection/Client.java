@@ -16,11 +16,13 @@ import java.util.List;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
+import android.annotation.SuppressLint;
 import bomberman.game.ColorObject;
 import bomberman.game.PeerObject;
 import bomberman.states.GameState;
 import bomberman.states.LoadingMultiplayer;
 
+@SuppressLint("DefaultLocale")
 public class Client extends Thread {
 	/** Peer-to-peer client **/
 	ServerConnection server;
@@ -185,7 +187,7 @@ public class Client extends Thread {
 //	}
 	
 	
-    public static String getIPAddress(boolean useIPv4) {
+	public static String getIPAddress(boolean useIPv4) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface intf : interfaces) {

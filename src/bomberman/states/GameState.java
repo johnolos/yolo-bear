@@ -36,12 +36,10 @@ public class GameState extends State implements TouchListener {
 	private boolean isMultiplayer = false;
 
 	public static ArrayList<ArrayList<Sprite>> spriteList = new ArrayList<ArrayList<Sprite>>();
-	private ArrayList<Opponent> opponents;
 	private ArrayList<AIBot> bots;
 	private Client client = null;
 	private ArrayList<Player> allPlayers;
 	private Random randomGenerator = new Random();
-	// private MainMenuWithGraphics single, multi;
 	private boolean haveMoved = false;
 	int counter = 0;
 	private long gameStarted;

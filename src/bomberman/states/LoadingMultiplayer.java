@@ -1,7 +1,5 @@
 package bomberman.states;
 
-import java.util.ArrayList;
-
 import bomberman.connection.Client;
 import bomberman.connection.GameLobby;
 import bomberman.connection.LobbyInformation;
