@@ -633,21 +633,6 @@ public class GameState extends State implements TouchListener {
 
 				}
 				allPlayers.add(new Opponent(color, this));
-			for (Iterator<Player> it = allPlayers.iterator(); it.hasNext();) {
-				Player opponent = it.next();
-				if (opponent.getColor() == color) {
-					float x = obj.getX();
-					float y = obj.getY();
-					x = Constants.getLocalXPosition(x);
-					y = Constants.getLocalYPosition(y);
-					x = x - (this.player.getImageWidth() / 2);
-					y = y - (this.player.getImageHeight() / 2);
-					opponent.setPosition(x, y);
-					opponent.setDirection(obj.getDirection());
-				} else {
-					allPlayers.add(new Opponent(color, this));
-				}
-			}
 			break;
 		case BOMB:
 			for (Player opponent : allPlayers) {
