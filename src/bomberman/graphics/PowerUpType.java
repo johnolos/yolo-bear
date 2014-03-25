@@ -33,7 +33,7 @@ public enum PowerUpType implements Serializable {
 	 * @return
 	 */
 	public static PowerUpType randomPowerUp() {
-		int chooser = RANDOM.nextInt(110);
+		int chooser = RANDOM.nextInt(500);
 		if (chooser <= 28)
 			return BOMB;
 		if (chooser > 28 && chooser <= 47)

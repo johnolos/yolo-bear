@@ -81,10 +81,10 @@ public class Board {
 		spriteList = new ArrayList<ArrayList<Sprite>>();
 		if(!isMultiplayer){
 			board = initRandomBoard();
-//			customRandomFillBoard(customBoard1); // X-board to test modifiablilityyty
-//			board = customBoard1;
-			 customRandomFillBoard(customBoard2); //should stay empty after the fill
-			board = customBoard2;
+			customRandomFillBoard(customBoard1); // X-board to test modifiablilityyty
+			board = customBoard1;
+//			 customRandomFillBoard(customBoard2); //should stay empty after the fill
+//			board = customBoard2;
 		}
 		generateImageBoard(board);
 	}

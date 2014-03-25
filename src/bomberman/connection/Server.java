@@ -169,7 +169,10 @@ public class Server {
 	}
 	
 	public void startGame() {
+		System.out.println("Trying to start");
+		System.out.println(numberOfPlayers);
 		if(checkReadyToStart()) {
+			System.out.println("LOL og vi må inni ");
 			sendAll(new LobbyInformation(GameLobby.STARTGAME));
 		}
 		for(int i = 0; i < clients.length; i++) {
@@ -189,13 +192,16 @@ public class Server {
 	public boolean checkReadyToStart() {
 		if (numberOfPlayers == -1)
 			return false;
+		System.out.println("Number of players present: " + getNumberOfPlayers());
 		if (getNumberOfPlayers() == numberOfPlayers) {
-			for (int i = 0; i < numberOfPlayers; i++) {
-				if (!isClientReady[i]) {
-					return false;
+			int noOfReady = 0;
+			for (int i = 0; i < isClientReady.length; i++) {
+				if (isClientReady[i]) {
+					++noOfReady;
 				}
 			}
-			return true;
+			System.out.println("Ready number:" + noOfReady);
+			return (noOfReady == numberOfPlayers);
 		}
 		return false;
 	}
@@ -227,6 +233,7 @@ public class Server {
 				numberOfPlayers = lobbyinfo.getPlayer();
 			} else if (lobbyinfo.getLobby() == GameLobby.READY
 					|| lobbyinfo.getLobby() == GameLobby.NOT_READY) {
+				isClientReady[lobbyinfo.getPlayer()] = true;
 				sendAll(new LobbyInformation(lobbyinfo.getLobby(), lobbyinfo.getPlayer()));
 				startGame();
 			}

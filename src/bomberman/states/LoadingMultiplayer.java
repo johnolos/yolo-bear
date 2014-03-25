@@ -181,7 +181,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 			nameOfPlayer[info.getPlayer()] = info.getPlayerName();
 		break;
 		case SETNUMBEROFPLAYERS:
-			setNrOfPlayers(info.getPlayer());
+			setNrOfPlayers(info.getPlayer()-1);
 		break;
 		case PLAYERNUMBER:
 			System.out.println("Player number recieved is " + info.getPlayer());
@@ -209,7 +209,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	public void setNrOfPlayers(int nrOfOpponents) {
 		this.nrOfOpponents = nrOfOpponents;
 		if (isHost) {
-			client.send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS, nrOfOpponents));//fjernet + 1
+			client.send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS, nrOfOpponents + 1));//fjernet + 1
 		}
 	}
 	
