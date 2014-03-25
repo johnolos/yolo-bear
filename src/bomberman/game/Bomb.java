@@ -137,59 +137,105 @@ public class Bomb extends Sprite implements Collision {
 	 * updated images onto the canvas. This draw calls the draw function in the
 	 * super class
 	 * 
-	 * @param canvas
-	 *            which you draw on.
+	 * @param canvas which you draw on.
 	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 	}
 
+	/**
+	 * Get bomb time
+	 * @return the bomb time
+	 */
 	public double getTime() {
 		return this.time;
 	}
 
+	/**
+	 * Is  bomb finished
+	 * @return true if bomb is finished
+	 */
 	public boolean finished() {
 		return this.finished;
 	}
 
+	/**
+	 * Get the blast radius of the bomb
+	 * @return a int which is the blast radius of bomb
+	 */
 	public int getBlastRadius() {
 		return this.blastRadius;
 	}
 
+	/**
+	 * check for collision with wall
+	 * @return true if collision else false
+	 */
 	@Override
 	public boolean collision(int x, int y) {
 		return (this.column == x && this.row == y);
 	}
 
+	/**
+	 * Set direction for blast of bomb
+	 * @param dir the direction of blast
+	 */
 	public void setDirection(Direction dir) {
 		this.direction = dir;
 	}
 
+	/**
+	 * Get the direction of blast
+	 * @return the direction of blast
+	 */
 	public Direction getDirection() {
 		return this.direction;
 	}
 
+	/**
+	 * Is bomb initiated
+	 * @return true if bomb is initiated else false
+	 */
 	public boolean initiated() {
 		return this.initiated;
 	}
 
+	/**
+	 * Get the column which the bomb is placed
+	 * @return the column the bomb is placed
+	 */
 	public int getColumn() {
 		return this.column;
 	}
 
+	/**
+	 * Set the column the bomb was placed in
+	 * @param column which the bomb was placed
+	 */
 	public void setColum(int column) {
 		this.column = column;
 
 	}
 
+	/**
+	 * Get the row the bomb was placed in
+	 * @return the row
+	 */
 	public int getRow() {
 		return this.row;
 	}
 
+	/**
+	 * Set the row which the bomb was placed in
+	 * @param row where the bomb was placed
+	 */
 	public void setRow(int row) {
 		this.row = row;
 	}
 
+	/**
+	 * Update position of bomb
+	 */
 	public void updatePosition() {
 		float x = this.column * Constants.getHeight()
 				+ Constants.getPixelsOnSides();
@@ -197,6 +243,10 @@ public class Bomb extends Sprite implements Collision {
 		setPosition(x, y);
 	}
 
+	/**
+	 * If bomb is thrown which direction was it thrown and where to put it
+	 * @param direction the bomb was thrown
+	 */
 	public void bombThrown(Direction direction) {
 		int x = getColumn() + direction.getX();
 		int y = getRow() + direction.getY();
@@ -476,6 +526,13 @@ public class Bomb extends Sprite implements Collision {
 		}
 	}
 
+	/**
+	 * Is this the edge of the explosion
+	 * @param y
+	 * @param x
+	 * @param dir
+	 * @return true if edge else false
+	 */
 	private boolean isEdgeOfExplosion(int y, int x, Direction dir) {
 		Sprite sprite = gs.getSpriteBoard().get(y + dir.getY())
 				.get(x + dir.getX());
@@ -486,6 +543,12 @@ public class Bomb extends Sprite implements Collision {
 
 	}
 
+	/**
+	 * adds edge picture to the explosion radius 
+	 * @param y
+	 * @param x
+	 * @param dir
+	 */
 	private void addEdgePicture(float y, float x, Direction dir) {
 		switch (dir) {
 		case DOWN:
@@ -505,6 +568,12 @@ public class Bomb extends Sprite implements Collision {
 		}
 	}
 
+	/**
+	 * adds middle picture of explosion radius
+	 * @param y
+	 * @param x
+	 * @param dir
+	 */
 	private void addMiddlePicture(float y, float x, Direction dir) {
 		switch (dir) {
 		case DOWN:
@@ -524,10 +593,18 @@ public class Bomb extends Sprite implements Collision {
 		}
 	}
 
+	/**
+	 * Get the color of the bomb
+	 * @return the color object of bomb
+	 */
 	public ColorObject getColor() {
 		return this.color;
 	}
 
+	/**
+	 * Is the bomb kicked and which direction was it kicked
+	 * @param direction of the kick
+	 */
 	public void bombKicked(Direction direction) {
 		switch (direction) {
 		case UP:
@@ -551,6 +628,9 @@ public class Bomb extends Sprite implements Collision {
 		}
 	}
 
+	/**
+	 * Check if the bomb collides with the wall in if it does stop it, make it stay on map
+	 */
 	public void checkBombCollision() {
 		if (getDirection() != Direction.STOP) {
 			int x = Constants.getPositionX(getX() + Constants.getHeight() / 2);
