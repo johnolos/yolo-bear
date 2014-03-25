@@ -18,15 +18,15 @@ public class Player extends Sprite {
 	
 	/** Player power **/
 	private int numberOfBombs = 1;
-	private static final int MAX_NR_OF_BOMBS = 5;
+	private static final int MAX_NR_OF_BOMBS = 6;
 	private int health =3;
 	private boolean kickBombs = false;
 	private boolean throwBombs = false;
 	private float speedOfPlayer = 1.3f;
 	private static final float SPEED_UPGRADE = 0.4f;
-	private static final float MAX_SPEED = 3.3f;
+	private static final float MAX_SPEED = 2.9f;
 	private int magnitudeOfBombs = 1;
-	private static final int MAX_NR_OF_MAGNITUDE_UPS = 6;
+	private static final int MAX_NR_OF_MAGNITUDE_UPS = 5;
 	private int scoreOfPlayer = 0;
 	
 	private float previousX;
@@ -298,7 +298,7 @@ public class Player extends Sprite {
 		case SPEED:
 			if(this.speedOfPlayer < Player.MAX_SPEED)
 			this.speedOfPlayer+=Player.SPEED_UPGRADE;
-			return;
+			return; 
 		case THROW:
 			this.throwBombs = true;
 			return;
