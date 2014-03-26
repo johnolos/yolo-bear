@@ -18,6 +18,7 @@ import sheep.input.TouchListener;
 public class GameFinished extends State implements TouchListener{
 	private Buttons newRound,backMenu;
 	private Image newRoundImage,backMenuImage;
+	private Image pressedNewRound, pressedBackMenu;
 	private float x,y;
 	private GameState gs;
 	private Sprite resultSprite;
@@ -28,11 +29,13 @@ public class GameFinished extends State implements TouchListener{
 	public GameFinished(ArrayList<Player> allPlayers,Player player, GameState gs){
 		this.gs = gs;
 		newRoundImage = new Image(R.drawable.newgamebutton);
+		pressedNewRound = new Image(R.drawable.pressednewgamebutton);
 		x = (float) (Constants.screenWidth/2 - newRoundImage.getWidth()*1.5);
 		y = Constants.screenHeight/2 - newRoundImage.getHeight()*4;
 		newRound = new Buttons(newRoundImage,(int)x,(int)y);
 		
 		backMenuImage = new Image(R.drawable.mainmenubutton);
+		pressedBackMenu = new Image(R.drawable.pressedmainmenubutton);
 		x = (float) (Constants.screenWidth/2 + backMenuImage.getWidth()*0.5);
 		y = Constants.screenHeight/2 - backMenuImage.getHeight()*4;
 		backMenu = new Buttons(backMenuImage,(int)x,(int)y);
@@ -94,6 +97,20 @@ public class GameFinished extends State implements TouchListener{
 	}
 	
 	/**
+	 * What happens when you press your finger at the screen, and the different buttons behavior
+	 * @param event
+	 * @return
+	 */
+	@Override
+	public boolean onTouchDown(MotionEvent event) {
+		if(newRound.getBounds().contains(event.getX(), event.getY())) {
+			newRound.setView(pressedNewRound);
+		} else if(backMenu.getBounds().contains(event.getX(), event.getY())) {
+			backMenu.setView(pressedBackMenu);
+		}
+		return false;
+	}
+	/**
 	 * What happens when you release your finger from the screen, from the different buttons
 	 * @param event
 	 */
@@ -112,6 +129,8 @@ public class GameFinished extends State implements TouchListener{
 				getGame().popState(4);
 			}
 		}
+		newRound.setView(newRoundImage);
+		backMenu.setView(backMenuImage);
 		return false;
 	}
 }
