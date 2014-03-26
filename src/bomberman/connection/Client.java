@@ -242,16 +242,16 @@ public class Client extends Thread {
 		clients.clear();
 	}
 	
-	public void closeServerConnection() {
-		try {
-			server.connection.close();
-			server.stopRunning();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
-		}
-		server = null;
-	}
+//	public void closeServerConnection() {
+//		try {
+//			server.connection.close();
+//			server.stopRunning();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+////			e.printStackTrace();
+//		}
+//		server = null;
+//	}
 	
 	public void clientShutdown() {
 		closePeerConnections();
