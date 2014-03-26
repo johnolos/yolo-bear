@@ -14,10 +14,12 @@ public class Connection extends Thread {
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private Client client;
+	private boolean isRunning;
 	
 	Connection(Socket connection, Client client) {
 		this.client = client;
 		this.socket = connection;
+		isRunning = true;
 	}
 	
 	Connection(InetAddress inet, Client client) {
@@ -44,7 +46,7 @@ public class Connection extends Thread {
 			this.ois = new ObjectInputStream(serverInputStream);
 			System.out.println("Peer-Peer Connection: Ready");
 			// While-loop to ensure continuation of reading in-coming messages
-			while (this.socket.isConnected()) {
+			while (this.socket.isConnected() && isRunning) {
 				try {
 					//Receive object from client
 					Object obj = this.ois.readObject();
@@ -69,5 +71,19 @@ public class Connection extends Thread {
 	
 	public InetAddress getIP() {
 		return this.socket.getInetAddress();
+	}
+
+	public void closeConnection() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void stopRunning() {
+		isRunning = false;
+		
 	}
 }

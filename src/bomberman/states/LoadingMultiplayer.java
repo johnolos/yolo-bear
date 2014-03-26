@@ -188,6 +188,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 			playerNumber = info.getPlayer();
 		break;
 		case STARTGAME:
+			client.closeServerConnection();
 			hasReceivedReadyToStartInformation = true;
 		break;
 		default:

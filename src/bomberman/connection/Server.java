@@ -304,10 +304,11 @@ public class Server {
 						// Receive object from client
 						Object obj = this.ois.readObject();
 						this.server.receive(obj);
+					} catch (IOException e) {
+						System.out.println("A player left the game");
+						break;
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
-					} catch (EOFException e) {
-						break;
 					}
 				}
 				removeClientConnection(this);

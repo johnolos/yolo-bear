@@ -622,6 +622,7 @@ public class GameState extends State implements TouchListener {
 			if (allPlayers.isEmpty()) {
 				allPlayers.add(new Opponent(color, this));
 				haveMoved = true;
+				gameStarted = System.currentTimeMillis();
 			}
 			try {
 				@SuppressWarnings("unchecked")
@@ -901,5 +902,9 @@ public class GameState extends State implements TouchListener {
 			client.sendAll(new PeerObject(player.getColor(), GameObject.DIED,
 					dt));
 		}
+	}
+
+	public Client getClient() {
+		return client;	
 	}
 }

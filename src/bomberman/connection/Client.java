@@ -30,6 +30,8 @@ public class Client extends Thread {
 	ClientPeer peerConnection;
 	private GameState game;
 	private LoadingMultiplayer loadingScreen;
+	private Socket serverConnection;
+	private boolean isRunning;
 	
 	
 	public Client() {
@@ -52,6 +54,7 @@ public class Client extends Thread {
 			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
 			this.server.start();
+			this.serverConnection = serverConnection;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -114,10 +117,15 @@ public class Client extends Thread {
 		private Client client;
 		private ObjectOutputStream oos;
 		private ObjectInputStream ois;
+		boolean isRunning = true;
 		
 		ServerConnection(Socket connection, Client client) {
 			this.connection = connection;
 			this.client = client;
+		}
+		
+		public void stopRunning() {
+			isRunning = false;
 		}
 		
 		public void run() {
@@ -134,7 +142,7 @@ public class Client extends Thread {
 
 				System.out.println("ServerConnection: Ready");
 				// While-loop to ensure continuation of reading in-coming messages
-				while (this.connection.isConnected()) {
+				while (this.connection.isConnected() && isRunning) {
 					try {
 						//Receive object from server
 						Object obj = this.ois.readObject();
@@ -225,5 +233,34 @@ public class Client extends Thread {
 	    ip = ip.substring(0, ip.length()-1);
 	    return ip;
 	}
+	
+	public void closePeerConnections() {
+		for(int i = 0; i < clients.size(); i++) {
+			clients.get(i).stopRunning();
+			clients.get(i).closeConnection();
+		}
+		clients.clear();
+	}
+	
+	public void closeServerConnection() {
+		try {
+			server.connection.close();
+			server.stopRunning();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		}
+		server = null;
+	}
+	
+	public void clientShutdown() {
+		closePeerConnections();
+		
+	}
+	
+	public void restartServerConnection() {
+		server.run();
+	}
+	
 	
 }
