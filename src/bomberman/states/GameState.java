@@ -109,6 +109,7 @@ public class GameState extends State implements TouchListener {
 	 *            the client connection to the server.
 	 */
 	public GameState(Client client) {
+		mainMenu = new Buttons(main, (int)(Constants.getScreenWidth()-main.getWidth()), (int)(Constants.getScreenHeight()-main.getHeight()));
 		this.isMultiplayer = true;
 		this.board = new Board(true);
 		this.client = client;
