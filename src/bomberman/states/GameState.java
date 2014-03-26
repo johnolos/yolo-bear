@@ -177,7 +177,15 @@ public class GameState extends State implements TouchListener {
 	public boolean onTouchUp(MotionEvent event) {
 		player.setSpeed(0, 0);
 		if(mainMenu.getBounds().contains(event.getX(),event.getY())) {
-			getGame().popState(3);
+			if(isMultiplayer) {
+				//Not in use now this is if you are host
+//				if(false) {
+//					getGame().popState(2);
+//				}
+				getGame().popState(3);
+			} else {
+				getGame().popState(3);				
+			}
 		}
 		mainMenu.setView(main);
 		return false;
