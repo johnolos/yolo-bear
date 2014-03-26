@@ -76,6 +76,7 @@ public class Client extends Thread {
 	 * @param obj Object to be sent.
 	 */
 	public void sendAll(Object obj) {
+		System.out.println("Sending information to: " +this.clients.size());
 		for(Connection connection : this.clients) {
 			connection.send(obj);
 		}
@@ -86,18 +87,23 @@ public class Client extends Thread {
 	 * @param obj
 	 */
 	protected void receive(Object obj) {
+		System.out.print("Receiving ");
 		if(obj instanceof LobbyInformation) {
+			System.out.println(" lobby information");
 			loadingScreen.receiveLobbyInformation((LobbyInformation)obj);
 		} else if (obj instanceof PeerInfo) {
+			System.out.println(" peer information");
 			PeerInfo peer = (PeerInfo)obj;
 			Connection peerClient = new Connection(peer.getInetAddress(), this);
 			peerClient.start();
 			addConnection(peerClient);
 		}
 		else if(obj instanceof PeerObject){
+			System.out.println(" peerobject information");
 			this.game.receiveGameEvent((PeerObject) obj);
 		}
 		else if(obj instanceof ColorObject){
+			System.out.println(" color information");
 			this.game.setPlayerColor((ColorObject) obj);
 		}
 	}
@@ -156,6 +162,10 @@ public class Client extends Thread {
 			}
 		}
 		
+		/**
+		 * Sending stuff to server
+		 * @param obj
+		 */
 		protected void send(Object obj) {
 			try {
 				oos.writeObject(obj);
@@ -177,23 +187,6 @@ public class Client extends Thread {
 	public void setLoadingMultiplayer(LoadingMultiplayer loadingScreen) {
 		this.loadingScreen = loadingScreen;
 	}
-	
-//	public String getLocalIpAddress() {
-//		try {
-//			for (Enumeration en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-//				NetworkInterface intf = (NetworkInterface) en.nextElement();
-//				for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-//					InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
-//					if (!inetAddress.isLoopbackAddress()) {
-//						return get
-//					}
-//				}
-//			}
-//		} catch (SocketException ex) {
-//		}
-//		return null;
-//	}
-	
 	
 	public static String getIPAddress(boolean useIPv4) {
         try {
@@ -234,33 +227,31 @@ public class Client extends Thread {
 	    return ip;
 	}
 	
-	public void closePeerConnections() {
-		for(int i = 0; i < clients.size(); i++) {
-			clients.get(i).stopRunning();
-			clients.get(i).closeConnection();
-		}
-		clients.clear();
-	}
+//	public void closePeerConnections() {
+//		for(int i = 0; i < clients.size(); i++) {
+////			clients.get(i).stopRunning();
+//			clients.get(i).closeConnection();
+//		}
+//		clients.clear();
+//	}
 	
 	public void closeServerConnection() {
 		try {
 			server.connection.close();
 			server.stopRunning();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
 		}
 		server = null;
 	}
 	
-	public void clientShutdown() {
-		closePeerConnections();
-		
-	}
+//	public void clientShutdown() {
+//		closePeerConnections();
+//		
+//	}
 	
-	public void restartServerConnection() {
-		server.run();
-	}
+//	public void restartServerConnection() {
+//		server.run();
+//	}
 	
 	
 }

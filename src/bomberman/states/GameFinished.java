@@ -122,7 +122,7 @@ public class GameFinished extends State implements TouchListener{
 		}
 		else if (backMenu.getBounds().contains(event.getX(), event.getY())) {
 			if(gs.isMultiplayer()){
-				gs.getClient().clientShutdown();
+//				gs.getClient().clientShutdown();
 				getGame().popState(3);
 			}
 			else{

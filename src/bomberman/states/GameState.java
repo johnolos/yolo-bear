@@ -343,6 +343,7 @@ public class GameState extends State implements TouchListener {
 			if (counter % 3 == 0 && this.player.hasMovedSince()) {
 				if (isMultiplayer) {
 					// Sends position to player
+					System.out.println("Do I get here?");
 					client.sendAll(new PeerObject(this.player.getColor(),
 							GameObject.PLAYER, Constants
 									.getUniversalXPosition(this.player
@@ -396,8 +397,6 @@ public class GameState extends State implements TouchListener {
 			if (isMultiplayer) {
 				@SuppressWarnings("unchecked")
 				ArrayList<Player> playerClones = (ArrayList<Player>) allPlayers.clone();
-				System.out
-						.println("Number of opponents " + playerClones.size());
 				for (Player opp : playerClones) {
 					opp.update(dt);
 
@@ -633,9 +632,10 @@ public class GameState extends State implements TouchListener {
 	 * @param obj PeerObject received from other players. TODO: UPDATE FOR MORE GAME ELEMENTS
 	 */
 	public void receiveGameEvent(PeerObject obj) {
-		if (obj.getColor() == getPlayer().getColor()) {
-			return;
-		}
+		System.out.println("I received information");
+//		if (obj.getColor() == getPlayer().getColor()) {
+//			return;
+//		}
 		switch (obj.getgObj()) {
 		case PLAYER:
 			ColorObject color = obj.getColor();
@@ -900,7 +900,6 @@ public class GameState extends State implements TouchListener {
 	 */
 	public void startGame() {
 		gameStarted = System.currentTimeMillis();
-
 	}
 
 	/**
