@@ -109,7 +109,6 @@ public class GameState extends State implements TouchListener {
 	 *            the client connection to the server.
 	 */
 	public GameState(Client client) {
-		mainMenu = new Buttons(main, (int)(Constants.getScreenWidth()-main.getWidth()), (int)(Constants.getScreenHeight()-main.getHeight()));
 		this.isMultiplayer = true;
 		this.board = new Board(true);
 		this.client = client;
@@ -133,6 +132,9 @@ public class GameState extends State implements TouchListener {
 			this.bombIcon = new Buttons("bomb",
 					(int) (Constants.screenWidth * 0.08f),
 					(int) (Constants.screenHeight * 0.407f));
+		main = new Image(R.drawable.mainmenubutton);
+		pressedMain = new Image(R.drawable.pressedmainmenubutton);
+		mainMenu = new Buttons(main, (int)(Constants.getScreenWidth()-main.getWidth()), (int)(Constants.getScreenHeight()-main.getHeight()));
 		bombs = new ArrayList<Bomb>();
 		powerups = new ArrayList<PowerUp>();
 		explosions = new ArrayList<Explosion>();
