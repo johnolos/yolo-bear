@@ -343,7 +343,6 @@ public class GameState extends State implements TouchListener {
 			if (counter % 3 == 0 && this.player.hasMovedSince()) {
 				if (isMultiplayer) {
 					// Sends position to player
-					System.out.println("Do I get here?");
 					client.sendAll(new PeerObject(this.player.getColor(),
 							GameObject.PLAYER, Constants
 									.getUniversalXPosition(this.player
@@ -632,10 +631,6 @@ public class GameState extends State implements TouchListener {
 	 * @param obj PeerObject received from other players. TODO: UPDATE FOR MORE GAME ELEMENTS
 	 */
 	public void receiveGameEvent(PeerObject obj) {
-		System.out.println("I received information");
-//		if (obj.getColor() == getPlayer().getColor()) {
-//			return;
-//		}
 		switch (obj.getgObj()) {
 		case PLAYER:
 			ColorObject color = obj.getColor();

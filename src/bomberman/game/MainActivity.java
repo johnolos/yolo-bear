@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
  		BombImages.loadImages();
  		UpgradeImages.loadImages();
         
-        System.out.println(Constants.screenHeight);
-        System.out.println(Constants.screenWidth);
+//        System.out.println(Constants.screenHeight);
+//        System.out.println(Constants.screenWidth);
         game.pushState(new MainMenuGraphics());
 		setContentView(game);
 	}

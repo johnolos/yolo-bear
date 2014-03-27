@@ -67,7 +67,6 @@ public class GameFinished extends State implements TouchListener{
 	public boolean isWinner(ArrayList<Player> allPlayers,Player player){
 		Player winner=player;
 		for (Player p : allPlayers) {
-			System.out.println(p.getTimeStamp());
 			if(p.getTimeStamp()>winner.getTimeStamp()){
 				winner = p;
 			}

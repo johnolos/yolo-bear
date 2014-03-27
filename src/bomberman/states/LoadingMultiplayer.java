@@ -120,25 +120,6 @@ public class LoadingMultiplayer extends State implements TouchListener {
 		}
 	}
 	
-//	/**
-//	 * Checks wheter the players are ready to play a multiplayer game
-//	 */
-//	private void checkPlayersReady() {
-//		int nrReadyPlayers = 0 ;
-//		for(int i = 0; i<isPlayerReady.length; i++){
-//			if(isPlayerReady[i] == true){
-//				nrReadyPlayers++;
-//			}
-//		}
-//		System.out.println(nrReadyPlayers);
-//		System.out.println("nrOpponents" + nrOfOpponents);
-//		if(nrReadyPlayers == nrOfOpponents+1){
-//			client.sendAll(new LobbyInformation(GameLobby.STARTGAME));
-//			hasReceivedReadyToStartInformation = true;
-//			
-//		}
-//	}
-
 	/**
 	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
 	 * @param canvas which you draw on.

@@ -86,23 +86,18 @@ public class Client extends Thread {
 	 * @param obj
 	 */
 	protected void receive(Object obj) {
-		System.out.print("Receiving ");
 		if(obj instanceof LobbyInformation) {
-			System.out.println(" lobby information");
 			loadingScreen.receiveLobbyInformation((LobbyInformation)obj);
 		} else if (obj instanceof PeerInfo) {
-			System.out.println(" peer information");
 			PeerInfo peer = (PeerInfo)obj;
 			Connection peerClient = new Connection(peer.getInetAddress(), this);
 			peerClient.start();
 			addConnection(peerClient);
 		}
 		else if(obj instanceof PeerObject){
-			System.out.println(" peerobject information");
 			this.game.receiveGameEvent((PeerObject) obj);
 		}
 		else if(obj instanceof ColorObject){
-			System.out.println(" color information");
 			this.game.setPlayerColor((ColorObject) obj);
 		}
 	}
