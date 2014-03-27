@@ -1,6 +1,5 @@
 package bomberman.connection;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,28 +34,21 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Starts the server
+	 */
 	public void startServer() {
 		try {
-			// Creating a ServerSocket: Is not used further
 			@SuppressWarnings("resource")
 			ServerSocket serverSocket = new ServerSocket(Config.SERVERPORT, 50,
 					InetAddress.getByName(Config.SERVERIP));
 			// Printing IP:Port for the server
 			System.out.println("Waiting for connections on " + Config.SERVERIP
 					+ " : " + Config.SERVERPORT);
-
-			// Establishing connection to database
-			// A never-ending while-loop that constantly listens to the Socket
 			Socket newConnectionSocket;
 			while (true) {
 				// Accepts a in-coming connection
-				newConnectionSocket = serverSocket.accept();
-				// System message
-				// Delegating the further connection with the client to a thread
-				// class
-				// Thread thread = new Thread(new
-				// ClientConnection(newConnectionSocket));
-				// thread.start();
+				newConnectionSocket = serverSocket.accept();;
 				ClientConnection client = new ClientConnection(
 						newConnectionSocket, this);
 				client.start();
@@ -66,14 +58,18 @@ public class Server {
 		}
 	}
 
+	/**
+	 * Adding the given ClientConnection to the list of connections.
+	 * @param client ClientConnection to be removed.
+	 */
 	public void addClientConnection(ClientConnection client) {
 		// Creating PeerInfo class for new connection
 		PeerInfo peer = new PeerInfo(client.connection.getInetAddress(),
 				Config.ANDROIDPORT);
-		// Sending peerinfo to all existing connections
+		// Sending PeerInfo to all existing connections
 		sendAll(peer);
-		// Adding connetion to list of connections
 		
+		// Adding connection to list of connections
 		int availablePlayerSpot = getAvailablePlayerNumber();
 		if(availablePlayerSpot == -1) {
 			// Too many players online already
@@ -92,28 +88,23 @@ public class Server {
 		clientColors[availablePlayerSpot] = colorAssigned;
 		switch (availablePlayerSpot) {
 		case 0:
-//			color = ColorObject.BROWN;
 			send(new LobbyInformation(GameLobby.HOST),client);
 			break;
 		case 1:
-//			color = ColorObject.BLACK;
 			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,
 					numberOfPlayers), client);
 			break;
 		case 2:
-//			color = ColorObject.WHITE;
 			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,
 					numberOfPlayers), client);
 			break;
 		case 3:
-//			color = ColorObject.SWAG;
 			send(new LobbyInformation(GameLobby.SETNUMBEROFPLAYERS,
 					numberOfPlayers), client);
 			break;
 		default:
 			break;
 		}
-		System.out.println("Color " + colorAssigned + " assigned.");
 		send(colorAssigned, client);
 		System.out.print("A player connected. ");
 		System.out.println( getNumberOfPlayers()
@@ -122,6 +113,11 @@ public class Server {
 		sendRefreshedPlayerList();
 	}
 
+	/**
+	 * Removing the given ClientConnection from list of connections
+	 * if it is present.
+	 * @param client ClientConnection to be removed.
+	 */
 	public void removeClientConnection(ClientConnection client) {
 		for(int i = 0; i < clients.length; i++) {
 			if(clients[i] == null) {
@@ -139,7 +135,11 @@ public class Server {
 		sendRefreshedPlayerList();
 	}
 
-	public int getAvailablePlayerNumber() {
+	/**
+	 * Get the number of available player number
+	 * @return
+	 */
+	private int getAvailablePlayerNumber() {
 		for(int i = 0; i < clients.length; i++) {
 			if(clients[i] == null) {
 				return i;
@@ -148,7 +148,11 @@ public class Server {
 		return -1;
 	}
 	
-	public int getNumberOfPlayers() {
+	/**
+	 * Get the number of players present at server.
+	 * @return
+	 */
+	private int getNumberOfPlayers() {
 		int n = 0;
 		for(int i = 0; i < clients.length; i++) {
 			if(clients[i] != null)
@@ -157,6 +161,9 @@ public class Server {
 		return n;
 	}
 
+	/**
+	 * Sends refreshed player list to ClientConnections.
+	 */
 	public void sendRefreshedPlayerList() {
 		for(int i = 0; i < clients.length; i++) {
 			String name = "Player " + (i + 1);
@@ -168,31 +175,25 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Starts the game with the number of players listed in connections.
+	 * If players are not ready however, nothing happens.
+	 */
 	public void startGame() {
-		System.out.println("Trying to start");
-		System.out.println(numberOfPlayers);
 		if(checkReadyToStart()) {
-			System.out.println("LOL og vi må inni ");
+			System.out.println("Starting game.");
 			sendAll(new LobbyInformation(GameLobby.STARTGAME));
 		}
-//		for(int i = 0; i < clients.length; i++) {
-//			if(clients[i] == null)
-//				continue;
-//			try {
-//				clients[i].connection.close();
-//				clients[i] = null;
-//				isClientReady[i] = false;
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		System.out.println("Game starting. All players removed from server.");
 	}
 
+	/**
+	 * Method checks if every single player is ready to start.
+	 * If not it returns false.
+	 * @return Boolean whether or not all players are ready.
+	 */
 	public boolean checkReadyToStart() {
 		if (numberOfPlayers == -1)
 			return false;
-		System.out.println("Number of players present: " + getNumberOfPlayers());
 		if (getNumberOfPlayers() == numberOfPlayers) {
 			int noOfReady = 0;
 			for (int i = 0; i < isClientReady.length; i++) {
@@ -200,13 +201,15 @@ public class Server {
 					++noOfReady;
 				}
 			}
-			System.out.println("Ready number:" + noOfReady);
 			return (noOfReady == numberOfPlayers);
 		}
 		return false;
 	}
 
-	
+	/**
+	 * Sends object to all present connections.
+	 * @param obj Object sent to all connections.
+	 */
 	public void sendAll(Object obj) {
 		for(ClientConnection client : clients) {
 			if(client != null)
@@ -214,7 +217,11 @@ public class Server {
 		}
 	}
 	
-	
+	/**
+	 * Sends object to the connection at given index.
+	 * @param obj Object to be sent to specified connection.
+	 * @param index Index to specified connection.
+	 */
 	public void send(Object obj, int index) {
 		if(clients[index] == null)
 			return;
@@ -222,10 +229,20 @@ public class Server {
 	}
 
 
+	/**
+	 * Sends object to the given ClientConnection.
+	 * @param obj Object to be sent.
+	 * @param client ClientConnection object shall be sent to.
+	 */
 	public void send(Object obj, ClientConnection client) {
 		client.send(obj);
 	}
 
+	/**
+	 * This method receives object from whatever socket and
+	 * handles it properly here.
+	 * @param obj Object received through sockets.
+	 */
 	protected void receive(Object obj) {
 		if (obj instanceof LobbyInformation) {
 			LobbyInformation lobbyinfo = (LobbyInformation) obj;
@@ -245,6 +262,11 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Checks if the specified color is available.
+	 * @param color
+	 * @return
+	 */
 	private boolean isColorAvailable(ColorObject color) {
 		for(int i = 0; i < clientColors.length; i++) {
 			if(clientColors[i] == color)
@@ -253,8 +275,10 @@ public class Server {
 		return true;
 	}
 
-	// Thread class for handling further connection with client when connection
-	// is established
+	/**
+	 *  Thread class for handling further connection with client when connection
+	 *  is established
+	 */
 	class ClientConnection extends Thread {
 		private Socket connection;
 		private Server server;
@@ -266,6 +290,10 @@ public class Server {
 			this.server = server;
 		}
 
+		/**
+		 * Sends object through the socket connection.
+		 * @param obj
+		 */
 		private void send(Object obj) {
 			try {
 				oos.writeObject(obj);
@@ -295,10 +323,8 @@ public class Server {
 				// Create InputObjectStream
 				ois = new ObjectInputStream(clientInputStream);
 				System.out.println("ClientConnection: Ready");
-				// Adding newly created connection to serverlist
+				// Adding newly created connection to server list.
 				this.server.addClientConnection(this);
-				// While-loop to ensure continuation of reading in-coming
-				// messages
 				while (this.connection.isConnected()) {
 					try {
 						// Receive object from client
@@ -319,6 +345,7 @@ public class Server {
 
 		}
 	}
+	
 
 	public static void main(String[] args) {
 		new Server().startServer();

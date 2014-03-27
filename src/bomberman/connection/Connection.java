@@ -8,18 +8,20 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
+/**
+ * Connection class:
+ * 		Class used to continue communication to another client.
+ */
 public class Connection extends Thread {
 	
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private Client client;
-//	private boolean isRunning;
 	
 	Connection(Socket connection, Client client) {
 		this.client = client;
 		this.socket = connection;
-//		isRunning = true;
 	}
 	
 	Connection(InetAddress inet, Client client) {
@@ -34,7 +36,6 @@ public class Connection extends Thread {
 	
 	@Override
 	public void run() {
-//		System.out.println("Connected to client on " + this.socket.getRemoteSocketAddress());
 		try {
 			// Fetches InputStream from connection
 			InputStream serverInputStream = this.socket.getInputStream();
@@ -60,6 +61,10 @@ public class Connection extends Thread {
 		}
 	}
 	
+	/**
+	 * Used to send given object parameter to the connection established.
+	 * @param obj Object to be sent through socket connection.
+	 */
 	protected void send(Object obj) {
 		try {
 			this.oos.writeObject(obj);
@@ -69,10 +74,17 @@ public class Connection extends Thread {
 		}
 	}
 	
-	public InetAddress getIP() {
+	/**
+	 * Get IP of socket established.
+	 * @return
+	 */
+	public InetAddress getInetAddress() {
 		return this.socket.getInetAddress();
 	}
 
+	/**
+	 * Close established connection.
+	 */
 	public void closeConnection() {
 		try {
 			socket.close();
@@ -81,9 +93,4 @@ public class Connection extends Thread {
 		}
 		
 	}
-
-//	public void stopRunning() {
-//		isRunning = false;
-//		
-//	}
 }
