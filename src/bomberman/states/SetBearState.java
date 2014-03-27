@@ -87,16 +87,16 @@ public class SetBearState extends State implements TouchListener{
 	@Override
 	public boolean onTouchUp(MotionEvent event) {
 		if(brown.getBounds().contains(event.getX(), event.getY())) {
-			getGame().pushState(new SetNumberPlayerState(ColorObject.BROWN,null));
+			getGame().pushState(new SetNumberOfPlayerState(ColorObject.BROWN,null));
 		}
 		else if(black.getBounds().contains(event.getX(), event.getY())) {
-			getGame().pushState(new SetNumberPlayerState(ColorObject.BLACK,null));
+			getGame().pushState(new SetNumberOfPlayerState(ColorObject.BLACK,null));
 		}
 		else if(white.getBounds().contains(event.getX(), event.getY())) {
-			getGame().pushState(new SetNumberPlayerState(ColorObject.WHITE,null));
+			getGame().pushState(new SetNumberOfPlayerState(ColorObject.WHITE,null));
 		}
 		else if(swag.getBounds().contains(event.getX(), event.getY())) {
-			getGame().pushState(new SetNumberPlayerState(ColorObject.SWAG,null));
+			getGame().pushState(new SetNumberOfPlayerState(ColorObject.SWAG,null));
 		}
 		brown.setView(new Image(R.drawable.playerbrownbear));
 		black.setView(new Image(R.drawable.playerblackbear));

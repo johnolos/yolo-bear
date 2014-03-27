@@ -14,7 +14,7 @@ import sheep.input.TouchListener;
 /**
  * Extends State implements TouchListener
  */
-public class SetNumberPlayerState extends State implements TouchListener {
+public class SetNumberOfPlayerState extends State implements TouchListener {
 	private ColorObject color;
 	private Buttons one, two, three, textS;
 	private Image oneImage, twoImage, threeImage, text;
@@ -26,7 +26,7 @@ public class SetNumberPlayerState extends State implements TouchListener {
 	 * @param color the color of the object
 	 * @param loading multiplayer loading screen
 	 */
-	public SetNumberPlayerState(ColorObject color, LoadingMultiplayer loading) {
+	public SetNumberOfPlayerState(ColorObject color, LoadingMultiplayer loading) {
 		this.color = color;
 		this.loading = loading;
 		// text
@@ -77,20 +77,16 @@ public class SetNumberPlayerState extends State implements TouchListener {
 		textS.draw(canvas);
 	}
 
-	// public boolean onTouchDown(MotionEvent event) {
-	// if(one.getBounds().contains(event.getX(), event.getY())) {
-	// singlePlayer.changeImageShow(1);
-	// } else if(multiPlayer.getBounds().contains(event.getX(), event.getY())) {
-	// multiPlayer.changeImageShow(1);
-	// } else if(tutorial.getBounds().contains(event.getX(), event.getY())) {
-	// tutorial.changeImageShow(1);
-	// // TutorialState tutorial = new TutorialState();
-	// // getGame().pushState(tutorial);
-	// System.out.println("Tutorial startup");
-	// }
-	//
-	// return false;
-	// }
+	public boolean onTouchDown(MotionEvent event) {
+		if (one.getBounds().contains(event.getX(), event.getY())) {
+			one.setView(new Image(R.drawable.pressedfireone));
+		} else if (two.getBounds().contains(event.getX(), event.getY())) {
+			two.setView(new Image(R.drawable.pressedfiretwo));
+		} else if (three.getBounds().contains(event.getX(), event.getY())) {
+			three.setView(new Image(R.drawable.pressedfirethree));
+		}
+		return false;
+	}
 
 	/**
 	 * onTouchUp what happens when you release the screen
@@ -117,7 +113,11 @@ public class SetNumberPlayerState extends State implements TouchListener {
 			} else
 				getGame().pushState(new GameState(this.color, 3));
 		}
+		one.setView(new Image(R.drawable.fireone));
+		two.setView(new Image(R.drawable.firetwo));
+		three.setView(new Image(R.drawable.firethree));
 		return false;
 	}
+	
 
 }

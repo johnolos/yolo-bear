@@ -199,7 +199,7 @@ public class LoadingMultiplayer extends State implements TouchListener {
 	 * Host menu
 	 */
 	private void addHostMenu() {
-		getGame().pushState(new SetNumberPlayerState(gameState.getPlayer().getColor(),this));
+		getGame().pushState(new SetNumberOfPlayerState(gameState.getPlayer().getColor(),this));
 	}
 
 	/**
