@@ -8,16 +8,26 @@ public class LobbyInformation implements Serializable {
 	private int player;
 	private String nameOfPlayer;
 	
-	
+	/**
+	 * Get lobby value.
+	 * @return
+	 */
 	public GameLobby getLobby() {
 		return lobby;
 	}
 
-
+	/**
+	 * Get player identification number
+	 * @return
+	 */
 	public int getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Get player name.
+	 * @return
+	 */
 	public String getPlayerName() {
 		return nameOfPlayer;
 	}

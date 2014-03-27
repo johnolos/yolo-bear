@@ -30,13 +30,14 @@ public class Client extends Thread {
 	ClientPeer peerConnection;
 	private GameState game;
 	private LoadingMultiplayer loadingScreen;
+	@SuppressWarnings("unused")
 	private Socket serverConnection;
-	private boolean isRunning;
 	
 	
 	public Client() {
 		clients = new ArrayList<Connection>();
 	}
+	
 	public int getClientConnectionCount(){
 		return this.clients.size();
 	}
@@ -47,8 +48,6 @@ public class Client extends Thread {
 		try {
 			String androidIp = getIPAddress(true);
 			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
-//			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
-//			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
 			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(androidIp));
 			this.peerConnection = new ClientPeer(peerSocket, this);
 			this.peerConnection.start();
@@ -87,23 +86,18 @@ public class Client extends Thread {
 	 * @param obj
 	 */
 	protected void receive(Object obj) {
-		System.out.print("Receiving ");
 		if(obj instanceof LobbyInformation) {
-			System.out.println(" lobby information");
 			loadingScreen.receiveLobbyInformation((LobbyInformation)obj);
 		} else if (obj instanceof PeerInfo) {
-			System.out.println(" peer information");
 			PeerInfo peer = (PeerInfo)obj;
 			Connection peerClient = new Connection(peer.getInetAddress(), this);
 			peerClient.start();
 			addConnection(peerClient);
 		}
 		else if(obj instanceof PeerObject){
-			System.out.println(" peerobject information");
 			this.game.receiveGameEvent((PeerObject) obj);
 		}
 		else if(obj instanceof ColorObject){
-			System.out.println(" color information");
 			this.game.setPlayerColor((ColorObject) obj);
 		}
 	}
@@ -113,7 +107,6 @@ public class Client extends Thread {
 	 * @param client Connection to client.
 	 */
 	protected void addConnection(Connection client) {
-//		System.out.println("PeerConnection:" + client.getIP());
 		this.clients.add(client);
 	}
 	
@@ -130,6 +123,9 @@ public class Client extends Thread {
 			this.client = client;
 		}
 		
+		/**
+		 * Stop this thread.
+		 */
 		public void stopRunning() {
 			isRunning = false;
 		}
@@ -163,8 +159,8 @@ public class Client extends Thread {
 		}
 		
 		/**
-		 * Sending stuff to server
-		 * @param obj
+		 * Sending given object to server
+		 * @param obj Object to be sent.
 		 */
 		protected void send(Object obj) {
 			try {
@@ -175,19 +171,29 @@ public class Client extends Thread {
 			}
 		}
 	}
-	
-	public static void main(String args[]) {
-		new Client().run();
-	}
 
+	/**
+	 * Set GameState so that objects received can be passed on.
+	 * @param gameState GameState
+	 */
 	public void setGameState(GameState gameState) {
 		this.game = gameState;
 	}
 	
+	/**
+	 * Sets LoadingMuliplayer so that objects received can be passed on.
+	 * @param loadingScreen LoadingMultiplayer.
+	 */
 	public void setLoadingMultiplayer(LoadingMultiplayer loadingScreen) {
 		this.loadingScreen = loadingScreen;
 	}
 	
+	
+	/**
+	 * Get local IP address for android device.
+	 * @param useIPv4
+	 * @return
+	 */
 	public static String getIPAddress(boolean useIPv4) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -213,28 +219,9 @@ public class Client extends Thread {
         return "";
     }
 	
-	public static String convertHexToIP(String hex)
-	{
-	    String ip= "";
-
-	    for (int j = 0; j < hex.length(); j+=2) {
-	        String sub = hex.substring(j, j+2);
-	        int num = Integer.parseInt(sub, 16);
-	        ip += num+".";
-	    }
-
-	    ip = ip.substring(0, ip.length()-1);
-	    return ip;
-	}
-	
-//	public void closePeerConnections() {
-//		for(int i = 0; i < clients.size(); i++) {
-////			clients.get(i).stopRunning();
-//			clients.get(i).closeConnection();
-//		}
-//		clients.clear();
-//	}
-	
+	/**
+	 * Close server connection.
+	 */
 	public void closeServerConnection() {
 		try {
 			server.connection.close();
@@ -242,16 +229,5 @@ public class Client extends Thread {
 		} catch (IOException e) {
 		}
 		server = null;
-	}
-	
-//	public void clientShutdown() {
-//		closePeerConnections();
-//		
-//	}
-	
-//	public void restartServerConnection() {
-//		server.run();
-//	}
-	
-	
+	}	
 }
