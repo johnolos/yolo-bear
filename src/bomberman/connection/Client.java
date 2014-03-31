@@ -6,37 +6,54 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import org.apache.http.conn.util.InetAddressUtils;
+
+import android.annotation.SuppressLint;
 import bomberman.game.ColorObject;
 import bomberman.game.PeerObject;
 import bomberman.states.GameState;
+import bomberman.states.LoadingMultiplayer;
 
+@SuppressLint("DefaultLocale")
 public class Client extends Thread {
 	/** Peer-to-peer client **/
 	ServerConnection server;
 	ArrayList<Connection> clients;
 	ClientPeer peerConnection;
 	private GameState game;
+	private LoadingMultiplayer loadingScreen;
+	@SuppressWarnings("unused")
+	private Socket serverConnection;
 	
 	
 	public Client() {
 		clients = new ArrayList<Connection>();
 	}
 	
+	public int getClientConnectionCount(){
+		return this.clients.size();
+	}
+	
 	public void run() {
 		System.out.println("Trying to connect to server!");
 		Socket serverConnection;
 		try {
+			String androidIp = getIPAddress(true);
 			serverConnection = new Socket(Config.SERVERIP, Config.SERVERPORT);
-			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(Config.ANDROIDIP));
+			ServerSocket peerSocket = new ServerSocket(Config.ANDROIDPORT, 50, InetAddress.getByName(androidIp));
 			this.peerConnection = new ClientPeer(peerSocket, this);
 			this.peerConnection.start();
 			this.server = new ServerConnection(serverConnection, this);
 			this.server.start();
+			this.serverConnection = serverConnection;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -58,6 +75,7 @@ public class Client extends Thread {
 	 * @param obj Object to be sent.
 	 */
 	public void sendAll(Object obj) {
+		System.out.println("Sending information to: " +this.clients.size());
 		for(Connection connection : this.clients) {
 			connection.send(obj);
 		}
@@ -68,8 +86,8 @@ public class Client extends Thread {
 	 * @param obj
 	 */
 	protected void receive(Object obj) {
-		if(obj instanceof String) {
-			System.out.println((String)obj);
+		if(obj instanceof LobbyInformation) {
+			loadingScreen.receiveLobbyInformation((LobbyInformation)obj);
 		} else if (obj instanceof PeerInfo) {
 			PeerInfo peer = (PeerInfo)obj;
 			Connection peerClient = new Connection(peer.getInetAddress(), this);
@@ -77,10 +95,9 @@ public class Client extends Thread {
 			addConnection(peerClient);
 		}
 		else if(obj instanceof PeerObject){
-			this.game.updateGame((PeerObject) obj);
+			this.game.receiveGameEvent((PeerObject) obj);
 		}
 		else if(obj instanceof ColorObject){
-			System.out.println("Received color!");
 			this.game.setPlayerColor((ColorObject) obj);
 		}
 	}
@@ -90,7 +107,6 @@ public class Client extends Thread {
 	 * @param client Connection to client.
 	 */
 	protected void addConnection(Connection client) {
-		System.out.println("PeerConnection:" + client.getIP());
 		this.clients.add(client);
 	}
 	
@@ -100,10 +116,18 @@ public class Client extends Thread {
 		private Client client;
 		private ObjectOutputStream oos;
 		private ObjectInputStream ois;
+		boolean isRunning = true;
 		
 		ServerConnection(Socket connection, Client client) {
 			this.connection = connection;
 			this.client = client;
+		}
+		
+		/**
+		 * Stop this thread.
+		 */
+		public void stopRunning() {
+			isRunning = false;
 		}
 		
 		public void run() {
@@ -120,7 +144,7 @@ public class Client extends Thread {
 
 				System.out.println("ServerConnection: Ready");
 				// While-loop to ensure continuation of reading in-coming messages
-				while (this.connection.isConnected()) {
+				while (this.connection.isConnected() && isRunning) {
 					try {
 						//Receive object from server
 						Object obj = this.ois.readObject();
@@ -134,6 +158,10 @@ public class Client extends Thread {
 			}
 		}
 		
+		/**
+		 * Sending given object to server
+		 * @param obj Object to be sent.
+		 */
 		protected void send(Object obj) {
 			try {
 				oos.writeObject(obj);
@@ -143,14 +171,63 @@ public class Client extends Thread {
 			}
 		}
 	}
-	
-	public static void main(String args[]) {
-		new Client().run();
-	}
 
+	/**
+	 * Set GameState so that objects received can be passed on.
+	 * @param gameState GameState
+	 */
 	public void setGameState(GameState gameState) {
 		this.game = gameState;
-		
 	}
 	
+	/**
+	 * Sets LoadingMuliplayer so that objects received can be passed on.
+	 * @param loadingScreen LoadingMultiplayer.
+	 */
+	public void setLoadingMultiplayer(LoadingMultiplayer loadingScreen) {
+		this.loadingScreen = loadingScreen;
+	}
+	
+	
+	/**
+	 * Get local IP address for android device.
+	 * @param useIPv4
+	 * @return
+	 */
+	public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress().toUpperCase();
+                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr); 
+                        if (useIPv4) {
+                            if (isIPv4) 
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
+                                return delim<0 ? sAddr : sAddr.substring(0, delim);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) { } // for now eat exceptions
+        return "";
+    }
+	
+	/**
+	 * Close server connection.
+	 */
+	public void closeServerConnection() {
+		try {
+			server.connection.close();
+			server.stopRunning();
+		} catch (IOException e) {
+		}
+		server = null;
+	}	
 }

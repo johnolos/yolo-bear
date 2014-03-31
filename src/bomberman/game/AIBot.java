@@ -2,34 +2,47 @@ package bomberman.game;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import bomberman.states.GameState;
 import android.graphics.Canvas;
 import sheep.game.Sprite;
-
+/**
+ * Extends Player
+ */
 public class AIBot extends Player {
 
 	private GameState gameState;
 	private long placedBomb;
 	private Random random;
 	private ArrayList<Player> opponents;
-	
 	private boolean changedRow = false;
 	private boolean changedColumn = false;
 	private int posX= 0;
 	private int posY = 0;
 	private long turnWait = 0;
 
+	/**
+	 * The constructor 
+	 * @param name of player
+	 * @param color of player
+	 * @param gs the GameState
+	 */
 	public AIBot(String name, ColorObject color, GameState gs) {
 		super(name, color, gs);
 		this.gameState = gs;
 		this.random = new Random();
 	}
 	
+	/**
+	 * Add bots to game
+	 * @param opponents ArrayList with opponents
+	 */
 	public void addAllBots(ArrayList<Player> opponents){
 		this.opponents = opponents;
 	}
 
+	/**
+	 * Makes the AI evade the bob it has placed
+	 */
 	public void evadeBomb() {
 		if(changedColumn && changedRow){
 			return;
@@ -90,6 +103,11 @@ public class AIBot extends Player {
 		}
 	}
 
+	/**
+	 * Make the AIbot change the direction it is going
+	 * @param direction change the driection to LEFT or RIGHT
+	 * @return true if it is going in the left of right direction else false
+	 */
 	private boolean changeingColumn(Direction direction) {
 		if(direction ==Direction.LEFT || direction == Direction.RIGHT){
 			return true;
@@ -97,6 +115,11 @@ public class AIBot extends Player {
 		return false;
 	}
 
+	/**
+	 * Change the Row dir the AIbot is moving in
+	 * @param dir the direction the AIbot is DOWN or UP
+	 * @return true if moving in down or up dir else false
+	 */
 	private boolean changeingRow(Direction dir) {
 		if(dir == Direction.DOWN || dir == Direction.UP){
 			return true;
@@ -104,6 +127,9 @@ public class AIBot extends Player {
 		return false;
 	}
 
+	/**
+	 * Selects the next move the AIbot is supposed to do
+	 */
 	public void selectNextMove() {
 		if (needToEvade()) {
 			evadeBomb();
@@ -119,10 +145,17 @@ public class AIBot extends Player {
 		}
 	}
 
+	/**
+	 * Returns if the bot is moving or not
+	 * @return (this.getSpeed().getX() == 0 && this.getSpeed().getY() == 0) true or false
+	 */
 	private boolean notMoving() {
 		return (this.getSpeed().getX() == 0 && this.getSpeed().getY() == 0);
 	}
 
+	/**
+	 * Check if the bomb can be placed
+	 */
 	private void checkPlaceBomb() {
 		int x = Constants.getPositionX(this.getMiddleX());
 		int y = Constants.getPositionY(this.getMiddleY());
@@ -138,6 +171,10 @@ public class AIBot extends Player {
 		}
 	}
 
+	/**
+	 * Is opponent near the AIbot
+	 * @return true if opponent is near else false
+	 */
 	private boolean opponentNear() {
 		int myPosX = Constants.getPositionX(this.getMiddleX());
 		int myPosY = Constants.getPositionY(this.getMiddleY());
@@ -153,6 +190,9 @@ public class AIBot extends Player {
 		return false;
 	}
 
+	/**
+	 * If the bot is not moving then find the next move for the bot
+	 */
 	private void findMove() {
 		if (notMoving()) {
 			int x = Constants.getPositionX(this.getMiddleX());
@@ -172,6 +212,11 @@ public class AIBot extends Player {
 		
 	}
 
+	/**
+	 * Gets the oposite direction the bot is moving in
+	 * @param dir the direction the bot is moving in
+	 * @return the opposite direction it is moving in
+	 */
 	private Direction getOppositeDirection(Direction dir) {
 		Direction direction = null;
 		switch (dir) {
@@ -193,11 +238,20 @@ public class AIBot extends Player {
 		return direction;
 	}
 
+	/**
+	 * The AI bot places the bomb
+	 * @param x the x-coordinate to place the bomb
+	 * @param y the y-coordinate to place the bomb
+	 */
 	private void placeBomb(int x, int y) {
 		int posX = (int)gameState.getSpriteBoard().get(y).get(x).getPosition().getX();
 		int posY = (int)gameState.getSpriteBoard().get(y).get(x).getPosition().getY();
 		if (this.canPlaceBomb()) {
-			Bomb bomb = new Bomb(posX, posY, this.getMagnitude(), this.gameState);
+			Bomb bomb;
+			if(this.hasSuperBomb)
+				bomb = new Bomb(posX, posY, Board.COLUMN_SIZE, this.gameState,getColor(),true);
+			else
+				bomb = new Bomb(posX, posY, this.getMagnitude(), this.gameState,getColor(),false);
 			this.gameState.addBomb(bomb);
 			this.addBomb(bomb);
 			this.placedBomb = System.currentTimeMillis();
@@ -206,6 +260,10 @@ public class AIBot extends Player {
 
 	}
 
+	/**
+	 * Make the AIbot start move
+	 * @param direction the direction it should start to move
+	 */
 	private void startMove(Direction direction) {
 		this.setDirection(direction);
 		this.setSpeed(
@@ -215,13 +273,21 @@ public class AIBot extends Player {
 						* direction.getY());
 	}
 
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * This function also calls the update function in the super class, and is not suppose to update the view if is dead is true
+	 * @paramc dt
+	 */
 	public void update(float dt) {
-		if(!this.getDead()){
+		if(!this.isDead()){
 			selectNextMove();
 			super.update(dt);
 		}
 	}
 
+	/**
+	 * How far away from the middel of the screen the bot is
+	 */
 	private void setGridPos() {
 		int newPosX = Constants.getPositionX(this.getMiddleX());
 		int newPosY = Constants.getPositionY(this.getMiddleY());
@@ -233,6 +299,9 @@ public class AIBot extends Player {
 		
 	}
 
+	/**
+	 * Make the AI bot turn
+	 */
 	private void turn(){
 		if(System.currentTimeMillis()-turnWait  > 2000){
 			int x = Constants.getPositionX(this.getMiddleX());
@@ -258,6 +327,12 @@ public class AIBot extends Player {
 		}
 	}
 
+	/**
+	 * Is create near AIbot
+	 * @param x 
+	 * @param y
+	 * @return true if create near false else
+	 */
 	private boolean createNear(int x, int y) {
 		for(Direction direction : Direction.values()){
 			Sprite sprite = gameState.getSpriteBoard().get(y+ direction.getY()).get(x+direction.getX());
@@ -268,6 +343,10 @@ public class AIBot extends Player {
 		return false;
 	}
 
+	/**
+	 * Does the AIbot need to evade a bomb
+	 * @return true if needs to evade else false
+	 */
 	private boolean needToEvade() {
 		if (System.currentTimeMillis() - this.placedBomb < 5000) {
 			return true;
@@ -277,6 +356,11 @@ public class AIBot extends Player {
 		return false;
 	}
 
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * This draw calls the draw function in the super class
+	 * @param canvas which you draw on.
+	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 	}

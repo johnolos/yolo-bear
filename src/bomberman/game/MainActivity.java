@@ -1,15 +1,19 @@
 package bomberman.game;
 
+
 import bomberman.graphics.BombImages;
 import bomberman.graphics.UpgradeImages;
-import bomberman.states.MainMenu;
-import bomberman.states.MainMenuWithGraphics;
+import bomberman.states.MainMenuGraphics;
 import sheep.game.Game;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
-
+/**
+ * MainActivity extends Activity
+ * This is where the magic happens, this is the start of everything.
+ * The Big Bang of HolyHell what are those damn bears up to now!
+ */
 public class MainActivity extends Activity {
 
 	@Override
@@ -18,9 +22,6 @@ public class MainActivity extends Activity {
 
 		Game game = new Game(this, null);
 		
-		
-		
-
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
  		Constants.screenHeight = dm.heightPixels;
@@ -29,9 +30,9 @@ public class MainActivity extends Activity {
  		BombImages.loadImages();
  		UpgradeImages.loadImages();
         
-        System.out.println(Constants.screenHeight);
-        System.out.println(Constants.screenWidth);
-        game.pushState(new MainMenuWithGraphics());
+//        System.out.println(Constants.screenHeight);
+//        System.out.println(Constants.screenWidth);
+        game.pushState(new MainMenuGraphics());
 		setContentView(game);
 	}
 	

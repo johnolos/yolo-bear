@@ -1,8 +1,12 @@
 package bomberman.graphics;
+
 import bomberman.game.Constants;
 import bomberman.game.R;
 import sheep.graphics.Image;
 
+/**
+ * BombImages
+ */
 public class BombImages {
 	
 	public static Image bombPhase1;
@@ -17,6 +21,9 @@ public class BombImages {
 	public static Image bombExplosionEndUp;
 	public static Image bombExplosionEndDown;
 	
+	/**
+	 * Constructor in BombImages
+	 */
 	public static void loadImages(){
 		if(Constants.screenHeight >= 752){
 			bombPhase1 = new Image(R.drawable.bomb);

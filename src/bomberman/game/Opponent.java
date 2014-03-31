@@ -1,19 +1,25 @@
 package bomberman.game;
 
 import java.util.ArrayList;
-
+import bomberman.states.GameState;
 import android.graphics.Canvas;
-import sheep.game.Sprite;
 import sheep.graphics.Image;
-
-public class Opponent extends Sprite {
-	
+/**
+ * Opponent extends Player
+ */
+public class Opponent extends Player {
 	private ArrayList<Image> opponentImages = new ArrayList<Image>(); // UP, DOWN, RIGHT, LEFT
 	private ColorObject myColor;
 	private Direction direction = Direction.UP;
 	private int magnitude=1;
 
-	public Opponent(ColorObject color) {
+	/**
+	 * Constructor
+	 * @param color color
+	 * @param gs game
+	 */
+	public Opponent(ColorObject color, GameState gs) {
+		super(" ", color,gs);
 		this.myColor = color;
 		if (Constants.screenHeight >750) {
 			switch (color) {
@@ -88,10 +94,18 @@ public class Opponent extends Sprite {
 		this.setView(opponentImages.get(0));
 	}
 	
+	/**
+	 * Get the direction the opponent is moving in
+	 * @return direction
+	 */
 	public Direction getDirection() {
 		return this.direction;
 	}
 	
+	/**
+	 * Set direction opponent is moving in
+	 * @param direction direction moving in
+	 */
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 		switch(direction) {
@@ -107,25 +121,48 @@ public class Opponent extends Sprite {
 		case LEFT:
 			this.setView(this.opponentImages.get(3));
 			break;
+		default:
+			break;
 		}
 	}
 	
+	/**
+	 * Update magnitude
+	 */
 	public void updateMagnitude(){
 		this.magnitude ++;
 	}
 	
+	/**
+	 * Get magnitude
+	 * @return magnitude
+	 */
 	public int getMagnitude(){
 		return this.magnitude;
 	}
 
+	/**
+	 * Draw function which draws the things onto the canvas, and draws the updated images onto the canvas.
+	 * This draw calls the draw function in the super class
+	 * @param canvas which you draw on.
+	 */
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 	}
 
+	/**
+	 * This updates the view, if there is any changes in the view of the different buttons this function updates it.
+	 * This function also calls the update function in the super class
+	 * @param dt
+	 */
 	public void update(float dt) {
 		super.update(dt);
 	}
 	
+	/**
+	 * getColor
+	 * @return mycolor color on the opponent 
+	 */
 	public ColorObject getColor(){
 		return this.myColor;
 	}
